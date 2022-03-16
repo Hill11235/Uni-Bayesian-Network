@@ -7,7 +7,7 @@ import java.util.HashSet;
 public class Node {
 
     private ArrayList<Node> parents;
-    private HashSet<Node> children;
+    private HashSet<Node> children = new HashSet<>();
     private String label;
     private int CPTrows = 1;
 
@@ -15,7 +15,7 @@ public class Node {
         this.label = label;
         this.parents = parents;
         if (parents != null) {
-            this.CPTrows = (int) Math.pow(2,parents.size());
+            this.CPTrows = (int) Math.pow(2, parents.size());
         }
     }
 
