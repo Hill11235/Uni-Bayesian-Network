@@ -1,3 +1,5 @@
+package main;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,7 +11,7 @@ import java.util.Scanner;
  * @author at258
  * 
  * run with 
- * java A3main <Pn> <NID>
+ * java main.A3main <Pn> <NID>
  * 
  * Feel free to change and delete parts of the code as you prefer
  * 

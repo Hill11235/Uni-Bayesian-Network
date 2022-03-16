@@ -10,6 +10,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+//TODO test everything behaves for both nodes with lots of parents and those with none
 public class NodeTest {
 
     private Node initialNode;
