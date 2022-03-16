@@ -9,7 +9,7 @@ public class Node {
     private ArrayList<Node> parents;
     private HashSet<Node> children = new HashSet<>();
     private String label;
-    private int CPTrows = 1;
+    private int CPTrows = 2;
 
     public Node(String label, ArrayList<Node> parents) {
         this.label = label;

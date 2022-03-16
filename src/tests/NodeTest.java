@@ -6,8 +6,6 @@ import support.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,15 +15,18 @@ public class NodeTest {
     private Node initialNode;
     private Node secondaryNode;
     private Node childNode;
+    private Node printTestNode;
 
     @Before
     public void setUp() {
         initialNode = new Node("A", null);
         secondaryNode = new Node("B", null);
         childNode = new Node("C", new ArrayList<>(Arrays.asList(initialNode, secondaryNode)));
+        printTestNode = new Node("C", new ArrayList<>(Arrays.asList(initialNode, secondaryNode, childNode)));
     }
 
     //TODO set the CPT and check the correct information is returned
+    //needs to print for Nodes without a parent node
     @Test
     public void testCPT() {
 
@@ -34,7 +35,7 @@ public class NodeTest {
     //TODO test that the variables and probabilities are printed as expected
     @Test
     public void testPrint() {
-
+        printTestNode.printNode();
     }
 
     @Test
