@@ -11,12 +11,14 @@ public class Node {
     private String label;
     private int CPTrows = 2;
 
-    //TODO if non-null could add this Node as a child to all parents?
     public Node(String label, ArrayList<Node> parents) {
         this.label = label;
         this.parents = parents;
         if (parents != null) {
             this.CPTrows = (int) Math.pow(2, parents.size() + 1);
+            for (Node parent : parents) {
+                parent.addChildren(this);
+            }
         }
     }
 
