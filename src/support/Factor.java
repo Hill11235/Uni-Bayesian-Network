@@ -33,11 +33,27 @@ public class Factor {
         }
     }
 
+    /**
+     * Gst probabilities associated with Factor.
+     * @return list of probabilities.
+     */
     public ArrayList<Double> getProbabilities() {
         return probabilities;
     }
 
+    /**
+     * Get nunber of rows in the table.
+     * @return row number integer.
+     */
     public int getNumRows() {
         return numRows;
+    }
+
+    /**
+     * Get Node labels associated with Factor.
+     * @return list of labels.
+     */
+    public ArrayList<String> getNodeLabels() {
+        return nodeLabels;
     }
 }
