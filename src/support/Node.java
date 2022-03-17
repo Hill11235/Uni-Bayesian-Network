@@ -84,8 +84,16 @@ public class Node {
 
         System.out.print(this.label + "\t");
 
-        String condProb = "p(" + this.label + "|" + conditions + ")";
+        String condProb = createConditional(conditions);
         System.out.println("|" + "\t" + condProb);
+
+    }
+
+    private String createConditional(StringBuilder conditions) {
+        if (conditions.length() == 0) {
+            return "p(" + this.label+ ")";
+        }
+        return "p(" + this.label + "|" + conditions + ")";
     }
 
     public ArrayList<Node> getParents() {

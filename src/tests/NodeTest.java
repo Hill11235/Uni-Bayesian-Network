@@ -74,7 +74,16 @@ public class NodeTest {
 
     @Test
     public void testPrintSingle() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
         initialNode.printNode();
+        String expected = "A\t|\tp(A)\n" +
+                "0\t|\t0.4\n" +
+                "1\t|\t0.6\n";
+        assertEquals(outContent.toString(), expected);
+        System.setOut(originalOut);
     }
 
     @Test
