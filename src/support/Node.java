@@ -54,15 +54,16 @@ public class Node {
      */
     public void printNode() {
         printHeader();
-        ArrayList<Double> probabilities;
+        ArrayList<Double> probabilities = this.cpt.getProbabilities();
         for (int i = 0; i < this.CPTrows; i++) {
             int repeat = (parents.size() + 1) - Integer.toBinaryString(i).length();
             String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
             for (char c : truths.toCharArray()) {
                 System.out.print(c + "\t");
             }
-            System.out.println("|" + "\t");
-            //TODO print corresponding probability
+            System.out.print("|" + "\t");
+            Double prob = probabilities.get(i);
+            System.out.println(prob);
         }
     }
 

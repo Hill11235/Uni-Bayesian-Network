@@ -10,7 +10,9 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-//TODO test everything behaves for both nodes with lots of parents and those with none
+/**
+ * Tests Node class and its methods.
+ */
 public class NodeTest {
 
     private Node initialNode;
@@ -27,7 +29,7 @@ public class NodeTest {
     }
 
     //TODO set the CPT and check the correct information is returned
-    //needs to print for Nodes without a parent node
+    //TODO needs to print for Nodes without a parent node as well
     @Test
     public void testCPT() {
 
@@ -46,6 +48,7 @@ public class NodeTest {
         assertEquals(parents, expected);
     }
 
+    //TODO check that children are being added via Node constructor
     @Test
     public void testChildren() {
         initialNode.addChildren(childNode);
