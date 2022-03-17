@@ -95,4 +95,8 @@ public class Node {
     public HashSet<Node> getChildren() {
         return children;
     }
+
+    public Factor getCpt() {
+        return cpt;
+    }
 }
