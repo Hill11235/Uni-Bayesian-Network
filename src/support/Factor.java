@@ -32,4 +32,12 @@ public class Factor {
             probabilities.add(prob);
         }
     }
+
+    public ArrayList<Double> getProbabilities() {
+        return probabilities;
+    }
+
+    public int getNumRows() {
+        return numRows;
+    }
 }

@@ -10,21 +10,34 @@ public class Node {
     private HashSet<Node> children = new HashSet<>();
     private String label;
     private int CPTrows = 2;
+    private Factor cpt;
 
     public Node(String label, ArrayList<Node> parents) {
         this.label = label;
         this.parents = parents;
+        initiateFactor(parents);
         if (parents != null) {
-            this.CPTrows = (int) Math.pow(2, parents.size() + 1);
+            this.CPTrows = cpt.getNumRows();
             for (Node parent : parents) {
                 parent.addChildren(this);
             }
         }
     }
 
-    //TODO implement so that CPT field is updated
-    public void addCPTvalues(double ... vals) {
+    private void initiateFactor(ArrayList<Node> parents) {
+        ArrayList<String> labels = new ArrayList<>();
 
+        if (parents != null) {
+            for (Node parent : parents) {
+                labels.add(parent.getLabel());
+            }
+        }
+        labels.add(this.label);
+        this.cpt = new Factor(labels);
+    }
+
+    public void addCPTvalues(double ... vals) {
+        this.cpt.addProbabilities(vals);
     }
 
     public void addChildren(Node ... children) {
@@ -41,11 +54,10 @@ public class Node {
      */
     public void printNode() {
         printHeader();
+        ArrayList<Double> probabilities;
         for (int i = 0; i < this.CPTrows; i++) {
             int repeat = (parents.size() + 1) - Integer.toBinaryString(i).length();
-            //System.out.println("repeat: " + repeat);
             String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
-            //System.out.println("truths: " + truths);
             for (char c : truths.toCharArray()) {
                 System.out.print(c + "\t");
             }
