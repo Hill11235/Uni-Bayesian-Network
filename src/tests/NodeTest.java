@@ -31,6 +31,10 @@ public class NodeTest {
         childNode = new Node("C", new ArrayList<>(Arrays.asList(initialNode, secondaryNode)));
         printTestNode = new Node("D", new ArrayList<>(Arrays.asList(initialNode, secondaryNode, childNode)));
         probs = addProb();
+
+        Double d1 = 0.4;
+        Double d2 = 0.6;
+        initialNode.addCPTvalues(d1, d2);
     }
 
     @Test
@@ -41,7 +45,7 @@ public class NodeTest {
 
     //TODO needs to print for Nodes without a parent node as well
     @Test
-    public void testPrint() {
+    public void testPrintMulti() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
@@ -66,6 +70,11 @@ public class NodeTest {
                 "1\t1\t1\t1\t|\t0.65\n";
         assertEquals(outContent.toString(), expected);
         System.setOut(originalOut);
+    }
+
+    @Test
+    public void testPrintSingle() {
+        initialNode.printNode();
     }
 
     @Test
@@ -111,7 +120,6 @@ public class NodeTest {
         Double d16 = 0.65;
 
         printTestNode.addCPTvalues(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16);
-        ArrayList<Double> probs = new ArrayList<>(Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16));
-        return probs;
+        return new ArrayList<>(Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16));
     }
 }

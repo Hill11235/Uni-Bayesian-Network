@@ -10,14 +10,16 @@ public class Node {
     private HashSet<Node> children = new HashSet<>();
     private String label;
     private int CPTrows = 2;
+    private int numParents = 0;
     private Factor cpt;
 
     public Node(String label, ArrayList<Node> parents) {
         this.label = label;
         this.parents = parents;
         initiateFactor(parents);
+        this.CPTrows = cpt.getNumRows();
         if (parents != null) {
-            this.CPTrows = cpt.getNumRows();
+            numParents = parents.size();
             for (Node parent : parents) {
                 parent.addChildren(this);
             }
@@ -56,7 +58,7 @@ public class Node {
         printHeader();
         ArrayList<Double> probabilities = this.cpt.getProbabilities();
         for (int i = 0; i < this.CPTrows; i++) {
-            int repeat = (parents.size() + 1) - Integer.toBinaryString(i).length();
+            int repeat = (numParents + 1) - Integer.toBinaryString(i).length();
             String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
             for (char c : truths.toCharArray()) {
                 System.out.print(c + "\t");
@@ -67,10 +69,11 @@ public class Node {
         }
     }
 
+    //TODO adjust so it handles null parents
     private void printHeader() {
         StringBuilder conditions = new StringBuilder();
 
-        for (int i = 0; i < parents.size(); i++) {
+        for (int i = 0; i < numParents; i++) {
             Node parent = parents.get(i);
             System.out.print(parent.getLabel() + "\t");
             conditions.append(parent.getLabel());
@@ -78,6 +81,7 @@ public class Node {
                 conditions.append(",");
             }
         }
+
         System.out.print(this.label + "\t");
 
         String condProb = "p(" + this.label + "|" + conditions + ")";
