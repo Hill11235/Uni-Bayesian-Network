@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * Represents each Node in the network.
+ */
 public class Node {
 
     private ArrayList<Node> parents;
@@ -13,6 +16,11 @@ public class Node {
     private int numParents = 0;
     private Factor cpt;
 
+    /**
+     * Constructor for Node.
+     * @param label label associated with this Node.
+     * @param parents parent Nodes of this Node.
+     */
     public Node(String label, ArrayList<Node> parents) {
         this.label = label;
         this.parents = parents;
@@ -26,6 +34,10 @@ public class Node {
         }
     }
 
+    /**
+     * Initialise Factor object and add all labels associated with this Node.
+     * @param parents parent Nodes.
+     */
     private void initiateFactor(ArrayList<Node> parents) {
         ArrayList<String> labels = new ArrayList<>();
 
@@ -38,15 +50,21 @@ public class Node {
         this.cpt = new Factor(labels);
     }
 
+    /**
+     * Add the probabilities to this Node's associated Factor.
+     * @param vals vararg of probabilities.
+     */
     public void addCPTvalues(double ... vals) {
         this.cpt.addProbabilities(vals);
     }
 
+    /**
+     * Add child Nodes.
+     * @param children vararg of child Nodes.
+     */
     public void addChildren(Node ... children) {
         this.children.addAll(Arrays.asList(children));
     }
-
-    //TODO update to reflect own implementation
 
     /**
      * Calculates the preceding zeros by taking number of Nodes referenced - binary version of i length.
@@ -69,7 +87,9 @@ public class Node {
         }
     }
 
-    //TODO adjust so it handles null parents
+    /**
+     * Print the column headers in printed CPT table.
+     */
     private void printHeader() {
         StringBuilder conditions = new StringBuilder();
 
@@ -89,6 +109,11 @@ public class Node {
 
     }
 
+    /**
+     * Creates conditional probability header to be printed.
+     * @param conditions StringBuilder of all conditions.
+     * @return String conditional/single probability.
+     */
     private String createConditional(StringBuilder conditions) {
         if (conditions.length() == 0) {
             return "p(" + this.label+ ")";
@@ -96,18 +121,34 @@ public class Node {
         return "p(" + this.label + "|" + conditions + ")";
     }
 
+    /**
+     * Get list of parent Nodes.
+     * @return list of parent Nodes.
+     */
     public ArrayList<Node> getParents() {
         return parents;
     }
 
+    /**
+     * Get label associated with this Node.
+     * @return String version of label.
+     */
     public String getLabel() {
         return label;
     }
 
+    /**
+     * Get set of child Nodes.
+     * @return set of children.
+     */
     public HashSet<Node> getChildren() {
         return children;
     }
 
+    /**
+     * Getter for CPT.
+     * @return Factor object.
+     */
     public Factor getCpt() {
         return cpt;
     }
