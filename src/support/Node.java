@@ -40,12 +40,12 @@ public class Node {
      * This will capture all the T/F permutations for all parent Nodes and this Node.
      */
     public void printNode() {
-        //TODO print header
+        printHeader();
         for (int i = 0; i < this.CPTrows; i++) {
             int repeat = (parents.size() + 1) - Integer.toBinaryString(i).length();
-            System.out.println("repeat: " + repeat);
+            //System.out.println("repeat: " + repeat);
             String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
-            System.out.println("truths: " + truths);
+            //System.out.println("truths: " + truths);
             for (char c : truths.toCharArray()) {
                 System.out.print(c + "\t");
             }
@@ -55,9 +55,20 @@ public class Node {
     }
 
     private void printHeader() {
-        //Print parent node labels in order
-        //print this node's label
+        StringBuilder conditions = new StringBuilder();
 
+        for (int i = 0; i < parents.size(); i++) {
+            Node parent = parents.get(i);
+            System.out.print(parent.getLabel() + "\t");
+            conditions.append(parent.getLabel());
+            if (i != parents.size() - 1) {
+                conditions.append(",");
+            }
+        }
+        System.out.print(this.label + "\t");
+
+        String condProb = "p(" + this.label + "|" + conditions + ")";
+        System.out.println("|" + "\t" + condProb);
     }
 
     public ArrayList<Node> getParents() {

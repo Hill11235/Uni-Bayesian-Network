@@ -23,7 +23,7 @@ public class NodeTest {
         initialNode = new Node("A", null);
         secondaryNode = new Node("B", null);
         childNode = new Node("C", new ArrayList<>(Arrays.asList(initialNode, secondaryNode)));
-        printTestNode = new Node("C", new ArrayList<>(Arrays.asList(initialNode, secondaryNode, childNode)));
+        printTestNode = new Node("D", new ArrayList<>(Arrays.asList(initialNode, secondaryNode, childNode)));
     }
 
     //TODO set the CPT and check the correct information is returned
