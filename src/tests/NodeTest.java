@@ -24,6 +24,9 @@ public class NodeTest {
     private Node printTestNode;
     private ArrayList<Double> probs;
 
+    /**
+     * Set up Nodes and some probabilities before each test.
+     */
     @Before
     public void setUp() {
         initialNode = new Node("A", null);
@@ -37,13 +40,18 @@ public class NodeTest {
         initialNode.addCPTvalues(d1, d2);
     }
 
+    /**
+     * Test that the correct CPT is set and returned.
+     */
     @Test
     public void testCPT() {
         Factor cpt = printTestNode.getCpt();
         assertEquals(cpt.getProbabilities(), probs);
     }
 
-    //TODO needs to print for Nodes without a parent node as well
+    /**
+     * Test that the output is printed for a Node with three parents.
+     */
     @Test
     public void testPrintMulti() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -72,6 +80,9 @@ public class NodeTest {
         System.setOut(originalOut);
     }
 
+    /**
+     * Test that the output is printed for a Node with no parents.
+     */
     @Test
     public void testPrintSingle() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -86,6 +97,9 @@ public class NodeTest {
         System.setOut(originalOut);
     }
 
+    /**
+     * Test that the correct parent Nodes are returned.
+     */
     @Test
     public void testGetParentNodes() {
         ArrayList<Node> parents = childNode.getParents();
@@ -93,6 +107,9 @@ public class NodeTest {
         assertEquals(parents, expected);
     }
 
+    /**
+     * Test that the addChildren method works and that children are added via the Node constructor as well.
+     */
     @Test
     public void testChildren() {
         //Test that add method works
@@ -103,6 +120,9 @@ public class NodeTest {
         assertTrue(initialNode.getChildren().contains(printTestNode));
     }
 
+    /**
+     * Test that the correct label is returned.
+     */
     @Test
     public void testGetLabel() {
         assertEquals(initialNode.getLabel(), "A");
@@ -110,6 +130,10 @@ public class NodeTest {
         assertEquals(childNode.getLabel(), "C");
     }
 
+    /**
+     * Helper method used to add 16 probabilities to Node.
+     * @return a list of the probabilities for comparison.
+     */
     private ArrayList<Double> addProb() {
         Double d1 = 0.1;
         Double d2 = 0.9;
