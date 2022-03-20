@@ -1,17 +1,12 @@
 package tests;
 
-import org.junit.Before;
 import org.junit.Test;
-import support.Factor;
 import support.Network;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Testing BayesianNetwork class.
@@ -56,6 +51,60 @@ public class BayesianNetworkTest {
                 "0\t1\t|\t0.6\n" +
                 "1\t0\t|\t0.6\n" +
                 "1\t1\t|\t0.4\n" +
+                "\n";
+        assertEquals(outContent.toString(), expected);
+        System.setOut(originalOut);
+    }
+
+    @Test
+    public void printBNB() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        networks.BNB.printNetwork();
+        String expected = "Network: BNB\n" +
+                "Node: J\n" +
+                "J\t|\tp(J)\n" +
+                "0\t|\t0.95\n" +
+                "1\t|\t0.05\n" +
+                "\n" +
+                "Node: K\n" +
+                "J\tK\t|\tp(K|J)\n" +
+                "0\t0\t|\t0.3\n" +
+                "0\t1\t|\t0.7\n" +
+                "1\t0\t|\t0.1\n" +
+                "1\t1\t|\t0.9\n" +
+                "\n" +
+                "Node: L\n" +
+                "L\t|\tp(L)\n" +
+                "0\t|\t0.3\n" +
+                "1\t|\t0.7\n" +
+                "\n" +
+                "Node: M\n" +
+                "K\tL\tM\t|\tp(M|K,L)\n" +
+                "0\t0\t0\t|\t0.9\n" +
+                "0\t0\t1\t|\t0.1\n" +
+                "0\t1\t0\t|\t0.8\n" +
+                "0\t1\t1\t|\t0.2\n" +
+                "1\t0\t0\t|\t0.3\n" +
+                "1\t0\t1\t|\t0.7\n" +
+                "1\t1\t0\t|\t0.4\n" +
+                "1\t1\t1\t|\t0.6\n" +
+                "\n" +
+                "Node: N\n" +
+                "M\tN\t|\tp(N|M)\n" +
+                "0\t0\t|\t0.8\n" +
+                "0\t1\t|\t0.2\n" +
+                "1\t0\t|\t0.4\n" +
+                "1\t1\t|\t0.6\n" +
+                "\n" +
+                "Node: O\n" +
+                "M\tO\t|\tp(O|M)\n" +
+                "0\t0\t|\t0.2\n" +
+                "0\t1\t|\t0.8\n" +
+                "1\t0\t|\t0.95\n" +
+                "1\t1\t|\t0.05\n" +
                 "\n";
         assertEquals(outContent.toString(), expected);
         System.setOut(originalOut);
