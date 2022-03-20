@@ -3,17 +3,23 @@ package support;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO implement static Support.BayesianNetwork objects for each of the four needed networks
 public class Network {
 
+    public BayesianNetwork CNX;
     public BayesianNetwork BNA;
     public BayesianNetwork BNB;
     public BayesianNetwork BNC;
 
     public Network() {
+        initiateCNX();
         initiateBNA();
         initiateBNB();
         initiateBNC();
+    }
+
+    //TODO finalise and implement CNX network
+    private void initiateCNX() {
+
     }
 
     private void initiateBNA() {
@@ -50,8 +56,24 @@ public class Network {
         this.BNB.addNode(J, K, L, M, N, O);
     }
 
-    //TODO BNC
     private void initiateBNC() {
+        Node P = new Node("P", null);
+        Node Q = new Node("Q", new ArrayList<>(List.of(P)));
+        Node R = new Node("R", null);
+        Node S = new Node("S", new ArrayList<>(List.of(Q, R)));
+        Node U = new Node("U", new ArrayList<>(List.of(S)));
+        Node V = new Node("V", new ArrayList<>(List.of(Q, R)));
+        Node Z = new Node("Z", new ArrayList<>(List.of(V, S)));
 
+        P.addCPTvalues(0.95, 0.05);
+        Q.addCPTvalues(0.30, 0.70, 0.10, 0.90);
+        R.addCPTvalues(0.30, 0.70);
+        S.addCPTvalues(0.90, 0.10, 0.80, 0.20, 0.30, 0.70, 0.40, 0.60);
+        U.addCPTvalues(0.20, 0.80, 0.95, 0.05);
+        V.addCPTvalues(0.90, 0.10, 0.85, 0.15, 0.45, 0.55, 0.30, 0.70);
+        Z.addCPTvalues(0.80, 0.20, 0.60, 0.40, 0.30, 0.70, 0.35, 0.65);
+
+        this.BNC = new BayesianNetwork("BNC");
+        this.BNC.addNode(P, Q, R, S, U, V, Z);
     }
 }
