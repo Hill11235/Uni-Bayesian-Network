@@ -20,6 +20,15 @@ public class BayesianNetwork {
         return nodes;
     }
 
+    public Node getNode(String label) {
+        for (Node node : nodes) {
+            if (node.getLabel().equals(label)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
     public void printNetwork() {
         System.out.println("Network: " + this.name);
         for (Node nd: nodes) {

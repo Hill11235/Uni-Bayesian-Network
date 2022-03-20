@@ -31,6 +31,13 @@ public class BayesianNetworkTest {
     }
 
     @Test
+    public void testGetNodeWithLabel() {
+        BayesianNetwork bn = networks.BNA;
+        Node nodeD = bn.getNode("D");
+        assertTrue(nodeD.getLabel().equals("D"));
+    }
+
+    @Test
     public void printCNX() {
         //TODO implement network and test printed correctly.
     }
