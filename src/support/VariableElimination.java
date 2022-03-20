@@ -14,7 +14,7 @@ public class VariableElimination {
     //P2 algo
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
 
-        String[] prunedOrder = prune(queryVariable, order);
+        String[] prunedOrder = prune(bn, queryVariable, order);
         ArrayList<Factor> factors = createFactors(bn, queryVariable, order);
 
         for (String label : prunedOrder) {
@@ -31,7 +31,12 @@ public class VariableElimination {
     }
 
     //TODO implement, prune every variable that is not an ancestor of the query Node.
-    public String[] prune(String queryVariable, String[] order) {
+    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
+        ArrayList<Node> nodes = bn.getNodes();
+        //get node corresponding to label
+        //retrieve all ancestor labels in a list
+        //if label in order is not an ancestor label then remove
+        //return updated String array
 
         return null;
     }
@@ -53,7 +58,6 @@ public class VariableElimination {
         return null;
     }
 
-    //TODO implement, finalised factors to contain only one Factor, get requested value from this table.
     public double getValue(ArrayList<Factor> factors, String value) {
         Factor cpt = factors.get(0);
         ArrayList<Double> probabilities = cpt.getProbabilities();
