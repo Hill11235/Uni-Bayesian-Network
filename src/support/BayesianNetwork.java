@@ -1,6 +1,7 @@
 package support;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //TODO implement bn class using guidance in the notes
 public class BayesianNetwork {
@@ -12,8 +13,8 @@ public class BayesianNetwork {
         this.name = name;
     }
 
-    public void addNode(Node node) {
-        this.nodes.add(node);
+    public void addNode(Node ... node) {
+        this.nodes.addAll(Arrays.asList(node));
     }
 
     public ArrayList<Node> getNodes() {
@@ -21,11 +22,11 @@ public class BayesianNetwork {
     }
 
     public void printNetwork() {
+        System.out.println("Network: " + this.name);
         for (Node nd: nodes) {
-            System.out.println(nd.getLabel());
+            System.out.println("Node: " + nd.getLabel());
             nd.printNode();
             System.out.println();
         }
     }
-    //print network method
 }
