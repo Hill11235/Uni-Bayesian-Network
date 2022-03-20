@@ -27,8 +27,9 @@ public class VariableEliminationTest {
         varElim = new VariableElimination();
         BayesianNetwork bn = network.BNC;
         String[] initialOrder = getInitialOrder();
+        String[] pruneOutput = varElim.prune(bn, "U", initialOrder);
 
-        assertEquals(varElim.prune(bn, "U", initialOrder), getOutputOrder());
+        assertEquals(pruneOutput, getOutputOrder());
     }
 
     @Test
@@ -67,12 +68,11 @@ public class VariableEliminationTest {
     }
 
     private String[] getOutputOrder() {
-        String[] outputOrder = new String[5];
+        String[] outputOrder = new String[4];
         outputOrder[0] = "P";
         outputOrder[1] = "Q";
         outputOrder[2] = "R";
         outputOrder[3] = "S";
-        outputOrder[4] = "U";
 
         return outputOrder;
     }

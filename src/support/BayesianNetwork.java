@@ -37,4 +37,18 @@ public class BayesianNetwork {
             System.out.println();
         }
     }
+
+    /**
+     * Takes a list of Nodes and returns a list of the corresponding labels.
+     * @param nodes list of Nodes.
+     * @return list of labels.
+     */
+    public ArrayList<String> getLabelList(ArrayList<Node> nodes) {
+        ArrayList<String> labels = new ArrayList<>();
+        for (Node node : nodes) {
+            labels.add(node.getLabel());
+        }
+
+        return labels;
+    }
 }

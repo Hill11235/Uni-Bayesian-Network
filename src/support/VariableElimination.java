@@ -1,6 +1,9 @@
 package support;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class VariableElimination {
 
@@ -35,26 +38,46 @@ public class VariableElimination {
         ArrayList<Node> nodes = bn.getNodes();
         Node queryNode = bn.getNode(queryVariable);
         ArrayList<Node> ancestors = queryNode.getAllAncestors();
-        //if label in order is not an ancestor label then remove
-        //return updated String array
+        ArrayList<String> labels = bn.getLabelList(ancestors);
+        List<String> orderList = new ArrayList<>(Arrays.asList(order));
+        orderList.retainAll(labels);
+        String[] updatedOrder = new String[orderList.size()];
+        orderList.toArray(updatedOrder);
 
-        return null;
+        return updatedOrder;
     }
 
-    //TODO implement, copy the factor of each Node in the order and add it to the list.
+    //TODO ensure that the factor is a copy, and add test.
     public ArrayList<Factor> createFactors(BayesianNetwork bn, String queryVariable, String[] order) {
+        ArrayList<Factor> factors = new ArrayList<>();
+        Node queryNode = bn.getNode(queryVariable);
+        factors.add(queryNode.getCpt());
 
-        return null;
+        for (String label : order) {
+            Node nd = bn.getNode(label);
+            factors.add(nd.getCpt());
+        }
+
+        return factors;
     }
 
-    //TODO implement, loop through provided factor list and add any factors that contain label to list.
+    //TODO test
     public ArrayList<Factor> getRelatedFactors(ArrayList<Factor> factors, String label) {
+        ArrayList<Factor> relatedFactors = new ArrayList<>();
 
-        return null;
+        for (Factor cpt : factors) {
+            ArrayList<String> labels = cpt.getNodeLabels();
+            if (labels.contains(label)) {
+                relatedFactors.add(cpt);
+            }
+        }
+
+        return relatedFactors;
     }
 
     //TODO implement, create a new factor with all variables in Factors of toSumOut but without label.
     public Factor joinMarginalise(ArrayList<Factor> toSumOut, String label) {
+
         return null;
     }
 

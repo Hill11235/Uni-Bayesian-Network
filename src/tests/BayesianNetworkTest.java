@@ -38,6 +38,18 @@ public class BayesianNetworkTest {
     }
 
     @Test
+    public void testGetLabels() {
+        BayesianNetwork bn = networks.BNA;
+        Node nodeD = bn.getNode("D");
+        ArrayList<Node> ancestors = nodeD.getAllAncestors();
+        ArrayList<String> labels = bn.getLabelList(ancestors);
+        assertTrue(labels.size() == 3);
+        assertTrue(labels.contains("A"));
+        assertTrue(labels.contains("B"));
+        assertTrue(labels.contains("C"));
+    }
+
+    @Test
     public void printCNX() {
         //TODO implement network and test printed correctly.
     }
