@@ -55,7 +55,12 @@ public class VariableElimination {
 
     //TODO implement, finalised factors to contain only one Factor, get requested value from this table.
     public double getValue(ArrayList<Factor> factors, String value) {
+        Factor cpt = factors.get(0);
+        ArrayList<Double> probabilities = cpt.getProbabilities();
 
-        return 0;
+        if (value.equals("F")) {
+            return probabilities.get(0);
+        }
+        return probabilities.get(1);
     }
 }
