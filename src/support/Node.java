@@ -152,4 +152,25 @@ public class Node {
     public Factor getCpt() {
         return cpt;
     }
+
+    /**
+     * Given a Node, return a list of all of its ancestor Nodes.
+     * @return list of ancestors.
+     */
+    public ArrayList<Node> getAllAncestors() {
+        ArrayList<Node> frontier = new ArrayList<>();
+        ArrayList<Node> ancestors = new ArrayList<>();
+
+        frontier.addAll(parents);
+
+        while (frontier.size() > 0) {
+            Node nd = frontier.remove(0);
+            ancestors.add(nd);
+            if (nd.getParents() != null) {
+                frontier.addAll(nd.getParents());
+            }
+        }
+
+        return ancestors;
+    }
 }

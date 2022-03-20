@@ -2,7 +2,9 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
+import support.BayesianNetwork;
 import support.Factor;
+import support.Network;
 import support.Node;
 
 import java.io.ByteArrayOutputStream;
@@ -128,6 +130,18 @@ public class NodeTest {
         assertEquals(initialNode.getLabel(), "A");
         assertEquals(secondaryNode.getLabel(), "B");
         assertEquals(childNode.getLabel(), "C");
+    }
+
+    /**
+     * Check that the list of ancestor Nodes is correctly calculated and returned.
+     */
+    @Test
+    public void testGetAncestors() {
+        Network network = new Network();
+        BayesianNetwork bn = network.BNC;
+        Node nd = bn.getNode("U");
+        ArrayList<Node> ancestors = nd.getAllAncestors();
+        assertEquals(ancestors.size(), 4);
     }
 
     /**

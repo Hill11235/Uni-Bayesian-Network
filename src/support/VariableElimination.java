@@ -33,8 +33,8 @@ public class VariableElimination {
     //TODO implement, prune every variable that is not an ancestor of the query Node.
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Node> nodes = bn.getNodes();
-        //get node corresponding to label
-        //retrieve all ancestor labels in a list
+        Node queryNode = bn.getNode(queryVariable);
+        ArrayList<Node> ancestors = queryNode.getAllAncestors();
         //if label in order is not an ancestor label then remove
         //return updated String array
 
