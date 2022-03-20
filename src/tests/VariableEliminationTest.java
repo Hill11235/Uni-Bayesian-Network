@@ -45,6 +45,13 @@ public class VariableEliminationTest {
 
     @Test
     public void getRelatedFactors() {
+        varElim = new VariableElimination();
+        BayesianNetwork bn = network.BNC;
+        String[] order = getOutputOrder();
+        ArrayList<Factor> factors = varElim.createFactors(bn, "U", order);
+        ArrayList<Factor> relatedFactors = varElim.getRelatedFactors(factors, "R");
+        assertEquals(relatedFactors.size(), 2);
+        assertTrue(relatedFactors.get(1).getNodeLabels().contains("Q"));
     }
 
     @Test

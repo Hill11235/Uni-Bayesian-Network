@@ -1,6 +1,5 @@
 package support;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +13,7 @@ public class VariableElimination {
     //Order as String array
     private ArrayList<Factor> factors = new ArrayList<>();
 
-    //P2 algo
+    //TODO test
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
 
         String[] prunedOrder = prune(bn, queryVariable, order);
@@ -33,7 +32,7 @@ public class VariableElimination {
         return getValue(factors, value);
     }
 
-    //TODO implement, prune every variable that is not an ancestor of the query Node.
+    //tested
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Node> nodes = bn.getNodes();
         Node queryNode = bn.getNode(queryVariable);
@@ -47,7 +46,7 @@ public class VariableElimination {
         return updatedOrder;
     }
 
-    //TODO ensure that the factor is a copy, and add test.
+    //tested
     public ArrayList<Factor> createFactors(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Factor> factors = new ArrayList<>();
         Node queryNode = bn.getNode(queryVariable);
@@ -81,6 +80,7 @@ public class VariableElimination {
         return null;
     }
 
+    //tested
     public double getValue(ArrayList<Factor> factors, String value) {
         Factor cpt = factors.get(0);
         ArrayList<Double> probabilities = cpt.getProbabilities();
