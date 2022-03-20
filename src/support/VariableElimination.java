@@ -60,7 +60,7 @@ public class VariableElimination {
         return factors;
     }
 
-    //TODO test
+    //tested
     public ArrayList<Factor> getRelatedFactors(ArrayList<Factor> factors, String label) {
         ArrayList<Factor> relatedFactors = new ArrayList<>();
 
@@ -76,6 +76,9 @@ public class VariableElimination {
 
     //TODO implement, create a new factor with all variables in Factors of toSumOut but without label.
     public Factor joinMarginalise(ArrayList<Factor> toSumOut, String label) {
+        //join step with table with all labels which is multiplied from previous tables to generate new table.
+        //include while loop or recursion in order to keep reducing the number of Factors until there's only one.
+        //marginalisation step where label is summed out of the remaining joined Factor.
 
         return null;
     }
