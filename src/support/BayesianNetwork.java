@@ -3,7 +3,6 @@ package support;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//TODO implement bn class using guidance in the notes
 public class BayesianNetwork {
 
     private String name;
