@@ -2,6 +2,7 @@ package support;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -74,7 +75,7 @@ public class Node {
      */
     public void printNode() {
         printHeader();
-        ArrayList<Double> probabilities = this.cpt.getProbabilities();
+        HashMap<String, Double> probabilities = this.cpt.getProbabilities();
         for (int i = 0; i < this.CPTrows; i++) {
             int repeat = (numParents + 1) - Integer.toBinaryString(i).length();
             String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
@@ -82,7 +83,7 @@ public class Node {
                 System.out.print(c + "\t");
             }
             System.out.print("|" + "\t");
-            Double prob = probabilities.get(i);
+            Double prob = probabilities.get(truths);
             System.out.println(prob);
         }
     }

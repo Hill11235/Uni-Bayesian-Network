@@ -2,6 +2,7 @@ package support;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class VariableElimination {
@@ -86,11 +87,11 @@ public class VariableElimination {
     //tested
     public double getValue(ArrayList<Factor> factors, String value) {
         Factor cpt = factors.get(0);
-        ArrayList<Double> probabilities = cpt.getProbabilities();
+        HashMap<String, Double> probabilities = cpt.getProbabilities();
 
         if (value.equals("F")) {
-            return probabilities.get(0);
+            return probabilities.get("0");
         }
-        return probabilities.get(1);
+        return probabilities.get("1");
     }
 }

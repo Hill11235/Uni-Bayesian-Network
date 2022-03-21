@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +25,7 @@ public class NodeTest {
     private Node secondaryNode;
     private Node childNode;
     private Node printTestNode;
-    private ArrayList<Double> probs;
+    private HashMap<String, Double> probs;
 
     /**
      * Set up Nodes and some probabilities before each test.
@@ -148,7 +149,7 @@ public class NodeTest {
      * Helper method used to add 16 probabilities to Node.
      * @return a list of the probabilities for comparison.
      */
-    private ArrayList<Double> addProb() {
+    private HashMap<String, Double> addProb() {
         Double d1 = 0.1;
         Double d2 = 0.9;
         Double d3 = 0.2;
@@ -165,8 +166,18 @@ public class NodeTest {
         Double d14 = 0.75;
         Double d15 = 0.35;
         Double d16 = 0.65;
+        ArrayList<Double> probList = new ArrayList<>(Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16));
 
         printTestNode.addCPTvalues(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16);
-        return new ArrayList<>(Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16));
+        HashMap<String, Double> output = new HashMap<>();
+
+        int i = 0;
+        for (Double prob : probList) {
+            int repeat = 4 - Integer.toBinaryString(i).length();
+            String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
+            output.put(truths, prob);
+            i++;
+        }
+        return output;
     }
 }

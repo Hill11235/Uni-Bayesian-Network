@@ -6,6 +6,7 @@ import support.Factor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -41,7 +42,7 @@ public class FactorTest {
      */
     @Test
     public void testAddValidProbabilities() {
-        ArrayList<Double> expected = addValidProb();
+        HashMap<String, Double> expected = addValidProb();
         assertEquals(cpt.getProbabilities(), expected);
     }
 
@@ -70,13 +71,19 @@ public class FactorTest {
      * Helper method for adding probabilities.
      * @return list of probabilities associated with table.
      */
-    private ArrayList<Double> addValidProb() {
+    private HashMap<String, Double> addValidProb() {
         Double p1 = 0.9;
         Double p2 = 0.1;
         Double p3 = 0.3;
         Double p4 = 0.7;
 
+        HashMap<String, Double> output = new HashMap<>();
+        output.put("00", 0.9);
+        output.put("01", 0.1);
+        output.put("10", 0.3);
+        output.put("11", 0.7);
+
         cpt.addProbabilities(p1, p2, p3, p4);
-        return new ArrayList<>(Arrays.asList(p1, p2, p3, p4));
+        return output;
     }
 }
