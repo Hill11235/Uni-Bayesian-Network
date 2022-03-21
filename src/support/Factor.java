@@ -8,9 +8,6 @@ import java.util.HashMap;
  */
 public class Factor {
 
-    //TODO consider how to map the probabilities to the labels as this could be useful for marginalisation
-    //TODO implement probabilities as a hashmap with String label permutation as key and prob as value?
-
     private ArrayList<String> nodeLabels;
     private int numRows = 2;
     private HashMap<String, Double> probabilities = new HashMap<>();

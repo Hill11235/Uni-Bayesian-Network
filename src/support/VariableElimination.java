@@ -7,13 +7,6 @@ import java.util.List;
 
 public class VariableElimination {
 
-    private Network networks = new Network();
-
-    //Node as String letter
-    //value as T/F
-    //Order as String array
-    private ArrayList<Factor> factors = new ArrayList<>();
-
     //TODO test
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
 
@@ -77,9 +70,29 @@ public class VariableElimination {
 
     //TODO implement, create a new factor with all variables in Factors of toSumOut but without label.
     public Factor joinMarginalise(ArrayList<Factor> toSumOut, String label) {
+
+        //combine tables until there is only one remaining that can be marginalised.
+        while (toSumOut.size() > 1) {
+            Factor first = toSumOut.remove(0);
+            Factor second = toSumOut.remove(1);
+
+            //combine into new factor and add to back of toSumOut
+        }
         //join step with table with all labels which is multiplied from previous tables to generate new table.
         //include while loop or recursion in order to keep reducing the number of Factors until there's only one.
         //marginalisation step where label is summed out of the remaining joined Factor.
+
+        return null;
+    }
+
+    //TODO implement and test
+    public Factor join(Factor first, Factor second, String label) {
+
+        return null;
+    }
+
+    //TODO implement and test
+    public Factor marginalise() {
 
         return null;
     }

@@ -55,6 +55,16 @@ public class VariableEliminationTest {
     }
 
     @Test
+    public void testJoin() {
+
+    }
+
+    @Test
+    public void testMarginalise() {
+
+    }
+
+    @Test
     public void joinMarginalise() {
     }
 
