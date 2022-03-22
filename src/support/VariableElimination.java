@@ -78,6 +78,13 @@ public class VariableElimination {
         return marginalise(toSumOut.get(0), label);
     }
 
+    /**
+     *
+     * @param first
+     * @param second
+     * @param label
+     * @return
+     */
     //TODO implement and test
     public Factor join(Factor first, Factor second, String label) {
         //join step with table with all labels which is multiplied from previous tables to generate new table.
@@ -88,6 +95,17 @@ public class VariableElimination {
         return f3;
     }
 
+    /**
+     * Updates the probabilities in the new joined Factor.
+     * Steps:
+     * 1. Generate label lists for each of the sub tables.
+     * 2. For each key in the new Factor, create maps with each label and T/F value for each sub-CPT.
+     * 3. Using the maps, get the necessary probability from each underlying table.
+     * 4. Take the product of these probabilities and put into the joined Factor's CPT.
+     * @param f3 join Factor.
+     * @param f1 first Factor to be joined.
+     * @param f2 second Factor to be joined.
+     */
     //TODO implement and test
     public void generateCombinedProbabilities(Factor f3, Factor f1, Factor f2) {
 
@@ -118,6 +136,13 @@ public class VariableElimination {
         }
     }
 
+    /**
+     * Given a map of labels to T/F values, loop through Factor's labels and construct necessary key.
+     * Use constructed key to get probability from underlying Factor map.
+     * @param labelMapping variable names mapped to needed T/F value.
+     * @param queryFactor Factor that the probability is to be taken from.
+     * @return probability of given label's combination of T/F values.
+     */
     //TODO implement and test
     public Double getProbFromFactor(HashMap<String, String> labelMapping, Factor queryFactor) {
         ArrayList<String> labels = queryFactor.getNodeLabels();
@@ -133,6 +158,13 @@ public class VariableElimination {
         return cpt.get(key);
     }
 
+    /**
+     * Return the list of labels which are common to both provided Factors plus labels in f1 only.
+     * Essentially generate labels in f1.
+     * @param f1 first Factor.
+     * @param f2 second Factor.
+     * @return list of labels.
+     */
     //TODO implement and test
     public ArrayList<String> getV1V2(Factor f1, Factor f2) {
         ArrayList<String> v1v2 = findCommonLabels(f1, f2);
@@ -142,6 +174,13 @@ public class VariableElimination {
         return v1v2;
     }
 
+    /**
+     * Return the list of labels which are common to both provided Factors plus labels in f2 only.
+     * Essentially generate labels in f2.
+     * @param f1 first Factor.
+     * @param f2 second Factor.
+     * @return list of labels.
+     */
     //TODO implement and test
     public ArrayList<String> getV1V3(Factor f1, Factor f2) {
         ArrayList<String> v1v3 = findCommonLabels(f1, f2);
