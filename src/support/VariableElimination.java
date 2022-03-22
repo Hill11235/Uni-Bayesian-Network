@@ -1,9 +1,8 @@
 package support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class VariableElimination {
 
@@ -82,8 +81,43 @@ public class VariableElimination {
     //TODO implement and test
     public Factor join(Factor first, Factor second, String label) {
         //join step with table with all labels which is multiplied from previous tables to generate new table.
+        ArrayList<String> allLabels = getAllLabels(first, second);
+        Factor f3 = new Factor(allLabels);
 
         return null;
+    }
+
+    public ArrayList<String> getAllLabels(Factor first, Factor second) {
+        ArrayList<String> commonLabels = findCommonLabels(first, second);
+        ArrayList<String> firstOnlyLabels = findFirstOnlyLabels(first, second);
+        ArrayList<String> secondOnlyLabels = findSecondOnlyLabels(first, second);
+
+        return Stream.of(commonLabels, firstOnlyLabels, secondOnlyLabels)
+                .flatMap(Collection::stream).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<String> findCommonLabels(Factor first, Factor second) {
+        ArrayList<String> firstLabels = first.getNodeLabels();
+        ArrayList<String> secondLabels = second.getNodeLabels();
+        firstLabels.retainAll(secondLabels);
+
+        return firstLabels;
+    }
+
+    public ArrayList<String> findFirstOnlyLabels(Factor first, Factor second) {
+        ArrayList<String> firstLabels = first.getNodeLabels();
+        ArrayList<String> secondLabels = second.getNodeLabels();
+        firstLabels.removeAll(secondLabels);
+
+        return firstLabels;
+    }
+
+    public ArrayList<String> findSecondOnlyLabels(Factor first, Factor second) {
+        ArrayList<String> firstLabels = first.getNodeLabels();
+        ArrayList<String> secondLabels = second.getNodeLabels();
+        secondLabels.removeAll(firstLabels);
+
+        return secondLabels;
     }
 
     //TODO implement and test

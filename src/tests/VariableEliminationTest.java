@@ -1,11 +1,8 @@
 package tests;
 
-import org.junit.Before;
 import org.junit.Test;
 import support.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +49,54 @@ public class VariableEliminationTest {
         ArrayList<Factor> relatedFactors = varElim.getRelatedFactors(factors, "R");
         assertEquals(relatedFactors.size(), 2);
         assertTrue(relatedFactors.get(1).getNodeLabels().contains("Q"));
+    }
+
+    @Test
+    public void testFindCommonLabels() {
+        varElim = new VariableElimination();
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
+        Factor f1 = new Factor(labels1);
+        Factor f2 = new Factor(labels2);
+        ArrayList<String> common = varElim.findCommonLabels(f1, f2);
+
+        assertEquals(common, new ArrayList<>(List.of("C")));
+    }
+
+    @Test
+    public void testFirstOnlyLabels() {
+        varElim = new VariableElimination();
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
+        Factor f1 = new Factor(labels1);
+        Factor f2 = new Factor(labels2);
+        ArrayList<String> firstOnly = varElim.findFirstOnlyLabels(f1, f2);
+
+        assertEquals(firstOnly, new ArrayList<>(List.of("A", "B")));
+    }
+
+    @Test
+    public void testSecondOnlyLabels() {
+        varElim = new VariableElimination();
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
+        Factor f1 = new Factor(labels1);
+        Factor f2 = new Factor(labels2);
+        ArrayList<String> secondOnly = varElim.findSecondOnlyLabels(f1, f2);
+
+        assertEquals(secondOnly, new ArrayList<>(List.of("D", "E")));
+    }
+
+    @Test
+    public void testGetAllLabels() {
+        varElim = new VariableElimination();
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
+        Factor f1 = new Factor(labels1);
+        Factor f2 = new Factor(labels2);
+        ArrayList<String> all = varElim.getAllLabels(f1, f2);
+
+        assertEquals(all, new ArrayList<>(List.of("C", "A", "B", "D", "E")));
     }
 
     @Test

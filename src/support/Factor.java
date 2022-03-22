@@ -58,6 +58,6 @@ public class Factor {
      * @return list of labels.
      */
     public ArrayList<String> getNodeLabels() {
-        return nodeLabels;
+        return new ArrayList<>(nodeLabels);
     }
 }
