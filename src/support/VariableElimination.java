@@ -26,7 +26,6 @@ public class VariableElimination {
         return getValue(factors, value);
     }
 
-    //tested
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Node> nodes = bn.getNodes();
         Node queryNode = bn.getNode(queryVariable);
@@ -40,7 +39,6 @@ public class VariableElimination {
         return updatedOrder;
     }
 
-    //tested
     public ArrayList<Factor> createFactors(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Factor> factors = new ArrayList<>();
         Node queryNode = bn.getNode(queryVariable);
@@ -54,7 +52,6 @@ public class VariableElimination {
         return factors;
     }
 
-    //tested
     public ArrayList<Factor> getRelatedFactors(ArrayList<Factor> factors, String label) {
         ArrayList<Factor> relatedFactors = new ArrayList<>();
 
@@ -75,29 +72,27 @@ public class VariableElimination {
         while (toSumOut.size() > 1) {
             Factor first = toSumOut.remove(0);
             Factor second = toSumOut.remove(1);
-
-            //combine into new factor and add to back of toSumOut
+            Factor joined = join(first, second, label);
+            toSumOut.add(joined);
         }
+
+        return marginalise(toSumOut.get(0), label);
+    }
+
+    //TODO implement and test
+    public Factor join(Factor first, Factor second, String label) {
         //join step with table with all labels which is multiplied from previous tables to generate new table.
-        //include while loop or recursion in order to keep reducing the number of Factors until there's only one.
+
+        return null;
+    }
+
+    //TODO implement and test
+    public Factor marginalise(Factor toReduce, String label) {
         //marginalisation step where label is summed out of the remaining joined Factor.
 
         return null;
     }
 
-    //TODO implement and test
-    public Factor join(Factor first, Factor second, String label) {
-
-        return null;
-    }
-
-    //TODO implement and test
-    public Factor marginalise() {
-
-        return null;
-    }
-
-    //tested
     public double getValue(ArrayList<Factor> factors, String value) {
         Factor cpt = factors.get(0);
         HashMap<String, Double> probabilities = cpt.getProbabilities();

@@ -55,12 +55,24 @@ public class VariableEliminationTest {
     }
 
     @Test
-    public void testJoin() {
+    public void testJoinOneChild() {
+        //use example in notes and loop through resultant factor probabilities to compare.
+        //f(a)
+        //f(a,b)
+        //combine using join
+        //compare vs correct f3 factor
+
+    }
+
+    @Test
+    public void testJoinTwoChildren() {
+        //use example in notes and loop through resultant factor probabilities to compare.
 
     }
 
     @Test
     public void testMarginalise() {
+        //use example in notes and loop through resultant factor probabilities to compare.
 
     }
 
