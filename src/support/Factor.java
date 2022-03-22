@@ -17,6 +17,15 @@ public class Factor {
         if (nodeLabels != null) {
             this.numRows = (int) Math.pow(2, nodeLabels.size());
         }
+        addRowsToMap();
+    }
+
+    private void addRowsToMap() {
+        for (int i = 0; i < numRows; i++) {
+            int repeat = (nodeLabels.size()) - Integer.toBinaryString(i).length();
+            String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
+            probabilities.put(truths, 0.0);
+        }
     }
 
     /**
@@ -28,12 +37,16 @@ public class Factor {
             throw new RuntimeException("Number of probabilities needs to match CPT length");
         }
 
-        int i = 0;
+        ArrayList<Double> probList = new ArrayList<>();
         for (double prob : probs) {
+            probList.add(prob);
+        }
+
+        for (int i = 0; i < numRows; i++) {
             int repeat = (nodeLabels.size()) - Integer.toBinaryString(i).length();
             String truths = "0".repeat(repeat) + Integer.toBinaryString(i);
-            probabilities.put(truths, prob);
-            i++;
+            Double prob = probList.get(i);
+            probabilities.replace(truths, prob);
         }
     }
 

@@ -84,7 +84,13 @@ public class VariableElimination {
         ArrayList<String> allLabels = getAllLabels(first, second);
         Factor f3 = new Factor(allLabels);
 
+
         return null;
+    }
+
+    public void generateCombinedProbabilities(Factor combined, Factor first, Factor second) {
+
+
     }
 
     public ArrayList<String> getAllLabels(Factor first, Factor second) {
