@@ -83,14 +83,72 @@ public class VariableElimination {
         //join step with table with all labels which is multiplied from previous tables to generate new table.
         ArrayList<String> allLabels = getAllLabels(first, second);
         Factor f3 = new Factor(allLabels);
+        generateCombinedProbabilities(f3, first, second);
 
-
-        return null;
+        return f3;
     }
 
-    public void generateCombinedProbabilities(Factor combined, Factor first, Factor second) {
+    //TODO implement and test
+    public void generateCombinedProbabilities(Factor f3, Factor f1, Factor f2) {
 
+        ArrayList<String> v1v2 = getV1V2(f1, f2);
+        ArrayList<String> v1v3 = getV1V3(f1, f2);
+        ArrayList<String> f3Labels = f3.getNodeLabels();
+        HashMap<String, Double> cptF3 = f3.getProbabilities();
 
+        for (String key : cptF3.keySet()) {
+            HashMap<String, String> v1v2LabelMapping = new HashMap<>();
+            HashMap<String, String> v1v3LabelMapping = new HashMap<>();
+
+            for (String vLabel : v1v2) {
+                int position = f3Labels.indexOf(vLabel);
+                char tf = key.charAt(position);
+                v1v2LabelMapping.put(vLabel, Character.toString(tf));
+            }
+            for (String vLabel : v1v3) {
+                int position = f3Labels.indexOf(vLabel);
+                char tf = key.charAt(position);
+                v1v3LabelMapping.put(vLabel, Character.toString(tf));
+            }
+
+            Double f1Term = getProbFromFactor(v1v2LabelMapping, f1);
+            Double f2Term = getProbFromFactor(v1v3LabelMapping, f2);
+
+            cptF3.replace(key, f1Term * f2Term);
+        }
+    }
+
+    //TODO implement and test
+    public Double getProbFromFactor(HashMap<String, String> labelMapping, Factor queryFactor) {
+        ArrayList<String> labels = queryFactor.getNodeLabels();
+        HashMap<String, Double> cpt = queryFactor.getProbabilities();
+        StringBuilder builtKey = new StringBuilder();
+
+        for (String label : labels) {
+            String tf = labelMapping.get(label);
+            builtKey.append(tf);
+        }
+        String key = builtKey.toString();
+
+        return cpt.get(key);
+    }
+
+    //TODO implement and test
+    public ArrayList<String> getV1V2(Factor f1, Factor f2) {
+        ArrayList<String> v1v2 = findCommonLabels(f1, f2);
+        ArrayList<String> v2 = findFirstOnlyLabels(f1, f2);
+        v1v2.addAll(v2);
+
+        return v1v2;
+    }
+
+    //TODO implement and test
+    public ArrayList<String> getV1V3(Factor f1, Factor f2) {
+        ArrayList<String> v1v3 = findCommonLabels(f1, f2);
+        ArrayList<String> v3 = findSecondOnlyLabels(f1, f2);
+        v1v3.addAll(v3);
+
+        return v1v3;
     }
 
     public ArrayList<String> getAllLabels(Factor first, Factor second) {
