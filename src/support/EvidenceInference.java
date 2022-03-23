@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class EvidenceInference extends SimpleInference {
 
     //TODO override prune method so that it also checks against evidence ancestors.
+    @Override
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, ArrayList<String[]> evidence) {
         //TODO use prune in superclass and add another shell method to override in this class.
         return null;
@@ -13,10 +14,19 @@ public class EvidenceInference extends SimpleInference {
 
     //TODO add evidence projection method to this class and superclass.
     //TODO add evidence converter as part of above method?
+    @Override
     public ArrayList<Factor> projectEvidence(ArrayList<Factor> factors, ArrayList<String[]> evidence) {
         return factors;
     }
 
+    /**
+     * Gets requested probability.
+     * Overrides method in superclass as in this case there could be multiple Factors in the list.
+     * @param factors list of Factors, can contain multiple Factors.
+     * @param value true or false value in form of "1" or "0".
+     * @return requested probability.
+     */
+    @Override
     public double getValue(ArrayList<Factor> factors, String value) {
 
         if (factors.size() == 1) {
@@ -41,6 +51,10 @@ public class EvidenceInference extends SimpleInference {
         return map.get("0");
     }
 
+    /**
+     * Normalises a Factor's CPT.
+     * @param f1 Factor to be normalised.
+     */
     public void normalise(Factor f1) {
         HashMap<String, Double> cpt = f1.getProbabilities();
         Double norm = getSumOfProbabilities(cpt);
@@ -51,6 +65,11 @@ public class EvidenceInference extends SimpleInference {
         }
     }
 
+    /**
+     * Takes a CPT and finds the total sum of the probabilities within.
+     * @param cpt map of T/F values to probabilities.
+     * @return sum of probabilities.
+     */
     public Double getSumOfProbabilities(HashMap<String, Double> cpt) {
         Double sum = 0.0;
 
