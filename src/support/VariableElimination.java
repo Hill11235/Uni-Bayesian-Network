@@ -221,11 +221,74 @@ public class VariableElimination {
         return secondLabels;
     }
 
+    /**
+     *
+     * @param toReduce
+     * @param label
+     * @return
+     */
     //TODO implement and test
     public Factor marginalise(Factor toReduce, String label) {
-        //marginalisation step where label is summed out of the remaining joined Factor.
+        ArrayList<String> newLabels = toReduce.getNodeLabels();
+        newLabels.remove(label);
 
-        return null;
+        Factor reducedFactor = new Factor(newLabels);
+        HashMap<String, Double> cpt = reducedFactor.getProbabilities();
+        HashMap<String, Double> largeCPT = toReduce.getProbabilities();
+
+        for (String key : cpt.keySet()) {
+            Double prob = 0.0;
+            HashMap<String, String> labelMapping = getLabelMapping(newLabels, newLabels, key);
+            HashMap<Integer, String> positionMapping = getPositionMapping(labelMapping, toReduce);
+
+            for (String reduceKey : largeCPT.keySet()) {
+                if (checkMatch(reduceKey, positionMapping)) {
+                    prob += largeCPT.get(reduceKey);
+                }
+            }
+            cpt.replace(key, prob);
+        }
+
+        return reducedFactor;
+    }
+
+    /**
+     *
+     * @param reduceKey
+     * @param positionMapping
+     * @return
+     */
+    public boolean checkMatch(String reduceKey, HashMap<Integer, String> positionMapping) {
+
+        for (Integer position : positionMapping.keySet()) {
+            char value = reduceKey.charAt(position);
+            String tf = Character.toString(value);
+            String desiredTF = positionMapping.get(position);
+
+            if (!tf.equals(desiredTF)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     * @param labelMapping
+     * @param toReduce
+     * @return
+     */
+    public HashMap<Integer, String> getPositionMapping(HashMap<String, String> labelMapping, Factor toReduce) {
+        HashMap<Integer, String> positionMapping = new HashMap<>();
+        ArrayList<String> reduceLabels = toReduce.getNodeLabels();
+
+        for (String label : labelMapping.keySet()) {
+            int position = reduceLabels.indexOf(label);
+            positionMapping.put(position, labelMapping.get(label));
+        }
+
+        return positionMapping;
     }
 
     public double getValue(ArrayList<Factor> factors, String value) {
