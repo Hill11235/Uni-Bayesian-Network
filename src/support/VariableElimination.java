@@ -1,11 +1,26 @@
 package support;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * P2 class, used for making simple inferences.
+ */
 public class VariableElimination {
 
+    /**
+     * Given a network, make a simple inference. Want the value of a query Variable, reduce variables in the order provided.
+     * @param bn network to be queried.
+     * @param queryVariable variable being queried.
+     * @param value T/F value of query.
+     * @param order reduction order of variables.
+     * @return requested probability based on network.
+     */
     //TODO test
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
 
@@ -25,8 +40,14 @@ public class VariableElimination {
         return getValue(factors, value);
     }
 
+    /**
+     * Takes the specified order and removes any variables which are not ancestors of the query variable.
+     * @param bn network to be queried.
+     * @param queryVariable variable being queried.
+     * @param order reduction order of variables.
+     * @return updated order.
+     */
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
-        ArrayList<Node> nodes = bn.getNodes();
         Node queryNode = bn.getNode(queryVariable);
         ArrayList<Node> ancestors = queryNode.getAllAncestors();
         ArrayList<String> labels = bn.getLabelList(ancestors);
@@ -38,6 +59,14 @@ public class VariableElimination {
         return updatedOrder;
     }
 
+    /**
+     * Loops through the order and gets the Factor linked to each variable and adds it to a list.
+     * Also adds the query variable's factor to the list.
+     * @param bn network to be queried.
+     * @param queryVariable variable being queried.
+     * @param order reduction order of variables.
+     * @return list of Factors that will need to be joined and marginalised.
+     */
     public ArrayList<Factor> createFactors(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Factor> factors = new ArrayList<>();
         Node queryNode = bn.getNode(queryVariable);
@@ -51,6 +80,12 @@ public class VariableElimination {
         return factors;
     }
 
+    /**
+     * Given a list of Factors and a label. Return all the Factors from the list which contain that label.
+     * @param factors list of Factors.
+     * @param label label that Factors must have.
+     * @return list of Factors linked by that label.
+     */
     public ArrayList<Factor> getRelatedFactors(ArrayList<Factor> factors, String label) {
         ArrayList<Factor> relatedFactors = new ArrayList<>();
 
@@ -64,6 +99,12 @@ public class VariableElimination {
         return relatedFactors;
     }
 
+    /**
+     * Given a list of Factors with a common label, join and marginalise those Factors until there is only one Factor without that label.
+     * @param toSumOut list of Factors to be reduced.
+     * @param label variable that is to be removed from the Factors.
+     * @return one joined and marginalised Factor.
+     */
     //TODO implement, create a new factor with all variables in Factors of toSumOut but without label.
     public Factor joinMarginalise(ArrayList<Factor> toSumOut, String label) {
 
@@ -79,10 +120,10 @@ public class VariableElimination {
     }
 
     /**
-     *
-     * @param first
-     * @param second
-     * @return
+     * Takes two Factor with one or more common labels and combines them into one larger joint probability table.
+     * @param first first Factor to be joined.
+     * @param second second Factor to be joined.
+     * @return joined Factor of joint probability distribution.
      */
     public Factor join(Factor first, Factor second) {
         ArrayList<String> allLabels = getAllLabels(first, second);
@@ -290,6 +331,12 @@ public class VariableElimination {
         return positionMapping;
     }
 
+    /**
+     * Given a factor of only two elements, return the probability of T/F as requested.
+     * @param factors list of Factors, should only contain one Factor at this point.
+     * @param value true or false value in form of "1" or "0".
+     * @return probability in Double form.
+     */
     public double getValue(ArrayList<Factor> factors, String value) {
         Factor cpt = factors.get(0);
         HashMap<String, Double> probabilities = cpt.getProbabilities();
