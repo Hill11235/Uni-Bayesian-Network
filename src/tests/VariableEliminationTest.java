@@ -136,7 +136,7 @@ public class VariableEliminationTest {
     }
 
     @Test
-    public void testJoinOneChild() {
+    public void testJoin1() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("A"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("A", "B"));
         Factor f1 = new Factor(labels1);
@@ -154,9 +154,25 @@ public class VariableEliminationTest {
     }
 
     @Test
-    public void testJoinTwoChildren() {
-        //use example in notes and loop through resultant factor probabilities to compare.
+    public void testJoin2() {
+        ArrayList<String> labels1 = new ArrayList<>(List.of("A", "B"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("A", "C"));
+        Factor f1 = new Factor(labels1);
+        f1.addProbabilities(0.19, 0.76, 0.0475, 0.0025);
+        Factor f2 = new Factor(labels2);
+        f2.addProbabilities(0.25, 0.75, 0.85, 0.15);
 
+        Factor f3 = varElim.join(f1, f2);
+        HashMap<String, Double> joinedCPT = f3.getProbabilities();
+
+        assertEquals(joinedCPT.get("000"), 0.0475, 0.000001);
+        assertEquals(joinedCPT.get("001"), 0.1425, 0.000001);
+        assertEquals(joinedCPT.get("010"), 0.19, 0.000001);
+        assertEquals(joinedCPT.get("011"), 0.57, 0.000001);
+        assertEquals(joinedCPT.get("100"), 0.040375, 0.000001);
+        assertEquals(joinedCPT.get("101"), 0.007125, 0.000001);
+        assertEquals(joinedCPT.get("110"), 0.002125, 0.000001);
+        assertEquals(joinedCPT.get("111"), 0.000375, 0.000001);
     }
 
     @Test
