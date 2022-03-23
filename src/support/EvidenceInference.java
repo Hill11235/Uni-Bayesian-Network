@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class EvidenceInference extends SimpleInference {
 
     //TODO override prune method so that it also checks against evidence ancestors.
-    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
+    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, String[] evidence) {
         return null;
     }
 

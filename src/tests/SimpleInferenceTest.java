@@ -36,7 +36,7 @@ public class SimpleInferenceTest {
     public void prune() {
         BayesianNetwork bn = network.BNC;
         String[] initialOrder = getInitialOrder();
-        String[] pruneOutput = infer.prune(bn, "U", initialOrder);
+        String[] pruneOutput = infer.prune(bn, "U", initialOrder, null);
 
         assertEquals(pruneOutput, getOutputOrder());
     }

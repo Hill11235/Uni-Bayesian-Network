@@ -23,7 +23,7 @@ public class SimpleInference {
      */
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order, String[] evidence) {
 
-        String[] prunedOrder = prune(bn, queryVariable, order);
+        String[] prunedOrder = prune(bn, queryVariable, order, evidence);
         ArrayList<Factor> factors = createFactors(bn, queryVariable, prunedOrder);
         ArrayList<Factor> projectedFactors = projectEvidence(factors, evidence);
 
@@ -47,7 +47,7 @@ public class SimpleInference {
      * @param order reduction order of variables.
      * @return updated order.
      */
-    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order) {
+    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, String[] evidence) {
         Node queryNode = bn.getNode(queryVariable);
         ArrayList<Node> ancestors = queryNode.getAllAncestors();
         ArrayList<String> labels = bn.getLabelList(ancestors);
