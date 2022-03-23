@@ -100,6 +100,30 @@ public class VariableEliminationTest {
     }
 
     @Test
+    public void testGetV1V2() {
+        varElim = new VariableElimination();
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
+        Factor f1 = new Factor(labels1);
+        Factor f2 = new Factor(labels2);
+        ArrayList<String> v1v2 = varElim.getV1V2(f1, f2);
+
+        assertEquals(v1v2, new ArrayList<>(List.of("C", "A", "B")));
+    }
+
+    @Test
+    public void testGetV1V3() {
+        varElim = new VariableElimination();
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
+        Factor f1 = new Factor(labels1);
+        Factor f2 = new Factor(labels2);
+        ArrayList<String> v1v3 = varElim.getV1V3(f1, f2);
+
+        assertEquals(v1v3, new ArrayList<>(List.of("C", "D", "E")));
+    }
+
+    @Test
     public void testJoinOneChild() {
         //use example in notes and loop through resultant factor probabilities to compare.
         //f(a)
