@@ -222,12 +222,11 @@ public class VariableElimination {
     }
 
     /**
-     *
-     * @param toReduce
-     * @param label
-     * @return
+     * Take a Factor and a label to remove. Create a Factor without that label and the with other probabilities summed.
+     * @param toReduce CPT to be marginalised.
+     * @param label label to be removed from original CPT.
+     * @return new marginalised Factor with label removed.
      */
-    //TODO implement and test
     public Factor marginalise(Factor toReduce, String label) {
         ArrayList<String> newLabels = toReduce.getNodeLabels();
         newLabels.remove(label);
@@ -253,10 +252,10 @@ public class VariableElimination {
     }
 
     /**
-     *
-     * @param reduceKey
-     * @param positionMapping
-     * @return
+     * For a given probability key, check whether this matches all the individual label T/F we want.
+     * @param reduceKey key to check against. Of form of repeating 1s and 0s, e.g. "01110".
+     * @param positionMapping maps position of each label in the String to the desired T/F outcome.
+     * @return true if all labels in the key match what is required, false otherwise.
      */
     public boolean checkMatch(String reduceKey, HashMap<Integer, String> positionMapping) {
 
@@ -274,10 +273,10 @@ public class VariableElimination {
     }
 
     /**
-     *
-     * @param labelMapping
-     * @param toReduce
-     * @return
+     * Updates label to value mapping to mapping (position of each label in Factor to be reduced) to value.
+     * @param labelMapping mapping of labels to T/F value in String form.
+     * @param toReduce Factor to be reduced and what the positions of each label are derived from.
+     * @return map of label position to T/F value.
      */
     public HashMap<Integer, String> getPositionMapping(HashMap<String, String> labelMapping, Factor toReduce) {
         HashMap<Integer, String> positionMapping = new HashMap<>();

@@ -219,13 +219,16 @@ public class VariableEliminationTest {
 
     @Test
     public void testMarginalise() {
-        //use example in notes and loop through resultant factor probabilities to compare.
         ArrayList<String> labels = new ArrayList<>(Arrays.asList("A", "B", "C"));
         Factor f1 = new Factor(labels);
-        //add probs
+        f1.addProbabilities(0.0475, 0.1425, 0.19, 0.57, 0.040375, 0.007125, 0.002125, 0.000375);
 
-        //marginalise with A
-        //assert for each key in reduced table.
+        Factor reducedFactor = varElim.marginalise(f1, "A");
+        HashMap<String, Double> reducedCPT = reducedFactor.getProbabilities();
+        assertEquals(reducedCPT.get("00"), 0.040375 + 0.0475, 0.000001);
+        assertEquals(reducedCPT.get("01"), 0.007125 + 0.1425, 0.000001);
+        assertEquals(reducedCPT.get("10"), 0.002125 + 0.19, 0.000001);
+        assertEquals(reducedCPT.get("11"), 0.000375 + 0.57, 0.000001);
     }
 
     @Test
