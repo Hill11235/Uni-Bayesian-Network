@@ -21,22 +21,23 @@ public class SimpleInference {
      * @param order reduction order of variables.
      * @return requested probability based on network.
      */
-    public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
+    public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order, String[] evidence) {
 
         String[] prunedOrder = prune(bn, queryVariable, order);
         ArrayList<Factor> factors = createFactors(bn, queryVariable, prunedOrder);
+        ArrayList<Factor> projectedFactors = projectEvidence(factors, evidence);
 
         for (String label : prunedOrder) {
-            ArrayList<Factor> toSumOut = getRelatedFactors(factors, label);
+            ArrayList<Factor> toSumOut = getRelatedFactors(projectedFactors, label);
             for (Factor cpt : toSumOut) {
-                factors.remove(cpt);
+                projectedFactors.remove(cpt);
             }
 
             Factor newFactor = joinMarginalise(toSumOut, label);
-            factors.add(newFactor);
+            projectedFactors.add(newFactor);
         }
 
-        return getValue(factors, value);
+        return getValue(projectedFactors, value);
     }
 
     /**
@@ -76,6 +77,17 @@ public class SimpleInference {
             factors.add(nd.getCpt());
         }
 
+        return factors;
+    }
+
+    /**
+     * Projects provided evidence across applicable Factors.
+     * Method to be overwritten in subclass that makes use of evidence.
+     * @param factors arraylist of Factors to be used.
+     * @param evidence certain variables are set to true or false.
+     * @return list of factors with evidence applied.
+     */
+    public ArrayList<Factor> projectEvidence(ArrayList<Factor> factors, String[] evidence) {
         return factors;
     }
 

@@ -39,7 +39,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"A", "B", "C"};
 
-        double answer = infer.eliminate(BNA, queryVariable, value, order);
+        double answer = infer.eliminate(BNA, queryVariable, value, order, null);
         assertEquals(answer, 0.57050, 0.000001);
     }
 
@@ -52,7 +52,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"B", "C", "A"};
 
-        double answer = infer.eliminate(BNA, queryVariable, value, order);
+        double answer = infer.eliminate(BNA, queryVariable, value, order, null);
         assertEquals(answer, 0.57050, 0.000001);
     }
 
@@ -65,7 +65,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"J", "L", "K", "M", "O"};
 
-        double answer = infer.eliminate(BNB, queryVariable, value, order);
+        double answer = infer.eliminate(BNB, queryVariable, value, order, null);
         assertEquals(answer, 0.39864, 0.000001);
     }
 
@@ -78,7 +78,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"J", "L", "K", "N", "O"};
 
-        double answer = infer.eliminate(BNB, queryVariable, value, order);
+        double answer = infer.eliminate(BNB, queryVariable, value, order, null);
         assertEquals(answer, 0.49660, 0.000001);
     }
 
@@ -91,7 +91,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"P", "R", "Z", "S", "Q", "V"};
 
-        double answer = infer.eliminate(BNC, queryVariable, value, order);
+        double answer = infer.eliminate(BNC, queryVariable, value, order, null);
         assertEquals(answer, 0.42755, 0.000001);
     }
 
@@ -104,7 +104,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"P", "U", "R", "Z", "Q", "V"};
 
-        double answer = infer.eliminate(BNC, queryVariable, value, order);
+        double answer = infer.eliminate(BNC, queryVariable, value, order, null);
         assertEquals(answer, 0.49660, 0.000001);
     }
 
@@ -117,7 +117,7 @@ public class P2Tests {
         String value = "F";
         String[] order = {"P", "U", "R", "Z", "Q", "V"};
 
-        double answer = infer.eliminate(BNC, queryVariable, value, order);
+        double answer = infer.eliminate(BNC, queryVariable, value, order, null);
         assertEquals(answer, 1 - 0.49660, 0.000001);
     }
 }
