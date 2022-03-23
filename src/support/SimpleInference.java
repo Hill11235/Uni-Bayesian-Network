@@ -21,7 +21,7 @@ public class SimpleInference {
      * @param order reduction order of variables.
      * @return requested probability based on network.
      */
-    public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order, String[] evidence) {
+    public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order, ArrayList<String[]> evidence) {
 
         String[] prunedOrder = prune(bn, queryVariable, order, evidence);
         ArrayList<Factor> factors = createFactors(bn, queryVariable, prunedOrder);
@@ -47,7 +47,7 @@ public class SimpleInference {
      * @param order reduction order of variables.
      * @return updated order.
      */
-    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, String[] evidence) {
+    public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, ArrayList<String[]> evidence) {
         Node queryNode = bn.getNode(queryVariable);
         ArrayList<Node> ancestors = queryNode.getAllAncestors();
         ArrayList<String> labels = bn.getLabelList(ancestors);
@@ -87,7 +87,7 @@ public class SimpleInference {
      * @param evidence certain variables are set to true or false.
      * @return list of factors with evidence applied.
      */
-    public ArrayList<Factor> projectEvidence(ArrayList<Factor> factors, String[] evidence) {
+    public ArrayList<Factor> projectEvidence(ArrayList<Factor> factors, ArrayList<String[]> evidence) {
         return factors;
     }
 
