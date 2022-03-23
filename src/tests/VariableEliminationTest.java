@@ -9,8 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class VariableEliminationTest {
 
@@ -176,9 +175,57 @@ public class VariableEliminationTest {
     }
 
     @Test
+    public void testCheckMatchTrue() {
+        String key = "0110";
+        HashMap<Integer, String> positionMapping = new HashMap<>();
+        positionMapping.put(0, "0");
+        positionMapping.put(2, "1");
+        positionMapping.put(3, "0");
+
+        assertTrue(varElim.checkMatch(key, positionMapping));
+    }
+
+    @Test
+    public void testCheckMatchFalse() {
+        String key = "011011";
+        HashMap<Integer, String> positionMapping = new HashMap<>();
+        positionMapping.put(0, "0");
+        positionMapping.put(2, "1");
+        positionMapping.put(3, "0");
+        positionMapping.put(4, "1");
+        positionMapping.put(5, "0");
+
+        assertFalse(varElim.checkMatch(key, positionMapping));
+    }
+
+    @Test
+    public void testGetPositionMapping() {
+        ArrayList<String> labels = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        Factor f1 = new Factor(labels);
+
+        HashMap<String, String> labelMapping = new HashMap<>();
+        labelMapping.put("B", "1");
+        labelMapping.put("A", "1");
+        labelMapping.put("C", "1");
+
+        HashMap<Integer, String> expectedMapping = new HashMap<>();
+        expectedMapping.put(1, "1");
+        expectedMapping.put(0, "1");
+        expectedMapping.put(2, "1");
+
+        HashMap<Integer, String> positionMapping = varElim.getPositionMapping(labelMapping, f1);
+        assertEquals(positionMapping, expectedMapping);
+    }
+
+    @Test
     public void testMarginalise() {
         //use example in notes and loop through resultant factor probabilities to compare.
+        ArrayList<String> labels = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        Factor f1 = new Factor(labels);
+        //add probs
 
+        //marginalise with A
+        //assert for each key in reduced table.
     }
 
     @Test
