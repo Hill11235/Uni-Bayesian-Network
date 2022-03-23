@@ -84,9 +84,7 @@ public class VariableElimination {
      * @param second
      * @return
      */
-    //TODO implement and test
     public Factor join(Factor first, Factor second) {
-        //join step with table with all labels which is multiplied from previous tables to generate new table.
         ArrayList<String> allLabels = getAllLabels(first, second);
         Factor f3 = new Factor(allLabels);
         generateCombinedProbabilities(f3, first, second);
@@ -105,34 +103,38 @@ public class VariableElimination {
      * @param f1 first Factor to be joined.
      * @param f2 second Factor to be joined.
      */
-    //TODO implement and test
     public void generateCombinedProbabilities(Factor f3, Factor f1, Factor f2) {
-
         ArrayList<String> v1v2 = getV1V2(f1, f2);
         ArrayList<String> v1v3 = getV1V3(f1, f2);
         ArrayList<String> f3Labels = f3.getNodeLabels();
         HashMap<String, Double> cptF3 = f3.getProbabilities();
 
         for (String key : cptF3.keySet()) {
-            HashMap<String, String> v1v2LabelMapping = new HashMap<>();
-            HashMap<String, String> v1v3LabelMapping = new HashMap<>();
-
-            for (String vLabel : v1v2) {
-                int position = f3Labels.indexOf(vLabel);
-                char tf = key.charAt(position);
-                v1v2LabelMapping.put(vLabel, Character.toString(tf));
-            }
-            for (String vLabel : v1v3) {
-                int position = f3Labels.indexOf(vLabel);
-                char tf = key.charAt(position);
-                v1v3LabelMapping.put(vLabel, Character.toString(tf));
-            }
+            HashMap<String, String> v1v2LabelMapping = getLabelMapping(v1v2, f3Labels, key);
+            HashMap<String, String> v1v3LabelMapping = getLabelMapping(v1v3, f3Labels, key);
 
             Double f1Term = getProbFromFactor(v1v2LabelMapping, f1);
             Double f2Term = getProbFromFactor(v1v3LabelMapping, f2);
 
             cptF3.replace(key, f1Term * f2Term);
         }
+    }
+
+    /**
+     * Create a mapping of labels to T/F value for each key in the joined CPT.
+     * @param combinedLabels either v1v2 or v1v3.
+     * @param f3Labels labels in new CPT.
+     * @param key true/false concat for each row of joined Factor.
+     * @return mapping of each label to T/F.
+     */
+    private HashMap<String, String> getLabelMapping(ArrayList<String> combinedLabels, ArrayList<String> f3Labels, String key) {
+        HashMap<String, String> labelMapping = new HashMap<>();
+        for (String vLabel : combinedLabels) {
+            int position = f3Labels.indexOf(vLabel);
+            char tf = key.charAt(position);
+            labelMapping.put(vLabel, Character.toString(tf));
+        }
+        return labelMapping;
     }
 
     /**
