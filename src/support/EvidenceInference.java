@@ -1,6 +1,7 @@
 package support;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EvidenceInference extends SimpleInference {
 
@@ -22,10 +23,44 @@ public class EvidenceInference extends SimpleInference {
         if (factors.size() == 1) {
             return super.getValue(factors, value);
         }
-        //use super.join to iteratively combine Factors.
-        //normalise
-        //return requested value from here or using super.getValue with reduced list.
 
-        return 0.0;
+        int pairs = factors.size() - 1;
+        for (int i = 0; i < pairs * 2; i += 2) {
+            Factor first = factors.get(i);
+            Factor second = factors.get(i + 1);
+            Factor joined = join(first, second);
+            factors.add(joined);
+        }
+
+        Factor finalFactor = factors.get(factors.size() - 1);
+        normalise(finalFactor);
+        HashMap<String, Double> map = finalFactor.getProbabilities();
+        if (value.equals("T")) {
+            map.get("1");
+        }
+
+        return map.get("0");
+    }
+
+    //TODO test
+    public void normalise(Factor f1) {
+        HashMap<String, Double> cpt = f1.getProbabilities();
+        Double norm = getSumOfProbabilities(cpt);
+
+        for (String key : cpt.keySet()) {
+            Double newProb = cpt.get(key) / norm;
+            cpt.replace(key, newProb);
+        }
+    }
+
+    //TODO test
+    public Double getSumOfProbabilities(HashMap<String, Double> cpt) {
+        Double sum = 0.0;
+
+        for (String key : cpt.keySet()) {
+            sum += cpt.get(key);
+        }
+
+        return sum;
     }
 }
