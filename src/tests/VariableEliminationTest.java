@@ -231,8 +231,12 @@ public class VariableEliminationTest {
         assertEquals(reducedCPT.get("11"), 0.000375 + 0.57, 0.000001);
     }
 
+    //TODO implement
     @Test
     public void joinMarginalise() {
+        //need three Factors as per notes, add to arraylist
+        //want to remove label A
+        //return final combined Factor and loop and check all probabilities.
     }
 
     @Test
