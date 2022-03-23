@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * P2 class, used for making simple inferences.
  */
-public class VariableElimination {
+public class SimpleInference {
 
     /**
      * Given a network, make a simple inference. Want the value of a query Variable, reduce variables in the order provided.
@@ -21,7 +21,6 @@ public class VariableElimination {
      * @param order reduction order of variables.
      * @return requested probability based on network.
      */
-    //TODO test
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
 
         String[] prunedOrder = prune(bn, queryVariable, order);

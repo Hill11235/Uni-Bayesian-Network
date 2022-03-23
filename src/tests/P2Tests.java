@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import support.BayesianNetwork;
 import support.Network;
-import support.VariableElimination;
+import support.SimpleInference;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,17 +14,17 @@ import static org.junit.Assert.assertEquals;
 public class P2Tests {
 
     Network network = new Network();
-    VariableElimination varElim;
+    SimpleInference infer;
     BayesianNetwork BNA;
     BayesianNetwork BNB;
     BayesianNetwork BNC;
 
     /**
-     * Set up VariableElimination object and networks before each test.
+     * Set up SimpleInference object and networks before each test.
      */
     @Before
     public void setUp() {
-        varElim = new VariableElimination();
+        infer = new SimpleInference();
         BNA = network.BNA;
         BNB = network.BNB;
         BNC = network.BNC;
@@ -39,7 +39,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"A", "B", "C"};
 
-        double answer = varElim.eliminate(BNA, queryVariable, value, order);
+        double answer = infer.eliminate(BNA, queryVariable, value, order);
         assertEquals(answer, 0.57050, 0.000001);
     }
 
@@ -52,7 +52,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"B", "C", "A"};
 
-        double answer = varElim.eliminate(BNA, queryVariable, value, order);
+        double answer = infer.eliminate(BNA, queryVariable, value, order);
         assertEquals(answer, 0.57050, 0.000001);
     }
 
@@ -65,7 +65,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"J", "L", "K", "M", "O"};
 
-        double answer = varElim.eliminate(BNB, queryVariable, value, order);
+        double answer = infer.eliminate(BNB, queryVariable, value, order);
         assertEquals(answer, 0.39864, 0.000001);
     }
 
@@ -78,7 +78,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"J", "L", "K", "N", "O"};
 
-        double answer = varElim.eliminate(BNB, queryVariable, value, order);
+        double answer = infer.eliminate(BNB, queryVariable, value, order);
         assertEquals(answer, 0.49660, 0.000001);
     }
 
@@ -91,7 +91,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"P", "R", "Z", "S", "Q", "V"};
 
-        double answer = varElim.eliminate(BNC, queryVariable, value, order);
+        double answer = infer.eliminate(BNC, queryVariable, value, order);
         assertEquals(answer, 0.42755, 0.000001);
     }
 
@@ -104,7 +104,7 @@ public class P2Tests {
         String value = "T";
         String[] order = {"P", "U", "R", "Z", "Q", "V"};
 
-        double answer = varElim.eliminate(BNC, queryVariable, value, order);
+        double answer = infer.eliminate(BNC, queryVariable, value, order);
         assertEquals(answer, 0.49660, 0.000001);
     }
 
@@ -117,7 +117,7 @@ public class P2Tests {
         String value = "F";
         String[] order = {"P", "U", "R", "Z", "Q", "V"};
 
-        double answer = varElim.eliminate(BNC, queryVariable, value, order);
+        double answer = infer.eliminate(BNC, queryVariable, value, order);
         assertEquals(answer, 1 - 0.49660, 0.000001);
     }
 }

@@ -5,7 +5,7 @@ import org.junit.Test;
 import support.BayesianNetwork;
 import support.Factor;
 import support.Network;
-import support.VariableElimination;
+import support.SimpleInference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,21 +16,27 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class VariableEliminationTest {
+/**
+ * Tests all the underlying methods for solving a simple query.
+ */
+public class SimpleInferenceTest {
 
     Network network = new Network();
-    VariableElimination varElim;
+    SimpleInference infer;
 
+    /**
+     * Set up fresh SimpleInference object before each test.
+     */
     @Before
     public void setUp() {
-        varElim = new VariableElimination();
+        infer = new SimpleInference();
     }
 
     @Test
     public void prune() {
         BayesianNetwork bn = network.BNC;
         String[] initialOrder = getInitialOrder();
-        String[] pruneOutput = varElim.prune(bn, "U", initialOrder);
+        String[] pruneOutput = infer.prune(bn, "U", initialOrder);
 
         assertEquals(pruneOutput, getOutputOrder());
     }
@@ -39,7 +45,7 @@ public class VariableEliminationTest {
     public void createFactors() {
         BayesianNetwork bn = network.BNC;
         String[] order = getOutputOrder();
-        ArrayList<Factor> factors = varElim.createFactors(bn, "U", order);
+        ArrayList<Factor> factors = infer.createFactors(bn, "U", order);
         assertEquals(factors.size(), 5);
         Factor pFactor = factors.get(1);
         assertTrue(pFactor.getNodeLabels().contains("P"));
@@ -49,8 +55,8 @@ public class VariableEliminationTest {
     public void getRelatedFactors() {
         BayesianNetwork bn = network.BNC;
         String[] order = getOutputOrder();
-        ArrayList<Factor> factors = varElim.createFactors(bn, "U", order);
-        ArrayList<Factor> relatedFactors = varElim.getRelatedFactors(factors, "R");
+        ArrayList<Factor> factors = infer.createFactors(bn, "U", order);
+        ArrayList<Factor> relatedFactors = infer.getRelatedFactors(factors, "R");
         assertEquals(relatedFactors.size(), 2);
         assertTrue(relatedFactors.get(1).getNodeLabels().contains("Q"));
     }
@@ -61,7 +67,7 @@ public class VariableEliminationTest {
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
         Factor f2 = new Factor(labels2);
-        ArrayList<String> common = varElim.findCommonLabels(f1, f2);
+        ArrayList<String> common = infer.findCommonLabels(f1, f2);
 
         assertEquals(common, new ArrayList<>(List.of("C")));
     }
@@ -72,7 +78,7 @@ public class VariableEliminationTest {
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
         Factor f2 = new Factor(labels2);
-        ArrayList<String> firstOnly = varElim.findFirstOnlyLabels(f1, f2);
+        ArrayList<String> firstOnly = infer.findFirstOnlyLabels(f1, f2);
 
         assertEquals(firstOnly, new ArrayList<>(List.of("A", "B")));
     }
@@ -83,7 +89,7 @@ public class VariableEliminationTest {
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
         Factor f2 = new Factor(labels2);
-        ArrayList<String> secondOnly = varElim.findSecondOnlyLabels(f1, f2);
+        ArrayList<String> secondOnly = infer.findSecondOnlyLabels(f1, f2);
 
         assertEquals(secondOnly, new ArrayList<>(List.of("D", "E")));
     }
@@ -94,7 +100,7 @@ public class VariableEliminationTest {
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
         Factor f2 = new Factor(labels2);
-        ArrayList<String> all = varElim.getAllLabels(f1, f2);
+        ArrayList<String> all = infer.getAllLabels(f1, f2);
 
         assertEquals(all, new ArrayList<>(List.of("C", "A", "B", "D", "E")));
     }
@@ -105,7 +111,7 @@ public class VariableEliminationTest {
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
         Factor f2 = new Factor(labels2);
-        ArrayList<String> v1v2 = varElim.getV1V2(f1, f2);
+        ArrayList<String> v1v2 = infer.getV1V2(f1, f2);
 
         assertEquals(v1v2, new ArrayList<>(List.of("C", "A", "B")));
     }
@@ -116,7 +122,7 @@ public class VariableEliminationTest {
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
         Factor f2 = new Factor(labels2);
-        ArrayList<String> v1v3 = varElim.getV1V3(f1, f2);
+        ArrayList<String> v1v3 = infer.getV1V3(f1, f2);
 
         assertEquals(v1v3, new ArrayList<>(List.of("C", "D", "E")));
     }
@@ -130,7 +136,7 @@ public class VariableEliminationTest {
         labelMapping.put("B", "1");
         labelMapping.put("C", "1");
         labelMapping.put("A", "0");
-        Double prob = varElim.getProbFromFactor(labelMapping, f1);
+        Double prob = infer.getProbFromFactor(labelMapping, f1);
 
         assertEquals(prob, correctMap.get("011"));
     }
@@ -144,7 +150,7 @@ public class VariableEliminationTest {
         Factor f2 = new Factor(labels2);
         f2.addProbabilities(0.2, 0.8, 0.95, 0.05);
 
-        Factor f3 = varElim.join(f1, f2);
+        Factor f3 = infer.join(f1, f2);
         HashMap<String, Double> joinedCPT = f3.getProbabilities();
 
         assertEquals(joinedCPT.get("00"), 0.19, 0.0001);
@@ -162,7 +168,7 @@ public class VariableEliminationTest {
         Factor f2 = new Factor(labels2);
         f2.addProbabilities(0.25, 0.75, 0.85, 0.15);
 
-        Factor f3 = varElim.join(f1, f2);
+        Factor f3 = infer.join(f1, f2);
         HashMap<String, Double> joinedCPT = f3.getProbabilities();
 
         assertEquals(joinedCPT.get("000"), 0.0475, 0.000001);
@@ -183,7 +189,7 @@ public class VariableEliminationTest {
         positionMapping.put(2, "1");
         positionMapping.put(3, "0");
 
-        assertTrue(varElim.checkMatch(key, positionMapping));
+        assertTrue(infer.checkMatch(key, positionMapping));
     }
 
     @Test
@@ -196,7 +202,7 @@ public class VariableEliminationTest {
         positionMapping.put(4, "1");
         positionMapping.put(5, "0");
 
-        assertFalse(varElim.checkMatch(key, positionMapping));
+        assertFalse(infer.checkMatch(key, positionMapping));
     }
 
     @Test
@@ -214,7 +220,7 @@ public class VariableEliminationTest {
         expectedMapping.put(0, "1");
         expectedMapping.put(2, "1");
 
-        HashMap<Integer, String> positionMapping = varElim.getPositionMapping(labelMapping, f1);
+        HashMap<Integer, String> positionMapping = infer.getPositionMapping(labelMapping, f1);
         assertEquals(positionMapping, expectedMapping);
     }
 
@@ -224,7 +230,7 @@ public class VariableEliminationTest {
         Factor f1 = new Factor(labels);
         f1.addProbabilities(0.0475, 0.1425, 0.19, 0.57, 0.040375, 0.007125, 0.002125, 0.000375);
 
-        Factor reducedFactor = varElim.marginalise(f1, "A");
+        Factor reducedFactor = infer.marginalise(f1, "A");
         HashMap<String, Double> reducedCPT = reducedFactor.getProbabilities();
         assertEquals(reducedCPT.get("00"), 0.087875, 0.000001);
         assertEquals(reducedCPT.get("01"), 0.149625, 0.000001);
@@ -247,7 +253,7 @@ public class VariableEliminationTest {
         f3.addProbabilities(0.25, 0.75, 0.85, 0.15);
 
         ArrayList<Factor> factors = new ArrayList<>(Arrays.asList(f1, f2, f3));
-        Factor jmFactor = varElim.joinMarginalise(factors, "A");
+        Factor jmFactor = infer.joinMarginalise(factors, "A");
         HashMap<String, Double> probs = jmFactor.getProbabilities();
 
         assertEquals(probs.get("00"), 0.087875, 0.000001);
@@ -261,8 +267,8 @@ public class VariableEliminationTest {
         Factor cpt = new Factor(new ArrayList<>(List.of("A")));
         ArrayList<Factor> factors = new ArrayList<>(List.of(cpt));
         cpt.addProbabilities(0.05, 0.95);
-        assertEquals(varElim.getValue(factors, "T"), 0.95, 0.0001);
-        assertEquals(varElim.getValue(factors, "F"), 0.05, 0.0001);
+        assertEquals(infer.getValue(factors, "T"), 0.95, 0.0001);
+        assertEquals(infer.getValue(factors, "F"), 0.05, 0.0001);
     }
 
     private String[] getInitialOrder() {
