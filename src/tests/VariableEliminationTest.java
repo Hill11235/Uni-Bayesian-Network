@@ -137,12 +137,20 @@ public class VariableEliminationTest {
 
     @Test
     public void testJoinOneChild() {
-        //use example in notes and loop through resultant factor probabilities to compare.
-        //f(a)
-        //f(a,b)
-        //combine using join
-        //compare vs correct f3 factor
+        ArrayList<String> labels1 = new ArrayList<>(List.of("A"));
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("A", "B"));
+        Factor f1 = new Factor(labels1);
+        f1.addProbabilities(0.95, 0.05);
+        Factor f2 = new Factor(labels2);
+        f2.addProbabilities(0.2, 0.8, 0.95, 0.05);
 
+        Factor f3 = varElim.join(f1, f2);
+        HashMap<String, Double> joinedCPT = f3.getProbabilities();
+
+        assertEquals(joinedCPT.get("00"), 0.19, 0.0001);
+        assertEquals(joinedCPT.get("01"), 0.76, 0.0001);
+        assertEquals(joinedCPT.get("10"), 0.0475, 0.0001);
+        assertEquals(joinedCPT.get("11"), 0.0025, 0.0001);
     }
 
     @Test

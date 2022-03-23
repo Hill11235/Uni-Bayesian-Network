@@ -71,7 +71,7 @@ public class VariableElimination {
         while (toSumOut.size() > 1) {
             Factor first = toSumOut.remove(0);
             Factor second = toSumOut.remove(1);
-            Factor joined = join(first, second, label);
+            Factor joined = join(first, second);
             toSumOut.add(joined);
         }
 
@@ -82,11 +82,10 @@ public class VariableElimination {
      *
      * @param first
      * @param second
-     * @param label
      * @return
      */
     //TODO implement and test
-    public Factor join(Factor first, Factor second, String label) {
+    public Factor join(Factor first, Factor second) {
         //join step with table with all labels which is multiplied from previous tables to generate new table.
         ArrayList<String> allLabels = getAllLabels(first, second);
         Factor f3 = new Factor(allLabels);
