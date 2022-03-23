@@ -105,18 +105,19 @@ public class VariableElimination {
      * @param label variable that is to be removed from the Factors.
      * @return one joined and marginalised Factor.
      */
-    //TODO implement, create a new factor with all variables in Factors of toSumOut but without label.
     public Factor joinMarginalise(ArrayList<Factor> toSumOut, String label) {
 
-        //combine tables until there is only one remaining that can be marginalised.
-        while (toSumOut.size() > 1) {
-            Factor first = toSumOut.remove(0);
-            Factor second = toSumOut.remove(1);
+        int pairs = toSumOut.size() - 1;
+
+        for (int i = 0; i < pairs * 2; i += 2) {
+            Factor first = toSumOut.get(i);
+            Factor second = toSumOut.get(i + 1);
             Factor joined = join(first, second);
             toSumOut.add(joined);
         }
 
-        return marginalise(toSumOut.get(0), label);
+        int finalSize = toSumOut.size();
+        return marginalise(toSumOut.get(finalSize - 1), label);
     }
 
     /**

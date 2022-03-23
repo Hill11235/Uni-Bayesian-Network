@@ -225,18 +225,34 @@ public class VariableEliminationTest {
 
         Factor reducedFactor = varElim.marginalise(f1, "A");
         HashMap<String, Double> reducedCPT = reducedFactor.getProbabilities();
-        assertEquals(reducedCPT.get("00"), 0.040375 + 0.0475, 0.000001);
-        assertEquals(reducedCPT.get("01"), 0.007125 + 0.1425, 0.000001);
-        assertEquals(reducedCPT.get("10"), 0.002125 + 0.19, 0.000001);
-        assertEquals(reducedCPT.get("11"), 0.000375 + 0.57, 0.000001);
+        assertEquals(reducedCPT.get("00"), 0.087875, 0.000001);
+        assertEquals(reducedCPT.get("01"), 0.149625, 0.000001);
+        assertEquals(reducedCPT.get("10"), 0.192125, 0.000001);
+        assertEquals(reducedCPT.get("11"), 0.570375, 0.000001);
     }
 
-    //TODO implement
     @Test
     public void joinMarginalise() {
-        //need three Factors as per notes, add to arraylist
-        //want to remove label A
-        //return final combined Factor and loop and check all probabilities.
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A"));
+        Factor f1 = new Factor(labels1);
+        f1.addProbabilities(0.95, 0.05);
+
+        ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("A", "B"));
+        Factor f2 = new Factor(labels2);
+        f2.addProbabilities(0.2, 0.8, 0.95, 0.05);
+
+        ArrayList<String> labels3 = new ArrayList<>(Arrays.asList("A", "C"));
+        Factor f3 = new Factor(labels3);
+        f3.addProbabilities(0.25, 0.75, 0.85, 0.15);
+
+        ArrayList<Factor> factors = new ArrayList<>(Arrays.asList(f1, f2, f3));
+        Factor jmFactor = varElim.joinMarginalise(factors, "A");
+        HashMap<String, Double> probs = jmFactor.getProbabilities();
+
+        assertEquals(probs.get("00"), 0.087875, 0.000001);
+        assertEquals(probs.get("01"), 0.192125, 0.000001);
+        assertEquals(probs.get("10"), 0.149625, 0.000001);
+        assertEquals(probs.get("11"), 0.570375, 0.000001);
     }
 
     @Test
