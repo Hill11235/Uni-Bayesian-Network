@@ -25,7 +25,7 @@ public class VariableElimination {
     public double eliminate(BayesianNetwork bn, String queryVariable, String value, String[] order) {
 
         String[] prunedOrder = prune(bn, queryVariable, order);
-        ArrayList<Factor> factors = createFactors(bn, queryVariable, order);
+        ArrayList<Factor> factors = createFactors(bn, queryVariable, prunedOrder);
 
         for (String label : prunedOrder) {
             ArrayList<Factor> toSumOut = getRelatedFactors(factors, label);

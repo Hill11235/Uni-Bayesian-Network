@@ -2,14 +2,19 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
-import support.*;
+import support.BayesianNetwork;
+import support.Factor;
+import support.Network;
+import support.VariableElimination;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class VariableEliminationTest {
 
@@ -19,10 +24,6 @@ public class VariableEliminationTest {
     @Before
     public void setUp() {
         varElim = new VariableElimination();
-    }
-
-    @Test
-    public void eliminate() {
     }
 
     @Test
