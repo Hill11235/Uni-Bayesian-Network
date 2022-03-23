@@ -42,7 +42,6 @@ public class EvidenceInference extends SimpleInference {
         return map.get("0");
     }
 
-    //TODO test
     public void normalise(Factor f1) {
         HashMap<String, Double> cpt = f1.getProbabilities();
         Double norm = getSumOfProbabilities(cpt);
@@ -53,7 +52,6 @@ public class EvidenceInference extends SimpleInference {
         }
     }
 
-    //TODO test
     public Double getSumOfProbabilities(HashMap<String, Double> cpt) {
         Double sum = 0.0;
 
