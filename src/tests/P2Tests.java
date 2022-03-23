@@ -19,6 +19,9 @@ public class P2Tests {
     BayesianNetwork BNB;
     BayesianNetwork BNC;
 
+    /**
+     * Set up VariableElimination object and networks before each test.
+     */
     @Before
     public void setUp() {
         varElim = new VariableElimination();
@@ -27,6 +30,9 @@ public class P2Tests {
         BNC = network.BNC;
     }
 
+    /**
+     * Stacscheck test for BNA.
+     */
     @Test
     public void BNATest1() {
         String queryVariable = "D";
@@ -37,6 +43,9 @@ public class P2Tests {
         assertEquals(answer, 0.57050, 0.000001);
     }
 
+    /**
+     * Stacscheck test for BNA.
+     */
     @Test
     public void BNATest2() {
         String queryVariable = "D";
@@ -47,6 +56,9 @@ public class P2Tests {
         assertEquals(answer, 0.57050, 0.000001);
     }
 
+    /**
+     * Stacscheck test for BNB.
+     */
     @Test
     public void BNBTest1() {
         String queryVariable = "N";
@@ -57,6 +69,9 @@ public class P2Tests {
         assertEquals(answer, 0.39864, 0.000001);
     }
 
+    /**
+     * Stacscheck test for BNB.
+     */
     @Test
     public void BNBTest2() {
         String queryVariable = "M";
@@ -67,6 +82,9 @@ public class P2Tests {
         assertEquals(answer, 0.49660, 0.000001);
     }
 
+    /**
+     * Stacscheck test for BNC.
+     */
     @Test
     public void BNCTest1() {
         String queryVariable = "U";
@@ -77,6 +95,9 @@ public class P2Tests {
         assertEquals(answer, 0.42755, 0.000001);
     }
 
+    /**
+     * Stacscheck test for BNC.
+     */
     @Test
     public void BNCTest2() {
         String queryVariable = "S";
@@ -87,6 +108,9 @@ public class P2Tests {
         assertEquals(answer, 0.49660, 0.000001);
     }
 
+    /**
+     * Own, false test for BNC.
+     */
     @Test
     public void BNCTest3() {
         String queryVariable = "S";
