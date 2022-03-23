@@ -17,7 +17,6 @@ public class EvidenceInference extends SimpleInference {
         return factors;
     }
 
-    //TODO override getValue method to include functionality for multiple factors and normalisation.
     public double getValue(ArrayList<Factor> factors, String value) {
 
         if (factors.size() == 1) {
@@ -36,7 +35,7 @@ public class EvidenceInference extends SimpleInference {
         normalise(finalFactor);
         HashMap<String, Double> map = finalFactor.getProbabilities();
         if (value.equals("T")) {
-            map.get("1");
+            return map.get("1");
         }
 
         return map.get("0");

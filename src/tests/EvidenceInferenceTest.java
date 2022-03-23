@@ -39,10 +39,10 @@ public class EvidenceInferenceTest {
         f2.addProbabilities(0.6725, 0.3275);
 
         ArrayList<Factor> factors = new ArrayList<>(Arrays.asList(f1, f2));
-        assertEquals(infer.getValue(factors, "0"), 0.45615, 0.0001);
+        assertEquals(infer.getValue(factors, "F"), 0.45615, 0.0001);
 
-        //FAILING
-        assertEquals(infer.getValue(factors, "1"), 0.54385, 0.0001);
+        ArrayList<Factor> factors1 = new ArrayList<>(Arrays.asList(f1, f2));
+        assertEquals(infer.getValue(factors1, "T"), 0.54385, 0.0001);
     }
 
     @Test
