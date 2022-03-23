@@ -1,10 +1,12 @@
 package tests;
 
+import org.junit.Before;
 import org.junit.Test;
 import support.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -15,13 +17,17 @@ public class VariableEliminationTest {
     Network network = new Network();
     VariableElimination varElim;
 
+    @Before
+    public void setUp() {
+        varElim = new VariableElimination();
+    }
+
     @Test
     public void eliminate() {
     }
 
     @Test
     public void prune() {
-        varElim = new VariableElimination();
         BayesianNetwork bn = network.BNC;
         String[] initialOrder = getInitialOrder();
         String[] pruneOutput = varElim.prune(bn, "U", initialOrder);
@@ -31,7 +37,6 @@ public class VariableEliminationTest {
 
     @Test
     public void createFactors() {
-        varElim = new VariableElimination();
         BayesianNetwork bn = network.BNC;
         String[] order = getOutputOrder();
         ArrayList<Factor> factors = varElim.createFactors(bn, "U", order);
@@ -42,7 +47,6 @@ public class VariableEliminationTest {
 
     @Test
     public void getRelatedFactors() {
-        varElim = new VariableElimination();
         BayesianNetwork bn = network.BNC;
         String[] order = getOutputOrder();
         ArrayList<Factor> factors = varElim.createFactors(bn, "U", order);
@@ -53,7 +57,6 @@ public class VariableEliminationTest {
 
     @Test
     public void testFindCommonLabels() {
-        varElim = new VariableElimination();
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
@@ -65,7 +68,6 @@ public class VariableEliminationTest {
 
     @Test
     public void testFirstOnlyLabels() {
-        varElim = new VariableElimination();
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
@@ -77,7 +79,6 @@ public class VariableEliminationTest {
 
     @Test
     public void testSecondOnlyLabels() {
-        varElim = new VariableElimination();
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
@@ -89,7 +90,6 @@ public class VariableEliminationTest {
 
     @Test
     public void testGetAllLabels() {
-        varElim = new VariableElimination();
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
@@ -101,7 +101,6 @@ public class VariableEliminationTest {
 
     @Test
     public void testGetV1V2() {
-        varElim = new VariableElimination();
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
@@ -113,7 +112,6 @@ public class VariableEliminationTest {
 
     @Test
     public void testGetV1V3() {
-        varElim = new VariableElimination();
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
         ArrayList<String> labels2 = new ArrayList<>(Arrays.asList("C", "D", "E"));
         Factor f1 = new Factor(labels1);
@@ -121,6 +119,20 @@ public class VariableEliminationTest {
         ArrayList<String> v1v3 = varElim.getV1V3(f1, f2);
 
         assertEquals(v1v3, new ArrayList<>(List.of("C", "D", "E")));
+    }
+
+    @Test
+    public void testGetProbFromFactor() {
+        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        Factor f1 = new Factor(labels1);
+        HashMap<String, Double> correctMap = addValidProb(f1);
+        HashMap<String, String> labelMapping = new HashMap<>();
+        labelMapping.put("B", "1");
+        labelMapping.put("C", "1");
+        labelMapping.put("A", "0");
+        Double prob = varElim.getProbFromFactor(labelMapping, f1);
+
+        assertEquals(prob, correctMap.get("011"));
     }
 
     @Test
@@ -151,7 +163,6 @@ public class VariableEliminationTest {
 
     @Test
     public void getValue() {
-        varElim = new VariableElimination();
         Factor cpt = new Factor(new ArrayList<>(List.of("A")));
         ArrayList<Factor> factors = new ArrayList<>(List.of(cpt));
         cpt.addProbabilities(0.05, 0.95);
@@ -180,5 +191,33 @@ public class VariableEliminationTest {
         outputOrder[3] = "S";
 
         return outputOrder;
+    }
+
+    /**
+     * Helper method for adding probabilities.
+     * @return list of probabilities associated with table.
+     */
+    private HashMap<String, Double> addValidProb(Factor fac) {
+        Double p1 = 0.9;
+        Double p2 = 0.1;
+        Double p3 = 0.3;
+        Double p4 = 0.7;
+        Double p5 = 0.6;
+        Double p6 = 0.4;
+        Double p7 = 0.2;
+        Double p8 = 0.8;
+
+        HashMap<String, Double> output = new HashMap<>();
+        output.put("000", p1);
+        output.put("001", p2);
+        output.put("010", p3);
+        output.put("011", p4);
+        output.put("100", p5);
+        output.put("101", p6);
+        output.put("110", p7);
+        output.put("111", p8);
+
+        fac.addProbabilities(p1, p2, p3, p4, p5, p6, p7, p8);
+        return output;
     }
 }

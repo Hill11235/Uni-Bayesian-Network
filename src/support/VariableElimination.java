@@ -143,7 +143,6 @@ public class VariableElimination {
      * @param queryFactor Factor that the probability is to be taken from.
      * @return probability of given label's combination of T/F values.
      */
-    //TODO implement and test
     public Double getProbFromFactor(HashMap<String, String> labelMapping, Factor queryFactor) {
         ArrayList<String> labels = queryFactor.getNodeLabels();
         HashMap<String, Double> cpt = queryFactor.getProbabilities();
@@ -165,7 +164,6 @@ public class VariableElimination {
      * @param f2 second Factor.
      * @return list of labels.
      */
-    //TODO implement and test
     public ArrayList<String> getV1V2(Factor f1, Factor f2) {
         ArrayList<String> v1v2 = findCommonLabels(f1, f2);
         ArrayList<String> v2 = findFirstOnlyLabels(f1, f2);
@@ -181,7 +179,6 @@ public class VariableElimination {
      * @param f2 second Factor.
      * @return list of labels.
      */
-    //TODO implement and test
     public ArrayList<String> getV1V3(Factor f1, Factor f2) {
         ArrayList<String> v1v3 = findCommonLabels(f1, f2);
         ArrayList<String> v3 = findSecondOnlyLabels(f1, f2);
