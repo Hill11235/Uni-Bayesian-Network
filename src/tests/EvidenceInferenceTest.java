@@ -30,6 +30,16 @@ public class EvidenceInferenceTest {
     }
 
     @Test
+    public void testIsIntersectionEmpty() {
+        ArrayList<String> list1 = new ArrayList<>(Arrays.asList("A", "B", "C", "D"));
+        ArrayList<String> list2 = new ArrayList<>(Arrays.asList("D", "E", "F", "G"));
+        ArrayList<String> list3 = new ArrayList<>(Arrays.asList("H", "I", "J", "K"));
+
+        assertFalse(infer.isIntersectionEmpty(list1, list2));
+        assertTrue(infer.isIntersectionEmpty(list1, list3));
+    }
+
+    @Test
     public void testGetValue() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K"));
         Factor f1 = new Factor(labels1);

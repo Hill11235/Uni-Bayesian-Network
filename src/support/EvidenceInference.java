@@ -1,15 +1,44 @@
 package support;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EvidenceInference extends SimpleInference {
 
     //TODO override prune method so that it also checks against evidence ancestors.
     @Override
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, ArrayList<String[]> evidence) {
-        //TODO use prune in superclass and add another shell method to override in this class.
-        return null;
+        Node queryNode = bn.getNode(queryVariable);
+        ArrayList<Node> ancestors = queryNode.getAllAncestors();
+        ArrayList<String> labels = bn.getLabelList(ancestors);
+
+        for (String[] pairing : evidence) {
+            Node evidenceNode = bn.getNode(pairing[0]);
+            ArrayList<Node> evidenceAncestors = evidenceNode.getAllAncestors();
+            ArrayList<String> evidenceLabels = bn.getLabelList(evidenceAncestors);
+
+            if (!isIntersectionEmpty(labels, evidenceLabels)) {
+                labels.addAll(evidenceLabels);
+            }
+        }
+        labels.remove(queryVariable);
+
+        List<String> orderList = new ArrayList<>(Arrays.asList(order));
+        orderList.retainAll(labels);
+
+        String[] updatedOrder = new String[orderList.size()];
+        orderList.toArray(updatedOrder);
+
+        return updatedOrder;
+    }
+
+    public boolean isIntersectionEmpty(ArrayList<String> list1, ArrayList<String> list2) {
+        Set<String> result = list1.stream()
+                .distinct()
+                .filter(list2::contains)
+                .collect(Collectors.toSet());
+
+        return result.isEmpty();
     }
 
     //TODO add evidence projection method to this class and superclass.
