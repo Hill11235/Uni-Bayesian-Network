@@ -10,7 +10,7 @@ import java.util.HashSet;
  */
 public class Node {
 
-    private ArrayList<Node> parents;
+    private ArrayList<Node> parents = new ArrayList<>();
     private HashSet<Node> children = new HashSet<>();
     private String label;
     private int CPTrows = 2;
@@ -24,10 +24,10 @@ public class Node {
      */
     public Node(String label, ArrayList<Node> parents) {
         this.label = label;
-        this.parents = parents;
         initiateFactor(parents);
         this.CPTrows = cpt.getNumRows();
         if (parents != null) {
+            this.parents = parents;
             numParents = parents.size();
             for (Node parent : parents) {
                 parent.addChildren(this);

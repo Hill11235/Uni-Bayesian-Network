@@ -50,7 +50,6 @@ public class OrderChoice {
                         connectParents(parents, parentCombo);
                     }
                 }
-
             }
         }
     }

@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -155,6 +156,17 @@ public class NodeTest {
         Node nd = bn.getNode("R");
         ArrayList<Node> ancestors = nd.getAllAncestors();
         assertEquals(ancestors.size(), 0);
+    }
+
+    @Test
+    public void testAddParent() {
+        Node first = new Node("A", null);
+        Node second = new Node("B", new ArrayList<>(List.of(first)));
+
+        assertEquals(first.getParents().size(), 0);
+        first.addParent(second);
+        assertEquals(first.getParents().size(), 1);
+        assertTrue(first.getParents().contains(second));
     }
 
     /**
