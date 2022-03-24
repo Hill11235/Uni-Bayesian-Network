@@ -45,6 +45,7 @@ public class SimpleInference {
      * @param bn network to be queried.
      * @param queryVariable variable being queried.
      * @param order reduction order of variables.
+     * @param evidence evidence provided by user for query.
      * @return updated order.
      */
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, ArrayList<String[]> evidence) {

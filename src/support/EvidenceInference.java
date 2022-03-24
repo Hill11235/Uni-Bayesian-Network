@@ -9,6 +9,15 @@ import java.util.stream.Collectors;
 
 public class EvidenceInference extends SimpleInference {
 
+    /**
+     * Takes order provided by user and removes variables which are not ancestors of the query or evidence variables.
+     * If an evidence variable's ancestors do not overlap with the query variable then these are not included.
+     * @param bn network to be queried.
+     * @param queryVariable variable being queried.
+     * @param order reduction order of variables.
+     * @param evidence evidence provided by user for query.
+     * @return updated order.
+     */
     @Override
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, ArrayList<String[]> evidence) {
         Node queryNode = bn.getNode(queryVariable);
@@ -36,6 +45,12 @@ public class EvidenceInference extends SimpleInference {
         return updatedOrder;
     }
 
+    /**
+     * Takes two ArrayLists of Strings and checks whether the intersection of the two lists is empty.
+     * @param list1 first list to be checked.
+     * @param list2 second list to be checked.
+     * @return true if lists have no elements in common.
+     */
     public boolean isIntersectionEmpty(ArrayList<String> list1, ArrayList<String> list2) {
         Set<String> result = list1.stream()
                 .distinct()
