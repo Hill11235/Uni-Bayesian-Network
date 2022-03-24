@@ -60,13 +60,32 @@ public class EvidenceInference extends SimpleInference {
         return result.isEmpty();
     }
 
-    //TODO add evidence projection method to this class and superclass.
-    //TODO add evidence converter as part of above method?
+    /**
+     * Takes a list of Factors and evidence and updates the Factors based on the evidence.
+     * @param factors arraylist of Factors to be used.
+     * @param evidence certain variables are set to true or false.
+     * @return updated list of Factors with the evidence projected across each Factor.
+     */
     @Override
     public ArrayList<Factor> projectEvidence(ArrayList<Factor> factors, ArrayList<String[]> evidence) {
+
+        for (String[] pair : evidence) {
+            for (Factor factor : factors) {
+                if (factorContainsVariable(factor, pair)) {
+                    setProbability(factor, pair);
+                }
+            }
+        }
+
         return factors;
     }
 
+    /**
+     * Checks if a given Factor contains a variable by comparing the labels.
+     * @param factor Factor to be checked.
+     * @param evidencePair array of a variable label to a true false value.
+     * @return true if Factor contains the provided variable, false otherwise.
+     */
     public boolean factorContainsVariable(Factor factor, String[] evidencePair) {
         String label = evidencePair[0];
         ArrayList<String> factorLabels = factor.getNodeLabels();
@@ -74,6 +93,13 @@ public class EvidenceInference extends SimpleInference {
         return factorLabels.contains(label);
     }
 
+    /**
+     * Given a piece of evidence (variable >> true or false), update a Factor which contains this variable.
+     * If a variable is true, then any rows in the Factor where the variable is false are set to zero.
+     * Vice versa for when variable is false.
+     * @param factor Factor to be updated.
+     * @param evidencePair array of a variable label to a true false value.
+     */
     public void setProbability(Factor factor, String[] evidencePair) {
         String label = evidencePair[0];
         String tf = probConverter(evidencePair[1]);
@@ -90,6 +116,11 @@ public class EvidenceInference extends SimpleInference {
         }
     }
 
+    /**
+     * Converts "T or "F" String to "1" and "0" respectively.
+     * @param tf true or false String.
+     * @return "1" or "0".
+     */
     private String probConverter(String tf) {
         if (tf.equals("T")) {
             return "1";

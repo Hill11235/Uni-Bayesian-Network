@@ -2,7 +2,10 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
-import support.*;
+import support.BayesianNetwork;
+import support.EvidenceInference;
+import support.Factor;
+import support.Network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +58,51 @@ public class EvidenceInferenceTest {
 
         assertFalse(infer.isIntersectionEmpty(list1, list2));
         assertTrue(infer.isIntersectionEmpty(list1, list3));
+    }
+
+    @Test
+    public void testProjectEvidence() {
+        //create list of Factors
+        ArrayList<Factor> factors = getFactors();
+
+        //arraylist of string[] for evidence
+        ArrayList<String[]> evidence = getEvidence4();
+
+        ArrayList<Factor> updatedFactors = infer.projectEvidence(factors, evidence);
+        Factor updatedF1 = updatedFactors.get(0);
+        Factor updatedF2 = updatedFactors.get(1);
+
+        HashMap<String, Double> f1Probs = updatedF1.getProbabilities();
+        HashMap<String, Double> f2Probs = updatedF2.getProbabilities();
+
+        assertEquals(f1Probs.get("000"), 0.0, 0.0001);
+        assertEquals(f1Probs.get("001"), 0.0, 0.0001);
+        assertEquals(f1Probs.get("010"), 1.0, 0.0001);
+        assertEquals(f1Probs.get("011"), 1.0, 0.0001);
+        assertEquals(f1Probs.get("100"), 0.0, 0.0001);
+        assertEquals(f1Probs.get("101"), 0.0, 0.0001);
+        assertEquals(f1Probs.get("110"), 1.0, 0.0001);
+        assertEquals(f1Probs.get("111"), 1.0, 0.0001);
+
+        assertEquals(f2Probs.get("00"), 0.0, 0.0001);
+        assertEquals(f2Probs.get("01"), 0.0, 0.0001);
+        assertEquals(f2Probs.get("10"), 2.0, 0.0001);
+        assertEquals(f2Probs.get("11"), 2.0, 0.0001);
+
+    }
+
+    private ArrayList<Factor> getFactors() {
+        ArrayList<String> labels1 = new ArrayList<>(List.of("K", "P", "Z"));
+        Factor f1 = new Factor(labels1);
+        ArrayList<String> labels2 = new ArrayList<>(List.of("P", "Q"));
+        Factor f2 = new Factor(labels2);
+        f1.addProbabilities(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+        f2.addProbabilities(2.0, 2.0, 2.0, 2.0);
+
+        ArrayList<Factor> factors = new ArrayList<>();
+        factors.add(f1);
+        factors.add(f2);
+        return factors;
     }
 
     @Test
@@ -168,6 +216,13 @@ public class EvidenceInferenceTest {
         ArrayList<String[]> evidence = new ArrayList<>();
         evidence.add(evidenceArray);
 
+        return evidence;
+    }
+
+    private ArrayList<String[]> getEvidence4() {
+        String[] evidenceArray = {"P", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray);
         return evidence;
     }
 
