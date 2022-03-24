@@ -27,6 +27,21 @@ public class OrderChoiceTest {
     }
 
     /**
+     * Checks that order processing is done correctly and returned as expected.
+     */
+    @Test
+    public void testProcessOrder() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
+        ArrayList<Node> nodes = bn.getNodes();
+
+        String[] newOrder = oc.processOrder(nodes, "B");
+        String[] expectedOrder = {"D", "C", "A"};
+
+        assertEquals(newOrder, expectedOrder);
+    }
+
+    /**
      * Test that suitable parent links are in place when we convert a Bayesian Network to an undirected graph.
      */
     @Test

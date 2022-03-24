@@ -1,9 +1,6 @@
 package support;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class OrderChoice {
 
@@ -13,12 +10,65 @@ public class OrderChoice {
     public OrderChoice(BayesianNetwork bn, String queryVariable) {
         this.bn = bn;
         this.queryVariable = queryVariable;
+        createUndirectedGraph();
     }
 
-    //TODO implement and test
+    //TODO test
     public String[] maxCardinalitySearch() {
-        //follow algo as per notes
-        return null;
+        ArrayList<Node> nodes = this.bn.getNodes();
+        String query = this.queryVariable;
+        ArrayList<Node> unmarked = new ArrayList<>(nodes);
+        ArrayList<Node> marked = new ArrayList<>();
+        ArrayList<Node> order = new ArrayList<>();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            Node nd = getMostMarkedNeighboursNode(unmarked, marked);
+
+            order.add(nd);
+            unmarked.remove(nd);
+            marked.add(nd);
+        }
+
+        return processOrder(order, query);
+    }
+
+    //TODO test
+    public Node getMostMarkedNeighboursNode(ArrayList<Node> unmarked, ArrayList<Node> marked) {
+        int maxMarkedNeighbours = -1;
+        Node returnNode = null;
+
+        for (Node node : unmarked) {
+            ArrayList<Node> parents = node.getParents();
+            int markedNeighbours = 0;
+
+            for (Node parent : parents) {
+                if (marked.contains(parent)) {
+                    markedNeighbours++;
+                }
+            }
+
+            if (markedNeighbours > maxMarkedNeighbours) {
+                returnNode = node;
+            }
+
+        }
+
+        return returnNode;
+    }
+
+    /**
+     * Takes a list of Nodes in a determined order, reverses it, removes the query variable and then converts the list to a String array of labels.
+     * @param order list of Nodes in calculated order.
+     * @param queryVariable variable being queried in network.
+     * @return processed order in String array.
+     */
+    public String[] processOrder(ArrayList<Node> order, String queryVariable) {
+        Collections.reverse(order);
+        order.remove(bn.getNode(queryVariable));
+        ArrayList<String> labels = bn.getLabelList(order);
+        String[] orderArray = new String[labels.size()];
+        orderArray = labels.toArray(orderArray);
+        return orderArray;
     }
 
     //TODO implement and test
@@ -32,7 +82,7 @@ public class OrderChoice {
      * This way we can in effect create an undirected graph with an existing BayesianNetwork.
      */
     public void createUndirectedGraph() {
-        ArrayList<Node> nodes = bn.getNodes();
+        ArrayList<Node> nodes = this.bn.getNodes();
 
         addParentForEachChild(nodes);
         addLinksBetweenParents(nodes);
