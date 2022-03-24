@@ -1,10 +1,6 @@
 package support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +22,7 @@ public class EvidenceInference extends SimpleInference {
         Node queryNode = bn.getNode(queryVariable);
         ArrayList<Node> ancestors = queryNode.getAllAncestors();
         ArrayList<String> labels = bn.getLabelList(ancestors);
+        labels.add(queryVariable);
 
         for (String[] pairing : evidence) {
             Node evidenceNode = bn.getNode(pairing[0]);
@@ -37,14 +34,13 @@ public class EvidenceInference extends SimpleInference {
                 labels.add(evidenceNode.getLabel());
             }
         }
-        labels.remove(queryVariable);
+        labels.removeAll(Collections.singleton(queryVariable));
 
         List<String> orderList = new ArrayList<>(Arrays.asList(order));
         orderList.retainAll(labels);
 
         String[] updatedOrder = new String[orderList.size()];
         orderList.toArray(updatedOrder);
-
         return updatedOrder;
     }
 

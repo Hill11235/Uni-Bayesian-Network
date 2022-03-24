@@ -120,4 +120,17 @@ public class P2Tests {
         double answer = infer.eliminate(BNC, queryVariable, value, order, null);
         assertEquals(answer, 1 - 0.49660, 0.000001);
     }
+
+    /**
+     * Test getting probability from parentless Node.
+     */
+    @Test
+    public void BNCTest4() {
+        String queryVariable = "P";
+        String value = "T";
+        String[] order = {"P", "U", "R", "Z", "Q", "V"};
+
+        double answer = infer.eliminate(BNC, queryVariable, value, order, null);
+        assertEquals(answer, 0.05, 0.000001);
+    }
 }

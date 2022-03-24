@@ -70,8 +70,11 @@ public class SimpleInference {
      */
     public ArrayList<Factor> createFactors(BayesianNetwork bn, String queryVariable, String[] order) {
         ArrayList<Factor> factors = new ArrayList<>();
-        Node queryNode = bn.getNode(queryVariable);
-        factors.add(queryNode.getCpt());
+
+        if (!Arrays.asList(order).contains(queryVariable)) {
+            Node queryNode = bn.getNode(queryVariable);
+            factors.add(queryNode.getCpt());
+        }
 
         for (String label : order) {
             Node nd = bn.getNode(label);
