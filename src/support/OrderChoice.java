@@ -54,7 +54,12 @@ public class OrderChoice {
         }
     }
 
-    //TODO test
+    /**
+     * Checks whether two Nodes are parents of each other.
+     * @param parents the list of parents for a given Node.
+     * @param parentCombo the two parent combination to be extracted.
+     * @return true if Nodes are interlinked.
+     */
     public boolean areParentsConnected(ArrayList<Node> parents, Set<Integer> parentCombo) {
         ArrayList<Node> combo = getParentComboFromSet(parents, parentCombo);
         Node parent1 = combo.get(0);
