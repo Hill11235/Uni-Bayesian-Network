@@ -61,6 +61,8 @@ public class A3main {
 				String value=query[1];
 				String order=  "A,B";
 				ArrayList<String[]> evidence=getEvidence(sc);
+				//TODO add fresh network call so it's directed.
+
 				// execute query of p(variable=value|evidence) with given order of elimination
 				//print the order 
 				System.out.println(order);

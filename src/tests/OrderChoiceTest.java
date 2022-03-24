@@ -19,6 +19,31 @@ public class OrderChoiceTest {
     public void setUp() {
     }
 
+    @Test
+    public void testCreateUndirectedGraph() {
+
+    }
+
+    @Test
+    public void addLinksBetweenParents() {
+
+    }
+
+    @Test
+    public void testAreParentsConnected(){
+
+    }
+
+    @Test
+    public void testConnectParents() {
+
+    }
+
+    @Test
+    public void getParentComboFromSet() {
+
+    }
+
     /**
      * Tests that the parents for each Node are correct after adding further parents.
      */
