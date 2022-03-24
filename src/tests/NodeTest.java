@@ -158,6 +158,9 @@ public class NodeTest {
         assertEquals(ancestors.size(), 0);
     }
 
+    /**
+     * Tests that adding a single parent works as intended.
+     */
     @Test
     public void testAddParent() {
         Node first = new Node("A", null);

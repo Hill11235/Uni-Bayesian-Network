@@ -107,7 +107,6 @@ public class Node {
 
         String condProb = createConditional(conditions);
         System.out.println("|" + "\t" + condProb);
-
     }
 
     /**
@@ -177,7 +176,11 @@ public class Node {
         return ancestors;
     }
 
-    //TODO test
+    /**
+     * Add additional parent to this Node.
+     * Used for creating undirected graph.
+     * @param parent Node to be added as a parent.
+     */
     public void addParent(Node parent) {
         this.parents.add(parent);
     }
