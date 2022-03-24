@@ -39,9 +39,25 @@ public class OrderChoiceTest {
 
     }
 
+    /**
+     * Tests that Nodes are correctly converted from a set to ArrayList based on combination provided.
+     */
     @Test
-    public void getParentComboFromSet() {
+    public void testGetParentComboFromSet() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
 
+        Node first = new Node("A", null);
+        Node second = new Node("B", new ArrayList<>(List.of(first)));
+        ArrayList<Node> nodes = new ArrayList<>(Arrays.asList(first, second));
+
+        Set<Integer> set = new HashSet<>();
+        set.add(1);
+        set.add(0);
+
+        ArrayList<Node> combo = oc.getParentComboFromSet(nodes, set);
+        assertEquals(combo.get(0), first);
+        assertEquals(combo.get(1), second);
     }
 
     /**
