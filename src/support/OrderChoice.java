@@ -35,7 +35,10 @@ public class OrderChoice {
         addLinksBetweenParents(nodes);
     }
 
-    //TODO test
+    /**
+     * Loops through a list of Nodes and links the parents of each Node which are not already linked.
+     * @param nodes list of Nodes to loop through.
+     */
     public void addLinksBetweenParents(ArrayList<Node> nodes) {
         for (Node node : nodes) {
             ArrayList<Node> parents = node.getParents();

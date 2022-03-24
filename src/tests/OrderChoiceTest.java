@@ -24,9 +24,25 @@ public class OrderChoiceTest {
 
     }
 
+    /**
+     * Checks that for Nodes with multiple, unconnected parents, when addLinksBetweenParents is run, parents are then linked.
+     */
     @Test
     public void addLinksBetweenParents() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
 
+        Node first = new Node("A", null);
+        Node second = new Node("B", null);
+        Node third = new Node("C", new ArrayList<>(List.of(first, second)));
+        ArrayList<Node> nodes = new ArrayList<>(Arrays.asList(first, second, third));
+
+        oc.addLinksBetweenParents(nodes);
+        ArrayList<Node> firstParents = first.getParents();
+        ArrayList<Node> secondParents = second.getParents();
+
+        assertTrue(firstParents.contains(second));
+        assertTrue(secondParents.contains(first));
     }
 
     /**
