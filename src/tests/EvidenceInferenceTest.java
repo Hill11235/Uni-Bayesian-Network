@@ -58,6 +58,56 @@ public class EvidenceInferenceTest {
     }
 
     @Test
+    public void testFactorContainsVariable() {
+        ArrayList<String> labels1 = new ArrayList<>(List.of("K", "Z"));
+        Factor f1 = new Factor(labels1);
+        ArrayList<String> labels2 = new ArrayList<>(List.of("P", "Q"));
+        Factor f2 = new Factor(labels2);
+
+        ArrayList<String[]> evidenceList = getEvidence1();
+        String[] evidence = evidenceList.get(0);
+
+        assertTrue(infer.factorContainsVariable(f1, evidence));
+        assertFalse(infer.factorContainsVariable(f2, evidence));
+    }
+
+    @Test
+    public void testSetProbability1() {
+        ArrayList<String> labels1 = new ArrayList<>(List.of("K", "Z"));
+        Factor f1 = new Factor(labels1);
+        f1.addProbabilities(0.05, 0.95, 0.4, 0.6);
+
+        ArrayList<String[]> evidenceList = getEvidence1();
+        String[] evidence = evidenceList.get(0);
+        infer.setProbability(f1, evidence);
+
+        HashMap<String, Double> cpt = f1.getProbabilities();
+
+        assertEquals(cpt.get("00"), 0.0, 0.0001);
+        assertEquals(cpt.get("01"), 0.95, 0.0001);
+        assertEquals(cpt.get("10"), 0.0, 0.0001);
+        assertEquals(cpt.get("11"), 0.6, 0.0001);
+    }
+
+    @Test
+    public void testSetProbability2() {
+        ArrayList<String> labels1 = new ArrayList<>(List.of("K", "Z"));
+        Factor f1 = new Factor(labels1);
+        f1.addProbabilities(0.05, 0.95, 0.4, 0.6);
+
+        ArrayList<String[]> evidenceList = getEvidence3();
+        String[] evidence = evidenceList.get(0);
+        infer.setProbability(f1, evidence);
+
+        HashMap<String, Double> cpt = f1.getProbabilities();
+
+        assertEquals(cpt.get("00"), 0.05, 0.0001);
+        assertEquals(cpt.get("01"), 0.0, 0.0001);
+        assertEquals(cpt.get("10"), 0.4, 0.0001);
+        assertEquals(cpt.get("11"), 0.0, 0.0001);
+    }
+
+    @Test
     public void testGetValue() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K"));
         Factor f1 = new Factor(labels1);
@@ -107,6 +157,14 @@ public class EvidenceInferenceTest {
 
     private ArrayList<String[]> getEvidence2() {
         String[] evidenceArray = {"R", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray);
+
+        return evidence;
+    }
+
+    private ArrayList<String[]> getEvidence3() {
+        String[] evidenceArray = {"Z", "F"};
         ArrayList<String[]> evidence = new ArrayList<>();
         evidence.add(evidenceArray);
 

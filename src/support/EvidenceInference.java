@@ -67,6 +67,36 @@ public class EvidenceInference extends SimpleInference {
         return factors;
     }
 
+    public boolean factorContainsVariable(Factor factor, String[] evidencePair) {
+        String label = evidencePair[0];
+        ArrayList<String> factorLabels = factor.getNodeLabels();
+
+        return factorLabels.contains(label);
+    }
+
+    public void setProbability(Factor factor, String[] evidencePair) {
+        String label = evidencePair[0];
+        String tf = probConverter(evidencePair[1]);
+
+        ArrayList<String> factorLabels = factor.getNodeLabels();
+        int position = factorLabels.indexOf(label);
+        HashMap<String, Double> cpt = factor.getProbabilities();
+
+        for (String key : cpt.keySet()) {
+            char relevantBoolean = key.charAt(position);
+            if (!tf.equals(Character.toString(relevantBoolean))) {
+                cpt.replace(key, 0.0);
+            }
+        }
+    }
+
+    private String probConverter(String tf) {
+        if (tf.equals("T")) {
+            return "1";
+        }
+        return "0";
+    }
+
     /**
      * Gets requested probability.
      * Overrides method in superclass as in this case there could be multiple Factors in the list.
