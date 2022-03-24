@@ -142,6 +142,8 @@ public class EvidenceInference extends SimpleInference {
     public double getValue(ArrayList<Factor> factors, String value) {
 
         if (factors.size() == 1) {
+            Factor finalFactor = factors.get(0);
+            normalise(finalFactor);
             return super.getValue(factors, value);
         }
 
