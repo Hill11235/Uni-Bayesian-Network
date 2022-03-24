@@ -176,4 +176,9 @@ public class Node {
 
         return ancestors;
     }
+
+    //TODO test
+    public void addParent(Node parent) {
+        this.parents.add(parent);
+    }
 }

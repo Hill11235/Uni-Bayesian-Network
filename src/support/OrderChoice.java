@@ -28,11 +28,74 @@ public class OrderChoice {
     }
 
     //TODO implement and test
-    public void createUndirectedGraph(BayesianNetwork bn) {
-        //get list of Nodes in BN
-        //loop through and add reciprocating parent for each child.
-        //loop through and for each Node with more than one parent, get each possible combo of parents
-        //check each combo has a link, if no link, add one (parent and child).
+    public void createUndirectedGraph() {
+        ArrayList<Node> nodes = bn.getNodes();
+
+        addParentForEachChild(nodes);
+        addLinksBetweenParents(nodes);
+    }
+
+    //TODO test
+    public void addLinksBetweenParents(ArrayList<Node> nodes) {
+        for (Node node : nodes) {
+            ArrayList<Node> parents = node.getParents();
+
+            if (parents.size() > 1) {
+                ArrayList<Integer> elementList = getIntegerList(parents.size());
+                List<Set<Integer>> combos = getKCombinations(elementList, 2);
+
+                for (Set<Integer> parentCombo : combos) {
+
+                    if (!areParentsConnected(parents, parentCombo)) {
+                        connectParents(parents, parentCombo);
+                    }
+                }
+
+            }
+        }
+    }
+
+    //TODO test
+    public boolean areParentsConnected(ArrayList<Node> parents, Set<Integer> parentCombo) {
+        ArrayList<Node> combo = getParentComboFromSet(parents, parentCombo);
+        Node parent1 = combo.get(0);
+        Node parent2 = combo.get(1);
+
+        ArrayList<Node> parent1Parents = parent1.getParents();
+        ArrayList<Node> parent2Parents = parent2.getParents();
+
+        return (parent1Parents.contains(parent2)) && (parent2Parents.contains(parent1));
+    }
+
+    //TODO test
+    public void connectParents(ArrayList<Node> parents, Set<Integer> parentCombo) {
+        ArrayList<Node> combo = getParentComboFromSet(parents, parentCombo);
+        Node parent1 = combo.get(0);
+        Node parent2 = combo.get(1);
+
+        parent1.addParent(parent2);
+        parent2.addParent(parent1);
+    }
+
+    //TODO test
+    public ArrayList<Node> getParentComboFromSet(ArrayList<Node> parents, Set<Integer> parentCombo) {
+        ArrayList<Node> combo = new ArrayList<>();
+
+        for (Integer position : parentCombo) {
+            combo.add(parents.get(position));
+        }
+
+        return combo;
+    }
+
+    //TODO test
+    public void addParentForEachChild(ArrayList<Node> nodes) {
+        for (Node node : nodes) {
+            ArrayList<Node> parents = node.getParents();
+            for (Node parent : parents) {
+                parent.addParent(node);
+            }
+        }
     }
 
     /**
