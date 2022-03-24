@@ -7,22 +7,33 @@ import java.util.Set;
 
 public class OrderChoice {
 
-    private BayesianNetwork network;
+    private BayesianNetwork bn;
     private String queryVariable;
 
-    public OrderChoice(BayesianNetwork network, String queryVariable) {
-        this.network = network;
+    public OrderChoice(BayesianNetwork bn, String queryVariable) {
+        this.bn = bn;
         this.queryVariable = queryVariable;
     }
 
+    //TODO implement and test
+    public String[] maxCardinalitySearch() {
+        //follow algo as per notes
+        return null;
+    }
 
+    //TODO implement and test
+    public String[] greedySearch() {
+        //follow algo as per notes
+        return null;
+    }
 
-    //create undirected graph
-
-
-
-    //Max cardinality search
-    //Greedy search
+    //TODO implement and test
+    public void createUndirectedGraph(BayesianNetwork bn) {
+        //get list of Nodes in BN
+        //loop through and add reciprocating parent for each child.
+        //loop through and for each Node with more than one parent, get each possible combo of parents
+        //check each combo has a link, if no link, add one (parent and child).
+    }
 
     /**
      * TAKEN FROM MY PREVIOUS CS5011 ASSIGNMENT.
