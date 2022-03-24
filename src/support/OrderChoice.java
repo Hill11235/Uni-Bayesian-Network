@@ -66,7 +66,11 @@ public class OrderChoice {
         return (parent1Parents.contains(parent2)) && (parent2Parents.contains(parent1));
     }
 
-    //TODO test
+    /**
+     * Takes a combination of Nodes and makes them parents of one another.
+     * @param parents the list of parents for a given Node.
+     * @param parentCombo the two parent combination to be extracted.
+     */
     public void connectParents(ArrayList<Node> parents, Set<Integer> parentCombo) {
         ArrayList<Node> combo = getParentComboFromSet(parents, parentCombo);
         Node parent1 = combo.get(0);
@@ -76,7 +80,12 @@ public class OrderChoice {
         parent2.addParent(parent1);
     }
 
-    //TODO test
+    /**
+     * Given the list the of Nodes and a combination in a set. Get the combination from the list and store in a new list.
+     * @param parents the list of parents for a given Node.
+     * @param parentCombo the two parent combination to be extracted.
+     * @return the pair of parent Nodes in a list.
+     */
     public ArrayList<Node> getParentComboFromSet(ArrayList<Node> parents, Set<Integer> parentCombo) {
         ArrayList<Node> combo = new ArrayList<>();
 

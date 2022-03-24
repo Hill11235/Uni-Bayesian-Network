@@ -34,9 +34,28 @@ public class OrderChoiceTest {
 
     }
 
+    /**
+     * Connects two Nodes and then checks that they are parents of each other.
+     */
     @Test
     public void testConnectParents() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
 
+        Node first = new Node("A", null);
+        Node second = new Node("B", new ArrayList<>(List.of(first)));
+        ArrayList<Node> nodes = new ArrayList<>(Arrays.asList(first, second));
+
+        Set<Integer> set = new HashSet<>();
+        set.add(1);
+        set.add(0);
+        oc.connectParents(nodes, set);
+
+        ArrayList<Node> firstParents = first.getParents();
+        ArrayList<Node> secondParents = second.getParents();
+
+        assertTrue(firstParents.contains(second));
+        assertTrue(secondParents.contains(first));
     }
 
     /**
