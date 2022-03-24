@@ -162,7 +162,9 @@ public class Node {
         ArrayList<Node> frontier = new ArrayList<>();
         ArrayList<Node> ancestors = new ArrayList<>();
 
-        frontier.addAll(parents);
+        if (parents != null) {
+            frontier.addAll(parents);
+        }
 
         while (frontier.size() > 0) {
             Node nd = frontier.remove(0);

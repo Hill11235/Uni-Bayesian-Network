@@ -30,6 +30,24 @@ public class EvidenceInferenceTest {
     }
 
     @Test
+    public void testPrune1() {
+        BayesianNetwork bn = network.BNC;
+        String[] initialOrder = getInitialOrder();
+        String[] pruneOutput = infer.prune(bn, "U", initialOrder, getEvidence1());
+
+        assertEquals(pruneOutput, getOutputOrder1());
+    }
+
+    @Test
+    public void testPrune2() {
+        BayesianNetwork bn = network.BNC;
+        String[] initialOrder = getInitialOrder();
+        String[] pruneOutput = infer.prune(bn, "Q", initialOrder, getEvidence2());
+
+        assertEquals(pruneOutput, getOutputOrder2());
+    }
+
+    @Test
     public void testIsIntersectionEmpty() {
         ArrayList<String> list1 = new ArrayList<>(Arrays.asList("A", "B", "C", "D"));
         ArrayList<String> list2 = new ArrayList<>(Arrays.asList("D", "E", "F", "G"));
@@ -77,5 +95,53 @@ public class EvidenceInferenceTest {
         HashMap<String, Double> cpt = f1.getProbabilities();
 
         assertEquals(infer.getSumOfProbabilities(cpt), 0.42755, 0.000001);
+    }
+
+    private ArrayList<String[]> getEvidence1() {
+        String[] evidenceArray = {"Z", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray);
+
+        return evidence;
+    }
+
+    private ArrayList<String[]> getEvidence2() {
+        String[] evidenceArray = {"R", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray);
+
+        return evidence;
+    }
+
+    private String[] getInitialOrder() {
+        String[] initialOrder = new String[7];
+        initialOrder[0] = "P";
+        initialOrder[1] = "Q";
+        initialOrder[2] = "R";
+        initialOrder[3] = "S";
+        initialOrder[4] = "U";
+        initialOrder[5] = "V";
+        initialOrder[6] = "Z";
+
+        return initialOrder;
+    }
+
+    private String[] getOutputOrder1() {
+        String[] outputOrder = new String[6];
+        outputOrder[0] = "P";
+        outputOrder[1] = "Q";
+        outputOrder[2] = "R";
+        outputOrder[3] = "S";
+        outputOrder[4] = "V";
+        outputOrder[5] = "Z";
+
+        return outputOrder;
+    }
+
+    private String[] getOutputOrder2() {
+        String[] outputOrder = new String[1];
+        outputOrder[0] = "P";
+
+        return outputOrder;
     }
 }

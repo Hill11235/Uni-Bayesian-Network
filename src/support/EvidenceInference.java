@@ -1,11 +1,14 @@
 package support;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EvidenceInference extends SimpleInference {
 
-    //TODO override prune method so that it also checks against evidence ancestors.
     @Override
     public String[] prune(BayesianNetwork bn, String queryVariable, String[] order, ArrayList<String[]> evidence) {
         Node queryNode = bn.getNode(queryVariable);
@@ -19,6 +22,7 @@ public class EvidenceInference extends SimpleInference {
 
             if (!isIntersectionEmpty(labels, evidenceLabels)) {
                 labels.addAll(evidenceLabels);
+                labels.add(evidenceNode.getLabel());
             }
         }
         labels.remove(queryVariable);

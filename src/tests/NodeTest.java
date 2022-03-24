@@ -137,12 +137,24 @@ public class NodeTest {
      * Check that the list of ancestor Nodes is correctly calculated and returned.
      */
     @Test
-    public void testGetAncestors() {
+    public void testGetAncestors1() {
         Network network = new Network();
         BayesianNetwork bn = network.BNC;
         Node nd = bn.getNode("U");
         ArrayList<Node> ancestors = nd.getAllAncestors();
         assertEquals(ancestors.size(), 4);
+    }
+
+    /**
+     * Check that the list of ancestor Nodes is correctly calculated and returned for a Node with no parents.
+     */
+    @Test
+    public void testGetAncestors2() {
+        Network network = new Network();
+        BayesianNetwork bn = network.BNC;
+        Node nd = bn.getNode("R");
+        ArrayList<Node> ancestors = nd.getAllAncestors();
+        assertEquals(ancestors.size(), 0);
     }
 
     /**
