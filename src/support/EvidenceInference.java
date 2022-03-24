@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Extends SimpleInference, this class considers evidence provided by the user also.
+ */
 public class EvidenceInference extends SimpleInference {
 
     /**
