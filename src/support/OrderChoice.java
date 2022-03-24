@@ -87,7 +87,11 @@ public class OrderChoice {
         return combo;
     }
 
-    //TODO test
+    /**
+     * Given a list of Nodes, for each Node it adds each child Node as a parent to its parent Node.
+     * So for A --> B, we would then have A <--> B.
+     * @param nodes list of Nodes to loop through.
+     */
     public void addParentForEachChild(ArrayList<Node> nodes) {
         for (Node node : nodes) {
             ArrayList<Node> parents = node.getParents();

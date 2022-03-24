@@ -19,7 +19,24 @@ public class OrderChoiceTest {
     public void setUp() {
     }
 
+    /**
+     * Tests that the parents for each Node are correct after adding further parents.
+     */
+    @Test
+    public void testAddParentForEachChild() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
 
+        Node first = new Node("A", null);
+        Node second = new Node("B", new ArrayList<>(List.of(first)));
+        Node third = new Node("C",new ArrayList<>(List.of(first, second)));
+
+        assertEquals(first.getParents().size(), 0);
+        oc.addParentForEachChild(new ArrayList<>(List.of(first, second, third)));
+        assertEquals(first.getParents().size(), 2);
+        assertTrue(first.getParents().contains(second));
+        assertTrue(first.getParents().contains(third));
+    }
 
     /**
      * Simple test to check that a list of the first n integers is generated.
