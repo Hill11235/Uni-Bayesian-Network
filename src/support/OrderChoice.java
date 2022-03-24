@@ -27,7 +27,10 @@ public class OrderChoice {
         return null;
     }
 
-    //TODO implement and test
+    /**
+     * Takes the BayesianNetwork field and adds parents between all already linked Nodes and links unlinked co-parents.
+     * This way we can in effect create an undirected graph with an existing BayesianNetwork.
+     */
     public void createUndirectedGraph() {
         ArrayList<Node> nodes = bn.getNodes();
 

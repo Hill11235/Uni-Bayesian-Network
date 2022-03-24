@@ -2,9 +2,16 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
-import support.*;
+import support.BayesianNetwork;
+import support.Network;
+import support.Node;
+import support.OrderChoice;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,9 +26,32 @@ public class OrderChoiceTest {
     public void setUp() {
     }
 
+    /**
+     * Test that suitable parent links are in place when we convert a Bayesian Network to an undirected graph.
+     */
     @Test
     public void testCreateUndirectedGraph() {
+        BayesianNetwork bn = network.BNC;
+        oc = new OrderChoice(bn, "P");
 
+        oc.createUndirectedGraph();
+        Node R = bn.getNode("R");
+        Node Q = bn.getNode("Q");
+        Node V = bn.getNode("V");
+        Node S = bn.getNode("S");
+        Node U = bn.getNode("U");
+
+        ArrayList<Node> parentsR = R.getParents();
+        ArrayList<Node> parentsQ = Q.getParents();
+        ArrayList<Node> parentsV = V.getParents();
+        ArrayList<Node> parentsS = S.getParents();
+        ArrayList<Node> parentsU = U.getParents();
+
+        assertTrue(parentsR.contains(Q));
+        assertTrue(parentsQ.contains(R));
+        assertTrue(parentsV.contains(S));
+        assertTrue(parentsS.contains(V));
+        assertTrue(parentsU.contains(S));
     }
 
     /**
