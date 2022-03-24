@@ -9,7 +9,7 @@ import support.SimpleInference;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Used to test full inference as per stacscheck.
+ * Used to test full inference as per stacscheck and with some additional tests.
  */
 public class P2Tests {
 
