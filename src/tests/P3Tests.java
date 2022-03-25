@@ -241,6 +241,22 @@ public class P3Tests {
     }
 
     /**
+     * Additional test for BNB from lectures.
+     */
+    @Test
+    public void BNBTest6() {
+        String queryVariable = "L";
+        String value = "T";
+        String[] order = {"K", "M", "J", "N", "O"};
+        String[] evidenceArray1 = {"K", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray1);
+
+        double answer = infer.eliminate(BNB, queryVariable, value, order, evidence);
+        assertEquals(answer, 0.7, 0.0001);
+    }
+
+    /**
      * Stacscheck test for BNC.
      */
     @Test
