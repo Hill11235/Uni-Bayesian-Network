@@ -1,20 +1,36 @@
 package support;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+/**
+ * Searches a provided network to find estimations of the optimal joining order.
+ */
 public class OrderChoice {
 
-    private BayesianNetwork bn;
-    private String queryVariable;
+    private final BayesianNetwork bn;
+    private final String queryVariable;
 
+    /**
+     * Constructor for class. Sets the Bayesian network and query variable for searches.
+     * Also creates an undirected graph using the provided network.
+     * @param bn BayesianNetwork to use.
+     * @param queryVariable variable being queried in the Network.
+     */
     public OrderChoice(BayesianNetwork bn, String queryVariable) {
         this.bn = bn;
         this.queryVariable = queryVariable;
         createUndirectedGraph();
     }
 
-    //TODO test
+    /**
+     * Searches the BayesianNetwork field and determines an order based on the algorithm pattern.
+     * @param algo either max cardinality search ("MAX") or greedy ("GREEDY")
+     * @return calculated order in String format.
+     */
     public String[] search(String algo) {
         ArrayList<Node> nodes = this.bn.getNodes();
         String query = this.queryVariable;
@@ -41,7 +57,6 @@ public class OrderChoice {
             } else {
                 nd = getMinNeighboursNode(unmarked);
             }
-            //System.out.println("\nChosen Node:" + nd.getLabel() + "\n");
 
             order.add(nd);
             unmarked.remove(nd);
@@ -67,8 +82,6 @@ public class OrderChoice {
 
         for (Node node : unmarked) {
             ArrayList<Node> parents = node.getParents();
-            //System.out.println("Node: " + node.getLabel());
-            //System.out.println("Parents: " + bn.getLabelList(node.getParents()));
             int markedNeighbours = 0;
 
             for (Node parent : parents) {
@@ -76,7 +89,6 @@ public class OrderChoice {
                     markedNeighbours++;
                 }
             }
-            //System.out.println("marked parents: " + markedNeighbours);
 
             if (markedNeighbours > maxMarkedNeighbours) {
                 returnNode = node;
@@ -97,9 +109,6 @@ public class OrderChoice {
         Node returnNode = null;
 
         for (Node node : unmarked) {
-            //System.out.println("Node: " + node.getLabel());
-            //System.out.println("Neighbours: " + bn.getLabelList(node.getParents()));
-            //System.out.println();
             ArrayList<Node> parents = node.getParents();
             int numNeighbours = parents.size();
 
@@ -140,22 +149,15 @@ public class OrderChoice {
         addLinksBetweenParents(nodes);
         addParentForEachChild(nodes);
         dedupeParentLists(nodes);
-        //for (Node node : nodes) {
-        //    System.out.println("Node: " + node.getLabel());
-        //    System.out.println("Neighbours: " + bn.getLabelList(node.getParents()));
-        //}
     }
 
     /**
      * Loops through a list of Nodes and links the parents of each Node which are not already linked.
      * @param nodes list of Nodes to loop through.
      */
-    //TODO fix bug in here. Currently linking every Node in the graph
     public void addLinksBetweenParents(ArrayList<Node> nodes) {
         for (Node node : nodes) {
-            //System.out.println("Node: " + node.getLabel());
             ArrayList<Node> parents = node.getParents();
-            //System.out.println("parents: " + bn.getLabelList(node.getParents()));
 
             if (parents.size() > 1) {
                 ArrayList<Integer> elementList = getIntegerList(parents.size());
@@ -171,7 +173,10 @@ public class OrderChoice {
         }
     }
 
-    //TODO test
+    /**
+     * Takes an arraylist of Nodes and for each Node, removes any duplicated parents leaving only unique Nodes.
+     * @param nodes Nodes to iterate across.
+     */
     public void dedupeParentLists(ArrayList<Node> nodes) {
         for (Node node : nodes) {
             ArrayList<Node> parents = node.getParents();

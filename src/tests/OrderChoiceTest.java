@@ -16,21 +16,33 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests search algorithms and underlying helper methods in OrderChoice class.
+ */
 public class OrderChoiceTest {
 
     private OrderChoice oc;
-    private Network network = new Network();
+    private final Network network = new Network();
 
+    /**
+     * Tests correct path is found by max cardinality search for CNX.
+     */
     @Test
     public void searchMaxCNX() {
         //TODO implement
     }
 
+    /**
+     * Tests correct path is found by greedy search for CNX.
+     */
     @Test
     public void searchGreedyCNX() {
         //TODO implement
     }
 
+    /**
+     * Tests correct path is found by max cardinality search for BNA.
+     */
     @Test
     public void searchMaxBNA() {
         BayesianNetwork bn = network.BNA;
@@ -41,6 +53,9 @@ public class OrderChoiceTest {
         assertEquals(order, expectedOrder);
     }
 
+    /**
+     * Tests correct path is found by greedy search for BNA.
+     */
     @Test
     public void searchGreedyBNA() {
         BayesianNetwork bn = network.BNA;
@@ -51,6 +66,9 @@ public class OrderChoiceTest {
         assertEquals(order, expectedOrder);
     }
 
+    /**
+     * Tests correct path is found by max cardinality search for BNB.
+     */
     @Test
     public void searchMaxBNB() {
         BayesianNetwork bn = network.BNB;
@@ -61,6 +79,9 @@ public class OrderChoiceTest {
         assertEquals(order, expectedOrder);
     }
 
+    /**
+     * Tests correct path is found by greedy search for BNB.
+     */
     @Test
     public void searchGreedyBNB() {
         BayesianNetwork bn = network.BNB;
@@ -71,6 +92,9 @@ public class OrderChoiceTest {
         assertEquals(order, expectedOrder);
     }
 
+    /**
+     * Tests correct path is found by max cardinality search for BNC.
+     */
     @Test
     public void searchMaxBNC() {
         BayesianNetwork bn = network.BNC;
@@ -81,6 +105,9 @@ public class OrderChoiceTest {
         assertEquals(order, expectedOrder);
     }
 
+    /**
+     * Tests correct path is found by greedy search for BNC.
+     */
     @Test
     public void searchGreedyBNC() {
         BayesianNetwork bn = network.BNC;
@@ -88,8 +115,23 @@ public class OrderChoiceTest {
         String[] order = oc.search("GREEDY");
         String[] expectedOrder = {"P", "U", "Z", "R", "Q", "V"};
 
-
         assertEquals(order, expectedOrder);
+    }
+
+    /**
+     * Tests that duplicated parent Nodes are reduced to unique Nodes only.
+     */
+    @Test
+    public void testDeDupeParentList() {
+        BayesianNetwork bn = network.BNC;
+        oc = new OrderChoice(bn, "S");
+        Node B = new Node("B", null);
+        Node A = new Node("A", new ArrayList<>(Arrays.asList(B, B, B)));
+        ArrayList<Node> dupedParents = new ArrayList<>(List.of(A));
+        ArrayList<Node> unique = new ArrayList<>(List.of(B));
+
+        oc.dedupeParentLists(dupedParents);
+        assertEquals(A.getParents(), unique);
     }
 
     /**
@@ -154,7 +196,6 @@ public class OrderChoiceTest {
         BayesianNetwork bn = network.BNC;
         oc = new OrderChoice(bn, "P");
 
-        //oc.createUndirectedGraph();
         Node R = bn.getNode("R");
         Node Q = bn.getNode("Q");
         Node V = bn.getNode("V");

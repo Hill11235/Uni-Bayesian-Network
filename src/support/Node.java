@@ -133,7 +133,6 @@ public class Node {
      * Set parent Nodes with ArrayList, used for the creation of undirected graphs.
      * @param parents arraylist of parents to be set.
      */
-    //TODO test
     public void setParents(ArrayList<Node> parents) {
         this.parents = parents;
     }

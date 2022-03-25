@@ -112,6 +112,18 @@ public class NodeTest {
     }
 
     /**
+     * Tests that the correct parents Nodes are set.
+     */
+    @Test
+    public void testSetParents() {
+        Node nd1 = new Node("A", null);
+        Node nd2 = new Node("B", null);
+        ArrayList<Node> nodes = new ArrayList<>(Arrays.asList(nd1, nd2));
+        childNode.setParents(nodes);
+        assertEquals(childNode.getParents(), nodes);
+    }
+
+    /**
      * Test that the addChildren method works and that children are added via the Node constructor as well.
      */
     @Test
