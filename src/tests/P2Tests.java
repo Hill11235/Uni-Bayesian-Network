@@ -15,9 +15,11 @@ public class P2Tests {
 
     Network network = new Network();
     SimpleInference infer;
+    BayesianNetwork CNX;
     BayesianNetwork BNA;
     BayesianNetwork BNB;
     BayesianNetwork BNC;
+    BayesianNetwork BND;
 
     /**
      * Set up SimpleInference object and networks before each test.
@@ -28,9 +30,37 @@ public class P2Tests {
         BNA = network.BNA;
         BNB = network.BNB;
         BNC = network.BNC;
+        BND = network.BND;
+        CNX = network.CNX;
     }
 
     //TODO add a couple of tests for CNX
+
+    /**
+     * Test a simple query on the introduced network BND. P(Late).
+     */
+    @Test
+    public void BNDTest1() {
+        String queryVariable = "L";
+        String value = "T";
+        String[] order = {"W", "S", "E", "D", "R", "B", "L"};
+
+        double answer = infer.eliminate(BND, queryVariable, value, order, null);
+        assertEquals(answer, 0.1908, 0.0001);
+    }
+
+    /**
+     * Test a simple query on the introduced network BND. P(Engineering works).
+     */
+    @Test
+    public void BNDTest2() {
+        String queryVariable = "E";
+        String value = "T";
+        String[] order = {"W", "S", "E", "D", "R", "B", "L"};
+
+        double answer = infer.eliminate(BND, queryVariable, value, order, null);
+        assertEquals(answer, 0.01585, 0.00001);
+    }
 
     /**
      * Stacscheck test for BNA.

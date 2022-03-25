@@ -3,6 +3,9 @@ package support;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of hardcoded networks for problems.
+ */
 public class Network {
 
     public BayesianNetwork CNX;
@@ -11,6 +14,9 @@ public class Network {
     public BayesianNetwork BNC;
     public BayesianNetwork BND;
 
+    /**
+     * Constructor, initialises networks.
+     */
     public Network() {
         initiateCNX();
         initiateBNA();
@@ -19,11 +25,17 @@ public class Network {
         initiateBND();
     }
 
+    /**
+     * Initialises network for problem defined in P1.
+     */
     //TODO finalise and implement CNX network
     private void initiateCNX() {
 
     }
 
+    /**
+     * Initialises BNA network.
+     */
     private void initiateBNA() {
         Node A = new Node("A", null);
         Node B = new Node("B", new ArrayList<>(List.of(A)));
@@ -39,6 +51,9 @@ public class Network {
         this.BNA.addNode(A, B, C, D);
     }
 
+    /**
+     * Initialises BNB network.
+     */
     private void initiateBNB() {
         Node J = new Node("J", null);
         Node K = new Node("K", new ArrayList<>(List.of(J)));
@@ -58,6 +73,9 @@ public class Network {
         this.BNB.addNode(J, K, L, M, N, O);
     }
 
+    /**
+     * Initialises BNC network.
+     */
     private void initiateBNC() {
         Node P = new Node("P", null);
         Node Q = new Node("Q", new ArrayList<>(List.of(P)));
@@ -79,26 +97,34 @@ public class Network {
         this.BNC.addNode(P, Q, R, S, U, V, Z);
     }
 
+    /**
+     * Initialises BND network. This is an extension network for P5.
+     */
     private void initiateBND() {
-        //winter W, storm S, engineering work E, train delay D, bus delay B, late L.
+        //winter W, storm S, engineering work E, train delay D, road works R, bus delay B, late L.
         Node W = new Node("W", null);
         Node S = new Node("S", new ArrayList<>(List.of(W)));
         Node E = new Node("E", new ArrayList<>(List.of(S)));
         Node D = new Node("D", new ArrayList<>(List.of(S, E)));
-        Node B = new Node("B", null);
+        Node R = new Node("R", null);
+        Node B = new Node("B", new ArrayList<>(List.of(R)));
         Node L = new Node("L", new ArrayList<>(List.of(D, B)));
 
         W.addCPTvalues(0.75, 0.25);
         S.addCPTvalues(0.98, 0.02, 0.8, 0.2);
         E.addCPTvalues(0.99, 0.01, 0.9, 0.1);
         D.addCPTvalues(0.95, 0.05, 0.20, 0.80, 0.30, 0.70, 0.05, 0.95);
-        B.addCPTvalues(0.90, 0.10);
-        L.addCPTvalues(0.05, 0.95, 0.3, 0.7, 0.1, 0.9, 0.05, 0.95);
+        R.addCPTvalues(0.99, 0.01);
+        B.addCPTvalues(0.90, 0.10, 0.2, 0.8);
+        L.addCPTvalues(0.96, 0.04, 0.3, 0.7, 0.1, 0.9, 0.05, 0.95);
 
-        this.BNB = new BayesianNetwork("BND");
-        this.BNB.addNode(W, S, E, D, B, L);
+        this.BND = new BayesianNetwork("BND");
+        this.BND.addNode(W, S, E, D, R, B, L);
     }
 
+    /**
+     * Returns the appropriate network based on the command line arguments.
+     */
     public BayesianNetwork getNetwork(String request) {
         switch (request) {
             case "BNA":

@@ -20,6 +20,8 @@ public class P3Tests {
     BayesianNetwork BNA;
     BayesianNetwork BNB;
     BayesianNetwork BNC;
+    BayesianNetwork BND;
+    BayesianNetwork CNX;
 
     /**
      * Set up EvidenceInference object and networks before each test.
@@ -30,9 +32,45 @@ public class P3Tests {
         BNA = network.BNA;
         BNB = network.BNB;
         BNC = network.BNC;
+        BND = network.BND;
+        CNX = network.CNX;
     }
 
     //TODO add a couple of tests for CNX
+
+    /**
+     * Testing a query on BND. P(Winter|On time).
+     */
+    @Test
+    public void BNDTest1() {
+        String queryVariable = "W";
+        String value = "T";
+        String[] order = {"W", "S", "E", "D", "R", "B", "L"};
+        String[] evidenceArray1 = {"L", "F"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray1);
+
+        double answer = infer.eliminate(BND, queryVariable, value, order, evidence);
+        assertEquals(answer, 0.22787, 0.0001);
+    }
+
+    /**
+     * Testing a query on BND. P(On time|bus delay, storm).
+     */
+    @Test
+    public void BNDTest2() {
+        String queryVariable = "L";
+        String value = "F";
+        String[] order = {"W", "S", "E", "D", "R", "B", "L"};
+        String[] evidenceArray1 = {"B", "T"};
+        String[] evidenceArray2 = {"S", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray1);
+        evidence.add(evidenceArray2);
+
+        double answer = infer.eliminate(BND, queryVariable, value, order, evidence);
+        assertEquals(answer, 0.11875, 0.000001);
+    }
 
     /**
      * Stacscheck test for BNA.
