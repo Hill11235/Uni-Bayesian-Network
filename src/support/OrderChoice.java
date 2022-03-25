@@ -1,6 +1,7 @@
 package support;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OrderChoice {
 
@@ -14,31 +15,60 @@ public class OrderChoice {
     }
 
     //TODO test
-    public String[] maxCardinalitySearch() {
+    public String[] search(String algo) {
         ArrayList<Node> nodes = this.bn.getNodes();
         String query = this.queryVariable;
+
+        ArrayList<Node> order = determineOrder(nodes, algo);
+
+        return processOrder(order, query, algo);
+    }
+
+    /**
+     * Loops through nodes and based on the algo choice determines an order.
+     * @param nodes list of Nodes to create an order from.
+     * @param algo determines whether the search is max cardinality or greedy.
+     */
+    private ArrayList<Node> determineOrder(ArrayList<Node> nodes, String algo) {
         ArrayList<Node> unmarked = new ArrayList<>(nodes);
         ArrayList<Node> marked = new ArrayList<>();
         ArrayList<Node> order = new ArrayList<>();
 
         for (int i = 0; i < nodes.size(); i++) {
-            Node nd = getMostMarkedNeighboursNode(unmarked, marked);
+            Node nd;
+            if (algo.equals("MAX")) {
+                nd = getMostMarkedNeighboursNode(unmarked, marked);
+            } else {
+                nd = getMinNeighboursNode(unmarked);
+            }
+            //System.out.println("\nChosen Node:" + nd.getLabel() + "\n");
 
             order.add(nd);
             unmarked.remove(nd);
             marked.add(nd);
-        }
 
-        return processOrder(order, query);
+            if (algo.equals("GREEDY")) {
+                ArrayList<Node> nds = new ArrayList<>(List.of(nd));
+                addLinksBetweenParents(nds);
+            }
+        }
+        return order;
     }
 
-    //TODO test
+    /**
+     * Finds the Node in a list which has the most neighbours present in the marked list.
+     * @param unmarked list of Nodes to loop through and return from.
+     * @param marked list of marked Nodes to be checked against.
+     * @return Node from unmarked with the most neighbours in marked.
+     */
     public Node getMostMarkedNeighboursNode(ArrayList<Node> unmarked, ArrayList<Node> marked) {
         int maxMarkedNeighbours = -1;
         Node returnNode = null;
 
         for (Node node : unmarked) {
             ArrayList<Node> parents = node.getParents();
+            //System.out.println("Node: " + node.getLabel());
+            //System.out.println("Parents: " + bn.getLabelList(node.getParents()));
             int markedNeighbours = 0;
 
             for (Node parent : parents) {
@@ -46,35 +76,58 @@ public class OrderChoice {
                     markedNeighbours++;
                 }
             }
+            //System.out.println("marked parents: " + markedNeighbours);
 
             if (markedNeighbours > maxMarkedNeighbours) {
                 returnNode = node;
+                maxMarkedNeighbours = markedNeighbours;
             }
-
         }
 
         return returnNode;
     }
 
     /**
-     * Takes a list of Nodes in a determined order, reverses it, removes the query variable and then converts the list to a String array of labels.
+     * Finds the Node in the list with the fewest number of Neighbours.
+     * @param unmarked list of Nodes to search through.
+     * @return Node with the fewest neighbours.
+     */
+    public Node getMinNeighboursNode(ArrayList<Node> unmarked) {
+        int maxNumNeighbours = 10000;
+        Node returnNode = null;
+
+        for (Node node : unmarked) {
+            //System.out.println("Node: " + node.getLabel());
+            //System.out.println("Neighbours: " + bn.getLabelList(node.getParents()));
+            //System.out.println();
+            ArrayList<Node> parents = node.getParents();
+            int numNeighbours = parents.size();
+
+            if (numNeighbours < maxNumNeighbours) {
+                returnNode = node;
+                maxNumNeighbours = numNeighbours;
+            }
+        }
+
+        return returnNode;
+    }
+
+    /**
+     * Takes a list of Nodes in a determined order, removes the query variable and then converts the list to a String array of labels.
+     * If max cardinality search has taken place then also reverse the list.
      * @param order list of Nodes in calculated order.
      * @param queryVariable variable being queried in network.
      * @return processed order in String array.
      */
-    public String[] processOrder(ArrayList<Node> order, String queryVariable) {
-        Collections.reverse(order);
+    public String[] processOrder(ArrayList<Node> order, String queryVariable, String algo) {
+        if (algo.equals("MAX")) {
+            Collections.reverse(order);
+        }
         order.remove(bn.getNode(queryVariable));
         ArrayList<String> labels = bn.getLabelList(order);
         String[] orderArray = new String[labels.size()];
         orderArray = labels.toArray(orderArray);
         return orderArray;
-    }
-
-    //TODO implement and test
-    public String[] greedySearch() {
-        //follow algo as per notes
-        return null;
     }
 
     /**
@@ -84,17 +137,25 @@ public class OrderChoice {
     public void createUndirectedGraph() {
         ArrayList<Node> nodes = this.bn.getNodes();
 
-        addParentForEachChild(nodes);
         addLinksBetweenParents(nodes);
+        addParentForEachChild(nodes);
+        dedupeParentLists(nodes);
+        //for (Node node : nodes) {
+        //    System.out.println("Node: " + node.getLabel());
+        //    System.out.println("Neighbours: " + bn.getLabelList(node.getParents()));
+        //}
     }
 
     /**
      * Loops through a list of Nodes and links the parents of each Node which are not already linked.
      * @param nodes list of Nodes to loop through.
      */
+    //TODO fix bug in here. Currently linking every Node in the graph
     public void addLinksBetweenParents(ArrayList<Node> nodes) {
         for (Node node : nodes) {
+            //System.out.println("Node: " + node.getLabel());
             ArrayList<Node> parents = node.getParents();
+            //System.out.println("parents: " + bn.getLabelList(node.getParents()));
 
             if (parents.size() > 1) {
                 ArrayList<Integer> elementList = getIntegerList(parents.size());
@@ -107,6 +168,21 @@ public class OrderChoice {
                     }
                 }
             }
+        }
+    }
+
+    //TODO test
+    public void dedupeParentLists(ArrayList<Node> nodes) {
+        for (Node node : nodes) {
+            ArrayList<Node> parents = node.getParents();
+            ArrayList<Node> unique = new ArrayList<>();
+            Set<Node> uniqueValues = new HashSet<>();
+            for (Node parent : parents) {
+                if (uniqueValues.add(parent)) {
+                    unique.add(parent);
+                }
+            }
+            node.setParents(unique);
         }
     }
 

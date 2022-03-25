@@ -1,6 +1,5 @@
 package tests;
 
-import org.junit.Before;
 import org.junit.Test;
 import support.BayesianNetwork;
 import support.Network;
@@ -22,20 +21,126 @@ public class OrderChoiceTest {
     private OrderChoice oc;
     private Network network = new Network();
 
-    @Before
-    public void setUp() {
+    @Test
+    public void searchMaxCNX() {
+        //TODO implement
+    }
+
+    @Test
+    public void searchGreedyCNX() {
+        //TODO implement
+    }
+
+    @Test
+    public void searchMaxBNA() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
+        String[] order = oc.search("MAX");
+        String[] expectedOrder = {"D", "C", "B"};
+
+        assertEquals(order, expectedOrder);
+    }
+
+    @Test
+    public void searchGreedyBNA() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
+        String[] order = oc.search("GREEDY");
+        String[] expectedOrder = {"D", "B", "C"};
+
+        assertEquals(order, expectedOrder);
+    }
+
+    @Test
+    public void searchMaxBNB() {
+        BayesianNetwork bn = network.BNB;
+        oc = new OrderChoice(bn, "J");
+        String[] order = oc.search("MAX");
+        String[] expectedOrder = {"O", "N", "M", "L", "K"};
+
+        assertEquals(order, expectedOrder);
+    }
+
+    @Test
+    public void searchGreedyBNB() {
+        BayesianNetwork bn = network.BNB;
+        oc = new OrderChoice(bn, "M");
+        String[] order = oc.search("GREEDY");
+        String[] expectedOrder = {"J", "N", "O", "L", "K"};
+
+        assertEquals(order, expectedOrder);
+    }
+
+    @Test
+    public void searchMaxBNC() {
+        BayesianNetwork bn = network.BNC;
+        oc = new OrderChoice(bn, "P");
+        String[] order = oc.search("MAX");
+        String[] expectedOrder = {"U", "Z", "V", "S", "R", "Q"};
+
+        assertEquals(order, expectedOrder);
+    }
+
+    @Test
+    public void searchGreedyBNC() {
+        BayesianNetwork bn = network.BNC;
+        oc = new OrderChoice(bn, "S");
+        String[] order = oc.search("GREEDY");
+        String[] expectedOrder = {"P", "U", "Z", "R", "Q", "V"};
+
+
+        assertEquals(order, expectedOrder);
     }
 
     /**
-     * Checks that order processing is done correctly and returned as expected.
+     * Tests that the correct Node with the maximum number of marked neighbours is found.
      */
     @Test
-    public void testProcessOrder() {
+    public void testGetMaxMarkedNeighboursNode() {
+        BayesianNetwork bn = network.BNC;
+        oc = new OrderChoice(bn, "A");
+        ArrayList<Node> nodes = bn.getNodes();
+        Node maxMarkedNeighbours = oc.getMostMarkedNeighboursNode(nodes, new ArrayList<>());
+        assertEquals(maxMarkedNeighbours, bn.getNode("P"));
+    }
+
+    /**
+     * Tests that correct Node with the minimum number of neighbours is found.
+     */
+    @Test
+    public void testGetMinNeighboursNode() {
+        BayesianNetwork bn = network.BNC;
+        oc = new OrderChoice(bn, "A");
+        ArrayList<Node> nodes = bn.getNodes();
+        Node minNeighbours = oc.getMinNeighboursNode(nodes);
+        assertEquals(minNeighbours, bn.getNode("P"));
+    }
+
+    /**
+     * Checks that order processing is done correctly and returned as expected for greedy search.
+     */
+    @Test
+    public void testProcessOrderGREED() {
         BayesianNetwork bn = network.BNA;
         oc = new OrderChoice(bn, "A");
         ArrayList<Node> nodes = bn.getNodes();
 
-        String[] newOrder = oc.processOrder(nodes, "B");
+        String[] newOrder = oc.processOrder(nodes, "B", "GREED");
+        String[] expectedOrder = {"A", "C", "D"};
+
+        assertEquals(newOrder, expectedOrder);
+    }
+
+    /**
+     * Checks that order processing is done correctly and returned as expected for max cardinality search.
+     */
+    @Test
+    public void testProcessOrderMAX() {
+        BayesianNetwork bn = network.BNA;
+        oc = new OrderChoice(bn, "A");
+        ArrayList<Node> nodes = bn.getNodes();
+
+        String[] newOrder = oc.processOrder(nodes, "B", "MAX");
         String[] expectedOrder = {"D", "C", "A"};
 
         assertEquals(newOrder, expectedOrder);
@@ -49,7 +154,7 @@ public class OrderChoiceTest {
         BayesianNetwork bn = network.BNC;
         oc = new OrderChoice(bn, "P");
 
-        oc.createUndirectedGraph();
+        //oc.createUndirectedGraph();
         Node R = bn.getNode("R");
         Node Q = bn.getNode("Q");
         Node V = bn.getNode("V");
