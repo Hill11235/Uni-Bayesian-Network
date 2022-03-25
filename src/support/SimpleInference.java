@@ -245,6 +245,12 @@ public class SimpleInference {
         return v1v3;
     }
 
+    /**
+     * Get a unique arraylist of all labels in two Factors.
+     * @param first first Factor to consider.
+     * @param second second Factor to consider.
+     * @return arraylist of all labels.
+     */
     public ArrayList<String> getAllLabels(Factor first, Factor second) {
         ArrayList<String> commonLabels = findCommonLabels(first, second);
         ArrayList<String> firstOnlyLabels = findFirstOnlyLabels(first, second);
@@ -254,6 +260,12 @@ public class SimpleInference {
                 .flatMap(Collection::stream).collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Get a unique arraylist of all common labels in two Factors.
+     * @param first first Factor to consider.
+     * @param second second Factor to consider.
+     * @return arraylist of all labels in both Factors.
+     */
     public ArrayList<String> findCommonLabels(Factor first, Factor second) {
         ArrayList<String> firstLabels = first.getNodeLabels();
         ArrayList<String> secondLabels = second.getNodeLabels();
@@ -262,6 +274,12 @@ public class SimpleInference {
         return firstLabels;
     }
 
+    /**
+     * Get a unique arraylist of all labels in first Factor only.
+     * @param first first Factor to consider.
+     * @param second second Factor to consider.
+     * @return arraylist of all labels in first Factor only.
+     */
     public ArrayList<String> findFirstOnlyLabels(Factor first, Factor second) {
         ArrayList<String> firstLabels = first.getNodeLabels();
         ArrayList<String> secondLabels = second.getNodeLabels();
@@ -270,6 +288,12 @@ public class SimpleInference {
         return firstLabels;
     }
 
+    /**
+     * Get a unique arraylist of all labels in second Factor only.
+     * @param first first Factor to consider.
+     * @param second second Factor to consider.
+     * @return arraylist of all labels in second Factor only.
+     */
     public ArrayList<String> findSecondOnlyLabels(Factor first, Factor second) {
         ArrayList<String> firstLabels = first.getNodeLabels();
         ArrayList<String> secondLabels = second.getNodeLabels();
