@@ -32,6 +32,9 @@ public class EvidenceInferenceTest {
         infer = new EvidenceInference();
     }
 
+    /**
+     * Tests that the correct Nodes are pruned from the order.
+     */
     @Test
     public void testPrune1() {
         BayesianNetwork bn = network.BNC;
@@ -41,6 +44,9 @@ public class EvidenceInferenceTest {
         assertEquals(pruneOutput, getOutputOrder1());
     }
 
+    /**
+     * Tests that the correct Nodes are pruned from the order.
+     */
     @Test
     public void testPrune2() {
         BayesianNetwork bn = network.BNC;
@@ -50,6 +56,9 @@ public class EvidenceInferenceTest {
         assertEquals(pruneOutput, getOutputOrder2());
     }
 
+    /**
+     * Tests that the isIntersectionEmpty method returns the appropriate boolean.
+     */
     @Test
     public void testIsIntersectionEmpty() {
         ArrayList<String> list1 = new ArrayList<>(Arrays.asList("A", "B", "C", "D"));
@@ -60,6 +69,9 @@ public class EvidenceInferenceTest {
         assertTrue(infer.isIntersectionEmpty(list1, list3));
     }
 
+    /**
+     * Tests that evidence is correctly projected across Factors.
+     */
     @Test
     public void testProjectEvidence() {
         //create list of Factors
@@ -88,9 +100,12 @@ public class EvidenceInferenceTest {
         assertEquals(f2Probs.get("01"), 0.0, 0.0001);
         assertEquals(f2Probs.get("10"), 2.0, 0.0001);
         assertEquals(f2Probs.get("11"), 2.0, 0.0001);
-
     }
 
+    /**
+     * Helper method for testProjectEvidence.
+     * @return list of prepared Factors.
+     */
     private ArrayList<Factor> getFactors() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K", "P", "Z"));
         Factor f1 = new Factor(labels1);
@@ -105,6 +120,9 @@ public class EvidenceInferenceTest {
         return factors;
     }
 
+    /**
+     * Tests that factorContainsVariable returns the appropriate boolean.
+     */
     @Test
     public void testFactorContainsVariable() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K", "Z"));
@@ -119,6 +137,9 @@ public class EvidenceInferenceTest {
         assertFalse(infer.factorContainsVariable(f2, evidence));
     }
 
+    /**
+     * Tests that probabilities can be set correctly.
+     */
     @Test
     public void testSetProbability1() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K", "Z"));
@@ -137,6 +158,9 @@ public class EvidenceInferenceTest {
         assertEquals(cpt.get("11"), 0.6, 0.0001);
     }
 
+    /**
+     * Tests that probabilities can be set correctly.
+     */
     @Test
     public void testSetProbability2() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K", "Z"));
@@ -155,6 +179,9 @@ public class EvidenceInferenceTest {
         assertEquals(cpt.get("11"), 0.0, 0.0001);
     }
 
+    /**
+     * Tests that the correct probabilities are returned from a list of factors.
+     */
     @Test
     public void testGetValue() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K"));
@@ -171,6 +198,9 @@ public class EvidenceInferenceTest {
         assertEquals(infer.getValue(factors1, "T"), 0.54385, 0.0001);
     }
 
+    /**
+     * Tests that a Factor is normalised correctly.
+     */
     @Test
     public void testNormalise() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K"));
@@ -185,6 +215,9 @@ public class EvidenceInferenceTest {
         assertEquals(cpt.get("1"), 0.54385, 0.0001);
     }
 
+    /**
+     * Tests that the correct sum is returned from a CPT.
+     */
     @Test
     public void testGetSumOfProbabilities() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("K"));
@@ -195,6 +228,10 @@ public class EvidenceInferenceTest {
         assertEquals(infer.getSumOfProbabilities(cpt), 0.42755, 0.000001);
     }
 
+    /**
+     * Helper method for constructing evidence.
+     * @return ArrayList of String array of evidence.
+     */
     private ArrayList<String[]> getEvidence1() {
         String[] evidenceArray = {"Z", "T"};
         ArrayList<String[]> evidence = new ArrayList<>();
@@ -203,6 +240,10 @@ public class EvidenceInferenceTest {
         return evidence;
     }
 
+    /**
+     * Helper method for constructing evidence.
+     * @return ArrayList of String array of evidence.
+     */
     private ArrayList<String[]> getEvidence2() {
         String[] evidenceArray = {"R", "T"};
         ArrayList<String[]> evidence = new ArrayList<>();
@@ -211,6 +252,10 @@ public class EvidenceInferenceTest {
         return evidence;
     }
 
+    /**
+     * Helper method for constructing evidence.
+     * @return ArrayList of String array of evidence.
+     */
     private ArrayList<String[]> getEvidence3() {
         String[] evidenceArray = {"Z", "F"};
         ArrayList<String[]> evidence = new ArrayList<>();
@@ -219,6 +264,10 @@ public class EvidenceInferenceTest {
         return evidence;
     }
 
+    /**
+     * Helper method for constructing evidence.
+     * @return ArrayList of String array of evidence.
+     */
     private ArrayList<String[]> getEvidence4() {
         String[] evidenceArray = {"P", "T"};
         ArrayList<String[]> evidence = new ArrayList<>();
@@ -226,6 +275,10 @@ public class EvidenceInferenceTest {
         return evidence;
     }
 
+    /**
+     * Helper method for creating initial order.
+     * @return String array of initial order.
+     */
     private String[] getInitialOrder() {
         String[] initialOrder = new String[7];
         initialOrder[0] = "P";
@@ -239,6 +292,10 @@ public class EvidenceInferenceTest {
         return initialOrder;
     }
 
+    /**
+     * Helper method for creating output order.
+     * @return String array of output order.
+     */
     private String[] getOutputOrder1() {
         String[] outputOrder = new String[6];
         outputOrder[0] = "P";
@@ -251,6 +308,10 @@ public class EvidenceInferenceTest {
         return outputOrder;
     }
 
+    /**
+     * Helper method for creating output order.
+     * @return String array of output order.
+     */
     private String[] getOutputOrder2() {
         String[] outputOrder = new String[1];
         outputOrder[0] = "P";
