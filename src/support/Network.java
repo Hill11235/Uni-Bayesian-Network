@@ -9,12 +9,14 @@ public class Network {
     public BayesianNetwork BNA;
     public BayesianNetwork BNB;
     public BayesianNetwork BNC;
+    public BayesianNetwork BND;
 
     public Network() {
         initiateCNX();
         initiateBNA();
         initiateBNB();
         initiateBNC();
+        initiateBND();
     }
 
     //TODO finalise and implement CNX network
@@ -77,6 +79,26 @@ public class Network {
         this.BNC.addNode(P, Q, R, S, U, V, Z);
     }
 
+    private void initiateBND() {
+        //winter W, storm S, engineering work E, train delay D, bus delay B, late L.
+        Node W = new Node("W", null);
+        Node S = new Node("S", new ArrayList<>(List.of(W)));
+        Node E = new Node("E", new ArrayList<>(List.of(S)));
+        Node D = new Node("D", new ArrayList<>(List.of(S, E)));
+        Node B = new Node("B", null);
+        Node L = new Node("L", new ArrayList<>(List.of(D, B)));
+
+        W.addCPTvalues(0.75, 0.25);
+        S.addCPTvalues(0.98, 0.02, 0.8, 0.2);
+        E.addCPTvalues(0.99, 0.01, 0.9, 0.1);
+        D.addCPTvalues(0.95, 0.05, 0.20, 0.80, 0.30, 0.70, 0.05, 0.95);
+        B.addCPTvalues(0.90, 0.10);
+        L.addCPTvalues(0.05, 0.95, 0.3, 0.7, 0.1, 0.9, 0.05, 0.95);
+
+        this.BNB = new BayesianNetwork("BND");
+        this.BNB.addNode(W, S, E, D, B, L);
+    }
+
     public BayesianNetwork getNetwork(String request) {
         switch (request) {
             case "BNA":
@@ -85,6 +107,8 @@ public class Network {
                 return this.BNB;
             case "BNC":
                 return this.BNC;
+            case "BND":
+                return this.BND;
             default:
                 return this.CNX;
         }
