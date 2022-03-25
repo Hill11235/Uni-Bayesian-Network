@@ -33,11 +33,9 @@ public class OrderChoice {
      */
     public String[] search(String algo) {
         ArrayList<Node> nodes = this.bn.getNodes();
-        String query = this.queryVariable;
-
         ArrayList<Node> order = determineOrder(nodes, algo);
 
-        return processOrder(order, query, algo);
+        return processOrder(order, this.queryVariable, algo);
     }
 
     /**
@@ -276,7 +274,7 @@ public class OrderChoice {
      */
     public List<Set<Integer>> getKCombinations(ArrayList<Integer> initialSet, int subsetSize) {
         List<Set<Integer>> combinations = new ArrayList<>();
-        getKCombinations(initialSet, subsetSize, 0, new HashSet<Integer>(), combinations);
+        getKCombinations(initialSet, subsetSize, 0, new HashSet<>(), combinations);
         return combinations;
     }
 
