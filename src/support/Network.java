@@ -76,4 +76,17 @@ public class Network {
         this.BNC = new BayesianNetwork("BNC");
         this.BNC.addNode(P, Q, R, S, U, V, Z);
     }
+
+    public BayesianNetwork getNetwork(String request) {
+        switch (request) {
+            case "BNA":
+                return this.BNA;
+            case "BNB":
+                return this.BNB;
+            case "BNC":
+                return this.BNC;
+            default:
+                return this.CNX;
+        }
+    }
 }

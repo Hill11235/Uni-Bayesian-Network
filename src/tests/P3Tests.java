@@ -32,6 +32,8 @@ public class P3Tests {
         BNC = network.BNC;
     }
 
+    //TODO add a couple of tests for CNX
+
     /**
      * Stacscheck test for BNA.
      */

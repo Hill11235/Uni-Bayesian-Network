@@ -1,7 +1,10 @@
 package main;
 
+import support.*;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /********************Starter Code
@@ -26,49 +29,59 @@ public class A3main {
 
 		switch(args[0]) {
 			case "P1": {
-				//construct the network in args[1]
-				System.out.println("Support.Network "+args[1]);
-				//print the network 
-			}break;
+				Network network = new Network();
+				BayesianNetwork p1BN = network.getNetwork(args[1]);
+				System.out.println("Network " + args[1]);
+				p1BN.printNetwork();
+			} break;
 	
-			case "P2":  {
-				//construct the network in args[1]
-				String[] query=getQueriedNode(sc);
-				String variable=query[0];
-				String value=query[1];
-				String[] order=getOrder(sc);
-				// execute query of p(variable=value) with given order of elimination
-				double result=0.570501;
-				printResult(result);
-			}break;
-	
-			case "P3":{
-				//construct the network in args[1]
-				String[] query=getQueriedNode(sc);
-				String variable=query[0];
-				String value=query[1];
-				String[] order=getOrder(sc);
-				ArrayList<String[]> evidence=getEvidence(sc);
-				// execute query of p(variable=value|evidence) with given order of elimination
-				double result=0.570501;
-				printResult(result);
-			}break;
-	
-			case "P4":{
-				//construct the network in args[1]
-				String[] query=getQueriedNode(sc);
-				String variable=query[0];
-				String value=query[1];
-				String order=  "A,B";
-				ArrayList<String[]> evidence=getEvidence(sc);
-				//TODO add fresh network call so it's directed.
+			case "P2": {
+				Network network = new Network();
+				BayesianNetwork p2BN = network.getNetwork(args[1]);
+				String[] query = getQueriedNode(sc);
+				String variable = query[0];
+				String value = query[1];
+				String[] order = getOrder(sc);
+				SimpleInference infer = new SimpleInference();
 
-				// execute query of p(variable=value|evidence) with given order of elimination
-				//print the order 
-				System.out.println(order);
-				double result=0.570501;
+				double result = infer.eliminate(p2BN, variable, value, order, null);
 				printResult(result);
-			}break;
+			} break;
+	
+			case "P3": {
+				Network network = new Network();
+				BayesianNetwork p3BN = network.getNetwork(args[1]);
+
+				String[] query = getQueriedNode(sc);
+				String variable = query[0];
+				String value = query[1];
+				String[] order = getOrder(sc);
+				ArrayList<String[]> evidence = getEvidence(sc);
+				EvidenceInference infer = new EvidenceInference();
+
+				double result = infer.eliminate(p3BN, variable, value, order, evidence);
+				printResult(result);
+			} break;
+	
+			case "P4": {
+				Network network = new Network();
+				BayesianNetwork p4BN = network.getNetwork(args[1]);
+
+				String[] query = getQueriedNode(sc);
+				String variable = query[0];
+				String value = query[1];
+
+				OrderChoice oc = new OrderChoice(p4BN, variable);
+				String[] order = oc.search(args[2]);
+				ArrayList<String[]> evidence = getEvidence(sc);
+
+				BayesianNetwork p4CleanBN = network.getNetwork(args[1]);
+				EvidenceInference infer = new EvidenceInference();
+
+				System.out.println(Arrays.toString(order));
+				double result = infer.eliminate(p4CleanBN, variable, value, order, evidence);
+				printResult(result);
+			} break;
 		}
 		sc.close();
 	}
