@@ -32,6 +32,9 @@ public class SimpleInferenceTest {
         infer = new SimpleInference();
     }
 
+    /**
+     * Tests that the order is pruned correctly.
+     */
     @Test
     public void prune() {
         BayesianNetwork bn = network.BNC;
@@ -41,6 +44,9 @@ public class SimpleInferenceTest {
         assertEquals(pruneOutput, getOutputOrder());
     }
 
+    /**
+     * Tests that Factors are created correctly.
+     */
     @Test
     public void createFactors() {
         BayesianNetwork bn = network.BNC;
@@ -51,6 +57,9 @@ public class SimpleInferenceTest {
         assertTrue(pFactor.getNodeLabels().contains("P"));
     }
 
+    /**
+     * Tests that all related Factors contain the necessary label.
+     */
     @Test
     public void getRelatedFactors() {
         BayesianNetwork bn = network.BNC;
@@ -61,6 +70,9 @@ public class SimpleInferenceTest {
         assertTrue(relatedFactors.get(1).getNodeLabels().contains("Q"));
     }
 
+    /**
+     * Tests that common labels are found correctly.
+     */
     @Test
     public void testFindCommonLabels() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -72,6 +84,9 @@ public class SimpleInferenceTest {
         assertEquals(common, new ArrayList<>(List.of("C")));
     }
 
+    /**
+     * Tests that labels which are present in the first Factor only are found.
+     */
     @Test
     public void testFirstOnlyLabels() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -83,6 +98,9 @@ public class SimpleInferenceTest {
         assertEquals(firstOnly, new ArrayList<>(List.of("A", "B")));
     }
 
+    /**
+     * Tests that labels which are present in the second Factor only are found.
+     */
     @Test
     public void testSecondOnlyLabels() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -94,6 +112,9 @@ public class SimpleInferenceTest {
         assertEquals(secondOnly, new ArrayList<>(List.of("D", "E")));
     }
 
+    /**
+     * Tests that all labels are found.
+     */
     @Test
     public void testGetAllLabels() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -105,6 +126,9 @@ public class SimpleInferenceTest {
         assertEquals(all, new ArrayList<>(List.of("C", "A", "B", "D", "E")));
     }
 
+    /**
+     * Tests that V1 (common labels) and V2 (first Factor only) labels are returned correctly.
+     */
     @Test
     public void testGetV1V2() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -116,6 +140,9 @@ public class SimpleInferenceTest {
         assertEquals(v1v2, new ArrayList<>(List.of("C", "A", "B")));
     }
 
+    /**
+     * Tests that V1 (common labels) and V3 (second Factor only) labels are returned correctly.
+     */
     @Test
     public void testGetV1V3() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -127,6 +154,9 @@ public class SimpleInferenceTest {
         assertEquals(v1v3, new ArrayList<>(List.of("C", "D", "E")));
     }
 
+    /**
+     * Tests that the correct probability can be extracted from a Factor.
+     */
     @Test
     public void testGetProbFromFactor() {
         ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -141,6 +171,9 @@ public class SimpleInferenceTest {
         assertEquals(prob, correctMap.get("011"));
     }
 
+    /**
+     * Tests that two Factors are joined correctly.
+     */
     @Test
     public void testJoin1() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("A"));
@@ -159,6 +192,9 @@ public class SimpleInferenceTest {
         assertEquals(joinedCPT.get("11"), 0.0025, 0.0001);
     }
 
+    /**
+     * Tests that two Factors are joined correctly.
+     */
     @Test
     public void testJoin2() {
         ArrayList<String> labels1 = new ArrayList<>(List.of("A", "B"));
@@ -181,6 +217,9 @@ public class SimpleInferenceTest {
         assertEquals(joinedCPT.get("111"), 0.000375, 0.000001);
     }
 
+    /**
+     * Tests that a probability key and a position mapping match.
+     */
     @Test
     public void testCheckMatchTrue() {
         String key = "0110";
@@ -192,6 +231,9 @@ public class SimpleInferenceTest {
         assertTrue(infer.checkMatch(key, positionMapping));
     }
 
+    /**
+     * Tests that a probability key and a position mapping do not match.
+     */
     @Test
     public void testCheckMatchFalse() {
         String key = "011011";
@@ -205,6 +247,9 @@ public class SimpleInferenceTest {
         assertFalse(infer.checkMatch(key, positionMapping));
     }
 
+    /**
+     * Tests that the correct position mapping of labels in a Factor is returned.
+     */
     @Test
     public void testGetPositionMapping() {
         ArrayList<String> labels = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -224,6 +269,9 @@ public class SimpleInferenceTest {
         assertEquals(positionMapping, expectedMapping);
     }
 
+    /**
+     * Tests that a Factor is correctly marginalised.
+     */
     @Test
     public void testMarginalise() {
         ArrayList<String> labels = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -238,9 +286,12 @@ public class SimpleInferenceTest {
         assertEquals(reducedCPT.get("11"), 0.570375, 0.000001);
     }
 
+    /**
+     * Tests that joining and marginalising work together and behave as expected.
+     */
     @Test
     public void joinMarginalise() {
-        ArrayList<String> labels1 = new ArrayList<>(Arrays.asList("A"));
+        ArrayList<String> labels1 = new ArrayList<>(List.of("A"));
         Factor f1 = new Factor(labels1);
         f1.addProbabilities(0.95, 0.05);
 
@@ -262,6 +313,9 @@ public class SimpleInferenceTest {
         assertEquals(probs.get("11"), 0.570375, 0.000001);
     }
 
+    /**
+     * Tests that a probability is correctly returned after joining and marginalising has taken place.
+     */
     @Test
     public void getValue() {
         Factor cpt = new Factor(new ArrayList<>(List.of("A")));
@@ -271,6 +325,10 @@ public class SimpleInferenceTest {
         assertEquals(infer.getValue(factors, "F"), 0.05, 0.0001);
     }
 
+    /**
+     * Helper method which returns a String of labels in a given order.
+     * @return Array of labels.
+     */
     private String[] getInitialOrder() {
         String[] initialOrder = new String[7];
         initialOrder[0] = "P";
@@ -284,6 +342,10 @@ public class SimpleInferenceTest {
         return initialOrder;
     }
 
+    /**
+     * Helper method which returns a String of labels in the expected output order.
+     * @return Array of labels.
+     */
     private String[] getOutputOrder() {
         String[] outputOrder = new String[4];
         outputOrder[0] = "P";
