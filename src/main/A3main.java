@@ -1,6 +1,10 @@
 package main;
 
-import support.*;
+import support.BayesianNetwork;
+import support.EvidenceInference;
+import support.Network;
+import support.OrderChoice;
+import support.SimpleInference;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -19,13 +23,11 @@ import java.util.Scanner;
  * Feel free to change and delete parts of the code as you prefer
  * 
  */
-
-
 public class A3main {
 
 	public static void main(String[] args) {
 
-		Scanner sc=new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 
 		switch(args[0]) {
 			case "P1": {
@@ -108,7 +110,6 @@ public class A3main {
 		return val;
 	}
 
-
 	//method to obtain the queried node from the user
 	private static String[] getQueriedNode(Scanner sc) {
 
@@ -125,5 +126,4 @@ public class A3main {
 		DecimalFormat dd = new DecimalFormat("#0.00000");
 		System.out.println(dd.format(result));
 	}
-
 }
