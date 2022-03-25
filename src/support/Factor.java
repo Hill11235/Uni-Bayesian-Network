@@ -8,10 +8,14 @@ import java.util.HashMap;
  */
 public class Factor {
 
-    private ArrayList<String> nodeLabels;
+    private final ArrayList<String> nodeLabels;
     private int numRows = 2;
-    private HashMap<String, Double> probabilities = new HashMap<>();
+    private final HashMap<String, Double> probabilities = new HashMap<>();
 
+    /**
+     * Constructor for class.
+     * @param nodeLabels list of Node labels to be included in this Factor.
+     */
     public Factor(ArrayList<String> nodeLabels) {
         this.nodeLabels = nodeLabels;
         if (nodeLabels != null) {
@@ -20,6 +24,10 @@ public class Factor {
         addRowsToMap();
     }
 
+    /**
+     * Adds the necessary rows to the Factor CPT, which is contained in the probabilities HashMap.
+     * One row for each combination of the labels.
+     */
     private void addRowsToMap() {
         for (int i = 0; i < numRows; i++) {
             int repeat = (nodeLabels.size()) - Integer.toBinaryString(i).length();
