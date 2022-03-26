@@ -1,5 +1,3 @@
-package main;
-
 import support.BayesianNetwork;
 import support.EvidenceInference;
 import support.Network;
@@ -18,7 +16,7 @@ import java.util.Scanner;
  * @author at258
  *
  * run with 
- * java main.A3main <Pn> <NID>
+ * java A3main <Pn> <NID>
  *
  * Feel free to change and delete parts of the code as you prefer
  *
