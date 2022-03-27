@@ -185,6 +185,18 @@ public class NodeTest {
     }
 
     /**
+     * Tests that the getAncestors method returns an empty arraylist for a Node with no parents.
+     */
+    @Test
+    public void testGetAncestorsBNA() {
+        Network network = new Network();
+        BayesianNetwork bn = network.BNA;
+        Node A = bn.getNode("A");
+        ArrayList<Node> ancestors = A.getAllAncestors();
+        assertEquals(ancestors.size(), 0);
+    }
+
+    /**
      * Helper method used to add 16 probabilities to Node.
      * @return a list of the probabilities for comparison.
      */

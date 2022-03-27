@@ -128,14 +128,19 @@ public class Network {
     public BayesianNetwork getNetwork(String request) {
         switch (request) {
             case "BNA":
+                initiateBNA();
                 return this.BNA;
             case "BNB":
+                initiateBNB();
                 return this.BNB;
             case "BNC":
+                initiateBNC();
                 return this.BNC;
             case "BND":
+                initiateBND();
                 return this.BND;
             default:
+                initiateCNX();
                 return this.CNX;
         }
     }

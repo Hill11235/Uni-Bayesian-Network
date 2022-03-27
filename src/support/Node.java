@@ -169,10 +169,11 @@ public class Node {
         ArrayList<Node> frontier = new ArrayList<>();
         ArrayList<Node> ancestors = new ArrayList<>();
 
-        if (parents != null) {
-            frontier.addAll(parents);
+        if (parents.size() == 0) {
+            return ancestors;
         }
 
+        frontier.addAll(parents);
         while (frontier.size() > 0) {
             Node nd = frontier.remove(0);
             ancestors.add(nd);

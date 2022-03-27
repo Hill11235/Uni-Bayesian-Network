@@ -72,12 +72,17 @@ public class A3main {
                 String value = query[1];
 
                 OrderChoice oc = new OrderChoice(p4BN, variable);
-                String[] order = oc.search(args[2]);
+                String algo = "MAX";
+                if (args.length > 2) {
+                    algo = args[2];
+                }
+                String[] order = oc.search(algo);
                 ArrayList<String[]> evidence = getEvidence(sc);
 
                 BayesianNetwork p4CleanBN = network.getNetwork(args[1]);
                 EvidenceInference infer = new EvidenceInference();
 
+                System.out.println("Order:");
                 System.out.println(Arrays.toString(order));
                 double result = infer.eliminate(p4CleanBN, variable, value, order, evidence);
                 printResult(result);
