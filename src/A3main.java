@@ -31,7 +31,6 @@ public class A3main {
             case "P1": {
                 Network network = new Network();
                 BayesianNetwork p1BN = network.getNetwork(args[1]);
-                System.out.println("Network " + args[1]);
                 p1BN.printNetwork();
             } break;
 
