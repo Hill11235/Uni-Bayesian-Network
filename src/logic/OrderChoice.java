@@ -1,4 +1,7 @@
-package support;
+package logic;
+
+import support.BayesianNetwork;
+import support.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;

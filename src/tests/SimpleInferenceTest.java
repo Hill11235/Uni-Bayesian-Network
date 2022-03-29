@@ -5,7 +5,7 @@ import org.junit.Test;
 import support.BayesianNetwork;
 import support.Factor;
 import support.Network;
-import support.SimpleInference;
+import logic.SimpleInference;
 
 import java.util.ArrayList;
 import java.util.Arrays;

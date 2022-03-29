@@ -3,7 +3,7 @@ package tests;
 import org.junit.Before;
 import org.junit.Test;
 import support.BayesianNetwork;
-import support.EvidenceInference;
+import logic.EvidenceInference;
 import support.Network;
 
 import java.util.ArrayList;

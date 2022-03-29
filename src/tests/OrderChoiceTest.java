@@ -4,7 +4,7 @@ import org.junit.Test;
 import support.BayesianNetwork;
 import support.Network;
 import support.Node;
-import support.OrderChoice;
+import logic.OrderChoice;
 
 import java.util.ArrayList;
 import java.util.Arrays;

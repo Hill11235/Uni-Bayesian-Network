@@ -1,8 +1,8 @@
 import support.BayesianNetwork;
-import support.EvidenceInference;
+import logic.EvidenceInference;
 import support.Network;
-import support.OrderChoice;
-import support.SimpleInference;
+import logic.OrderChoice;
+import logic.SimpleInference;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

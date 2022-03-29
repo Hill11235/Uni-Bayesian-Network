@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import support.BayesianNetwork;
 import support.Network;
-import support.SimpleInference;
+import logic.SimpleInference;
 
 import static org.junit.Assert.assertEquals;
 
