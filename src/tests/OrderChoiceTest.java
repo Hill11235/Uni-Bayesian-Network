@@ -29,7 +29,12 @@ public class OrderChoiceTest {
      */
     @Test
     public void searchMaxCNX() {
-        //TODO implement
+        BayesianNetwork bn = network.CNX;
+        oc = new OrderChoice(bn, "A");
+        String[] order = oc.search("MAX");
+        String[] expectedOrder = {"L", "E", "H", "B", "W", "M", "I"};
+
+        assertEquals(order, expectedOrder);
     }
 
     /**
@@ -37,7 +42,12 @@ public class OrderChoiceTest {
      */
     @Test
     public void searchGreedyCNX() {
-        //TODO implement
+        BayesianNetwork bn = network.CNX;
+        oc = new OrderChoice(bn, "L");
+        String[] order = oc.search("GREEDY");
+        String[] expectedOrder = {"I", "E", "M", "B", "H", "W", "A"};
+
+        assertEquals(order, expectedOrder);
     }
 
     /**

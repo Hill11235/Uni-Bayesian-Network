@@ -18,7 +18,6 @@ import static org.junit.Assert.assertTrue;
 public class BayesianNetworkTest {
 
     Network networks = new Network();
-    //TODO print test for the CNX network to be finalised
 
     /**
      * Tests that Nodes and be added and are included in the network.
@@ -63,7 +62,76 @@ public class BayesianNetworkTest {
      */
     @Test
     public void printCNX() {
-        //TODO implement network and test printed correctly.
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        networks.CNX.printNetwork();
+        String expected = "Network: CNX\n" +
+                "Node: I\n" +
+                "I\t|\tp(I)\n" +
+                "0\t|\t0.02\n" +
+                "1\t|\t0.98\n" +
+                "\n" +
+                "Node: B\n" +
+                "B\t|\tp(B)\n" +
+                "0\t|\t0.15\n" +
+                "1\t|\t0.85\n" +
+                "\n" +
+                "Node: H\n" +
+                "H\t|\tp(H)\n" +
+                "0\t|\t0.875\n" +
+                "1\t|\t0.125\n" +
+                "\n" +
+                "Node: M\n" +
+                "I\tM\t|\tp(M|I)\n" +
+                "0\t0\t|\t0.9\n" +
+                "0\t1\t|\t0.1\n" +
+                "1\t0\t|\t0.01\n" +
+                "1\t1\t|\t0.99\n" +
+                "\n" +
+                "Node: W\n" +
+                "M\tW\t|\tp(W|M)\n" +
+                "0\t0\t|\t0.01\n" +
+                "0\t1\t|\t0.99\n" +
+                "1\t0\t|\t0.03\n" +
+                "1\t1\t|\t0.97\n" +
+                "\n" +
+                "Node: A\n" +
+                "W\tB\tH\tA\t|\tp(A|W,B,H)\n" +
+                "0\t0\t0\t0\t|\t0.8\n" +
+                "0\t0\t0\t1\t|\t0.2\n" +
+                "0\t0\t1\t0\t|\t0.7\n" +
+                "0\t0\t1\t1\t|\t0.3\n" +
+                "0\t1\t0\t0\t|\t0.9\n" +
+                "0\t1\t0\t1\t|\t0.1\n" +
+                "0\t1\t1\t0\t|\t0.75\n" +
+                "0\t1\t1\t1\t|\t0.25\n" +
+                "1\t0\t0\t0\t|\t0.95\n" +
+                "1\t0\t0\t1\t|\t0.05\n" +
+                "1\t0\t1\t0\t|\t0.85\n" +
+                "1\t0\t1\t1\t|\t0.15\n" +
+                "1\t1\t0\t0\t|\t0.99\n" +
+                "1\t1\t0\t1\t|\t0.01\n" +
+                "1\t1\t1\t0\t|\t0.97\n" +
+                "1\t1\t1\t1\t|\t0.03\n" +
+                "\n" +
+                "Node: E\n" +
+                "A\tE\t|\tp(E|A)\n" +
+                "0\t0\t|\t0.99\n" +
+                "0\t1\t|\t0.01\n" +
+                "1\t0\t|\t0.05\n" +
+                "1\t1\t|\t0.95\n" +
+                "\n" +
+                "Node: L\n" +
+                "A\tL\t|\tp(L|A)\n" +
+                "0\t0\t|\t0.7\n" +
+                "0\t1\t|\t0.3\n" +
+                "1\t0\t|\t0.3\n" +
+                "1\t1\t|\t0.7\n" +
+                "\n";
+        assertEquals(outContent.toString(), expected);
+        System.setOut(originalOut);
     }
 
     /**

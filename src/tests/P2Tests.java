@@ -34,7 +34,44 @@ public class P2Tests {
         CNX = network.CNX;
     }
 
-    //TODO add a couple of tests for CNX
+    /**
+     * Test query on CNX. P(Attack).
+     */
+    @Test
+    public void CNXTest1() {
+        String queryVariable = "A";
+        String value = "T";
+        String[] order = {"I", "B", "H", "M", "W", "A", "E", "L"};
+
+        double answer = infer.eliminate(CNX, queryVariable, value, order, null);
+        assertEquals(answer, 0.0233, 0.0001);
+    }
+
+    /**
+     * Test query on CNX. P(Alert).
+     */
+    @Test
+    public void CNXTest2() {
+        String queryVariable = "E";
+        String value = "T";
+        String[] order = {"I", "B", "H", "M", "W", "A", "E", "L"};
+
+        double answer = infer.eliminate(CNX, queryVariable, value, order, null);
+        assertEquals(answer, 0.03192, 0.0001);
+    }
+
+    /**
+     * Test query on CNX. P(Holiday).
+     */
+    @Test
+    public void CNXTest3() {
+        String queryVariable = "H";
+        String value = "T";
+        String[] order = {"I", "B", "H", "M", "W", "A", "E", "L"};
+
+        double answer = infer.eliminate(CNX, queryVariable, value, order, null);
+        assertEquals(answer, 0.125, 0.0001);
+    }
 
     /**
      * Test a simple query on the introduced network BND. P(Late).

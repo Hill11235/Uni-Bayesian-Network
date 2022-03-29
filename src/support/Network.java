@@ -28,9 +28,27 @@ public class Network {
     /**
      * Initialises network for problem defined in P1.
      */
-    //TODO finalise and implement CNX network
     private void initiateCNX() {
+        Node I = new Node("I", null);
+        Node B = new Node("B", null);
+        Node H = new Node("H", null);
+        Node M = new Node("M", new ArrayList<>(List.of(I)));
+        Node W = new Node("W", new ArrayList<>(List.of(M)));
+        Node A = new Node("A", new ArrayList<>(List.of(W, B, H)));
+        Node E = new Node("E", new ArrayList<>(List.of(A)));
+        Node L = new Node("L", new ArrayList<>(List.of(A)));
 
+        I.addCPTvalues(0.02, 0.98);
+        B.addCPTvalues(0.15, 0.85);
+        H.addCPTvalues(0.875, 0.125);
+        M.addCPTvalues(0.9, 0.1, 0.01, 0.99);
+        W.addCPTvalues(0.01, 0.99, 0.03, 0.97);
+        A.addCPTvalues(0.8, 0.2, 0.7, 0.3, 0.9, 0.1, 0.75, 0.25, 0.95, 0.05, 0.85, 0.15, 0.99, 0.01, 0.97, 0.03);
+        E.addCPTvalues(0.99, 0.01, 0.05, 0.95);
+        L.addCPTvalues(0.7, 0.3, 0.3, 0.7);
+
+        this.CNX = new BayesianNetwork("CNX");
+        this.CNX.addNode(I, B, H, M, W, A, E, L);
     }
 
     /**

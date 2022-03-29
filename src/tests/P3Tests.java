@@ -36,7 +36,41 @@ public class P3Tests {
         CNX = network.CNX;
     }
 
-    //TODO add a couple of tests for CNX
+    /**
+     * Testing a diagnostic query on CNX. P(Attack|Alert,Anomalous log).
+     */
+    @Test
+    public void CNXTest1() {
+        String queryVariable = "A";
+        String value = "T";
+        String[] order = {"I", "E", "M", "B", "H", "W", "L", "A"};
+        String[] evidenceArray1 = {"E", "T"};
+        String[] evidenceArray2 = {"L", "T"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray1);
+        evidence.add(evidenceArray2);
+
+        double answer = infer.eliminate(CNX, queryVariable, value, order, evidence);
+        assertEquals(answer, 0.84109, 0.0001);
+    }
+
+    /**
+     * Testing a predictive query on CNX. P(Maintenance|Attack, ~Alert).
+     */
+    @Test
+    public void CNXTest2() {
+        String queryVariable = "M";
+        String value = "T";
+        String[] order = {"I", "E", "M", "B", "H", "W", "L", "A"};
+        String[] evidenceArray1 = {"A", "T"};
+        String[] evidenceArray2 = {"E", "F"};
+        ArrayList<String[]> evidence = new ArrayList<>();
+        evidence.add(evidenceArray1);
+        evidence.add(evidenceArray2);
+
+        double answer = infer.eliminate(CNX, queryVariable, value, order, evidence);
+        assertEquals(answer, 0.97481, 0.0001);
+    }
 
     /**
      * Testing a query on BND. P(Winter|On time).
