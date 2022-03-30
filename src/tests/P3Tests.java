@@ -89,12 +89,12 @@ public class P3Tests {
     }
 
     /**
-     * Testing a query on BND. P(On time|bus delay, storm).
+     * Testing a query on BND. P(Late|bus delay, storm).
      */
     @Test
     public void BNDTest2() {
         String queryVariable = "L";
-        String value = "F";
+        String value = "T";
         String[] order = {"W", "S", "E", "D", "R", "B", "L"};
         String[] evidenceArray1 = {"B", "T"};
         String[] evidenceArray2 = {"S", "T"};
@@ -103,7 +103,7 @@ public class P3Tests {
         evidence.add(evidenceArray2);
 
         double answer = infer.eliminate(BND, queryVariable, value, order, evidence);
-        assertEquals(answer, 0.11875, 0.000001);
+        assertEquals(answer, 1 - 0.11875, 0.000001);
     }
 
     /**
